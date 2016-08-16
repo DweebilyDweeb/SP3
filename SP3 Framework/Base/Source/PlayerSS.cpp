@@ -10,14 +10,16 @@ PlayerSS::PlayerSS() {
 	onGround = true;
     rotateClock = false;
     counterClock = false;
+	invert = false;
     spin = 0.0f;
-	collidables.push_back(TILE_BRICK);
-	collectibles.push_back(TILE_PENGUIN);
+	collidables.push_back(TILE_DIRT);
+	collidables.push_back(TILE_GRASS);
+	/*collectibles.push_back(TILE_PENGUIN);
     spikes.push_back(TILE_SPIKES);
     bounce.push_back(TILE_BOUNCE);
     portal.push_back(TILE_PORTAL);
     flag.push_back(TILE_FLAG);
-    pole.push_back(TILE_POLE);
+    pole.push_back(TILE_POLE);*/
 
 }
 
@@ -31,7 +33,7 @@ void PlayerSS::Update(const double& deltaTime) {
 
 	maxSpeed = tileMap->GetTileSize() * 20;
 	transform.scale.Set(tileMap->GetTileSize(), tileMap->GetTileSize(), 1);
-    transform.rotation.Set(0, 0, spin);
+    //transform.rotation.Set(0, 0, spin);
 	//transform.scale.Set(1.0f, 0.5f, 1.0f);
 
 	//If we collide with a wall, how much to offset from the tile we are moving to.
@@ -64,6 +66,7 @@ void PlayerSS::Update(const double& deltaTime) {
 	Vector3 acceleration;
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_MOVE_RIGHT]) {
 		acceleration.x += walkAcceleration * tileMap->GetTileSize();
+		invert = true;
         rotateClock = true;
 	}
 
@@ -73,6 +76,7 @@ void PlayerSS::Update(const double& deltaTime) {
 
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_MOVE_LEFT]) {
 		acceleration.x -= walkAcceleration * tileMap->GetTileSize();
+		invert = false;
         counterClock = true;
 	}
 
@@ -139,4 +143,9 @@ void PlayerSS::Update(const double& deltaTime) {
 
 	velocity.x *= 0.95f * (1.0f - deltaTime);
 
+}
+
+bool PlayerSS::getInvert()
+{
+	return invert;
 }
