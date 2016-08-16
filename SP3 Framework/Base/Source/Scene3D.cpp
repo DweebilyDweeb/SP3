@@ -46,7 +46,7 @@ void Scene3D::Init() {
 void Scene3D::InitGL() {
 
 	//Dark Blue background
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.0f, 1.0f, 1.0f, 0.0f);
 	//Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	//Accept fragment if it closer to the camera than the former one
@@ -452,7 +452,7 @@ void Scene3D::RenderMeshIn2D(Mesh *mesh, float size, float x, float y, float rot
 
 }
 
-void Scene3D::RenderMesh(Mesh* mesh, bool enableLight) {
+void Scene3D::RenderMesh(Mesh* mesh, bool enableLight, bool invert) {
 
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
@@ -485,20 +485,27 @@ void Scene3D::RenderMesh(Mesh* mesh, bool enableLight) {
 		}
 	}
 
+	//mesh->Render();
+	
+	if (invert)
+	{
+		glFrontFace(GL_CW);
+	}
 	mesh->Render();
-
+	if (invert)
+		glFrontFace(GL_CCW);
 	if (mesh->textureArray[0] > 0) {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 }
 
-void Scene3D::RenderSpriteAnimation(SpriteAnimation* sa, bool enableLight) {
+void Scene3D::RenderSpriteAnimation(SpriteAnimation* sa, bool enableLight, bool invert) {
 
 	Mesh* mesh = dynamic_cast<Mesh*>(sa);
 
 	if (mesh) {
-		RenderMesh(mesh, enableLight);
+		RenderMesh(mesh, enableLight, invert);
 	}
 
 }

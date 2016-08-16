@@ -20,13 +20,16 @@ protected:
     float spin;
 	void MoveLeft(const double& deltaTime);
 	void MoveRight(const double& deltaTime);
-
+private:
+	bool invert;
 public:
 	PlayerSS();
 	virtual ~PlayerSS();
     int Level;
 	virtual void Update(const double& deltaTime);
 
+
+	bool getInvert();
 };
 
 #endif

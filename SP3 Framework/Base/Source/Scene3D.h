@@ -244,8 +244,8 @@ public:
 	virtual void Render2D();
 	virtual void SetHUD(bool mode, float x = 80.0f, float y = 45.0f, float z = 10.0f);
 	virtual void RenderMeshIn2D(Mesh *mesh, float size = 1.0f, float x = 0.0f, float y = 0.0f, float rotationX = 0.0f, float rotationY = 0.0f, float rotationZ = 0.0f);
-	virtual void RenderMesh(Mesh* mesh, bool enableLight = false);
-	virtual void RenderSpriteAnimation(SpriteAnimation* sa, bool enableLight = false);
+	virtual void RenderMesh(Mesh* mesh, bool enableLight = false, bool invert = false);
+	virtual void RenderSpriteAnimation(SpriteAnimation* sa, bool enableLight = false, bool invert = false);
 	//virtual void RenderMeshWithOutline(Mesh* mesh, bool enableLight, SHADER_TYPE shaderType = DEFAULT);
 	virtual void RenderText(Mesh* mesh, std::string text, Color color);
 	virtual void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
