@@ -1,0 +1,12 @@
+0 - Empty
+1 - Dirt
+2 - Grass
+3 - Portal
+4 - Fence
+5 - Water
+10 - Chicken
+11 - Cow
+20 - Daughter
+21 - Mother
+22 - Son
+99 - PLAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
