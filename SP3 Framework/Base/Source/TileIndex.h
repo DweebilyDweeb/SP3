@@ -1,0 +1,19 @@
+#ifndef TILE_INDEX_H
+#define TILE_INDEX_H
+
+enum TILE_TYPE {
+	TILE_EMPTY = 0,
+	TILE_BRICK,
+	TILE_PENGUIN,
+    TILE_SPIKES,
+    TILE_BOUNCE,
+    TILE_PORTAL,
+    TILE_FLAG,
+    TILE_POLE,
+
+	TILE_SPAWNPOINT = 99,
+
+	NUM_TILE,
+};
+
+#endif
