@@ -152,8 +152,6 @@
     <ClCompile Include="Source\Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
-<<<<<<< HEAD
     <ClCompile Include="Source\Attributes.cpp">
       <Filter>Source Files\Others</Filter>
     </ClCompile>
@@ -165,25 +163,19 @@
     </ClCompile>
     <ClCompile Include="Source\Daughter.cpp">
       <Filter>Source Files\Others</Filter>
-=======
-    <ClCompile Include="Source\Scene1House.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneManager.cpp">
-      <Filter>Source Files\Scenes</Filter>
->>>>>>> 25f05df1d4be51b4508fed5587d97c174f072451
-    </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Source\Scene1House.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\SceneManager.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
-=======
-=======
->>>>>>> parent of 290add9... pushing in Vcxproj + the filter. Made Son, mother and daughter classes, also added setters to the attribute class
->>>>>>> b14269580c07334994a7d261eb46da84fd9188ca
+    <ClCompile Include="Source\Scene1House.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneManager.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -285,8 +277,6 @@
     <ClInclude Include="Source\Sound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
-<<<<<<< HEAD
     <ClInclude Include="Source\Attributes.h">
       <Filter>Header Files\Others</Filter>
     </ClInclude>
@@ -301,24 +291,18 @@
     </ClInclude>
     <ClInclude Include="Source\Daughter.h">
       <Filter>Header Files\Others</Filter>
-=======
-    <ClInclude Include="Source\Scene1House.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneManager.h">
-      <Filter>Header Files</Filter>
->>>>>>> 25f05df1d4be51b4508fed5587d97c174f072451
-    </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Source\Scene1House.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-=======
-=======
->>>>>>> parent of 290add9... pushing in Vcxproj + the filter. Made Son, mother and daughter classes, also added setters to the attribute class
->>>>>>> b14269580c07334994a7d261eb46da84fd9188ca
+    <ClInclude Include="Source\Scene1House.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
