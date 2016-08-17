@@ -14,6 +14,7 @@ PlayerSS::PlayerSS() {
     spin = 0.0f;
 	collidables.push_back(TILE_DIRT);
 	collidables.push_back(TILE_GRASS);
+    collidables.push_back(TILE_PLATFORM);
 	/*collectibles.push_back(TILE_PENGUIN);
     spikes.push_back(TILE_SPIKES);
     bounce.push_back(TILE_BOUNCE);

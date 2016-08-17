@@ -14,6 +14,10 @@
 
 //Include Scenes
 #include "SceneAsn2.h"
+#include "Scene1House.h"
+#include "Scene3Chicken.h"
+#include "Scene5Dragon.h"
+#include "Scene6Well.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; //FPS of this game
@@ -135,7 +139,7 @@ void Application::Init() {
 void Application::Run() {
 
 	//Main Loop
-	scene = new SceneAsn2();
+	scene = new Scene6Well();
 	scene->Init();
 	Play();
 	m_timer.startTimer(); //Start timer to calculate how long it takes to render this frame

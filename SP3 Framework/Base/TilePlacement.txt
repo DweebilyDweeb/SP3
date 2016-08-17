@@ -4,9 +4,17 @@
 3 - Portal
 4 - Fence
 5 - Water
+6 - Bush
+7 - Platform
+8 - Trigger
+
 10 - Chicken
 11 - Cow
+12 - Fish
+13 - Apple
+
 20 - Daughter
 21 - Mother
 22 - Son
 99 - PLAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+100 - PLAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

@@ -21,6 +21,7 @@ private:
         GEO_FLAG,
         GEO_POLE,
         GEO_BLOCK,
+        GEO_PLATFORM,
         GEO_BACKGROUND_1,
         GEO_BACKGROUND_2,
         GEO_BACKGROUND_3,
