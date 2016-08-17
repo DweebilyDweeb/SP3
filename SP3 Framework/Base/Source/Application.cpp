@@ -13,12 +13,11 @@
 #include "InputManager.h"
 
 //Include Scenes
-#include "SceneAsn2.h"
+#include "SceneManager.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; //FPS of this game
 const unsigned int frameTime = 1000 / FPS; //time for each frame
-Scene3D* Application::scene = nullptr;
 
 //Define an error callback
 static void error_callback(int error, const char* description) {
@@ -135,15 +134,16 @@ void Application::Init() {
 void Application::Run() {
 
 	//Main Loop
-	scene = new SceneAsn2();
-	scene->Init();
+	/*scene = new Scene1House();
+	scene->Init();*/
+	SceneManager::GetInstance().Init();
 	Play();
 	m_timer.startTimer(); //Start timer to calculate how long it takes to render this frame
 	while (glfwWindowShouldClose(m_window) == false && quit == false) {
 
 		elapsedTime = m_timer.getElapsedTime();
-		scene->Update(elapsedTime);
-
+		//scene->Update(elapsedTime);
+		SceneManager::GetInstance().Update(elapsedTime);
 		//Threads
 		if (accumulatedTime[UPDATE_USER_INPUT] >= 0.03) {
 			InputManager::GetInstance().Update();
@@ -153,7 +153,8 @@ void Application::Run() {
 			accumulatedTime[UPDATE_USER_INPUT] = 0.0;
 		}
 
-		scene->Render();
+		//scene->Render();
+		SceneManager::GetInstance().Render();
 		glfwSwapBuffers(m_window); //Swap buffers
 
 		for (unsigned int t = 0; t < NUM_THREAD; ++t) {
@@ -166,9 +167,8 @@ void Application::Run() {
 
 	} //Check if the ESC key had been pressed or if the window had been closed
 	
-	scene->Exit();
-	delete scene;
-
+	//scene->Exit();
+	SceneManager::GetInstance().Exit();
 }
 
 void Application::Exit() {

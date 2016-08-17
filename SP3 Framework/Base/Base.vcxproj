@@ -12,14 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
-    <ClCompile Include="Source\Attributes.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Camera2D.cpp" />
     <ClCompile Include="Source\Collision.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\Controller_Keyboard.cpp" />
     <ClCompile Include="Source\Controller_Mouse.cpp" />
-    <ClCompile Include="Source\Daughter.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\LoadHmap.cpp" />
@@ -29,14 +27,14 @@
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\Minimap.cpp" />
-    <ClCompile Include="Source\Mother.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayerSS.cpp" />
+    <ClCompile Include="Source\Scene1House.cpp" />
     <ClCompile Include="Source\Scene3D.cpp" />
     <ClCompile Include="Source\RigidBody.cpp" />
     <ClCompile Include="Source\SceneAsn2.cpp" />
+    <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\shader.cpp" />
-    <ClCompile Include="Source\Son.cpp" />
     <ClCompile Include="Source\Sound.cpp" />
     <ClCompile Include="Source\SpriteAnimation.cpp" />
     <ClCompile Include="Source\TileMap.cpp" />
@@ -46,14 +44,11 @@
   <ItemGroup>
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Application.h" />
-    <ClInclude Include="Source\Attributes.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Camera2D.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\Controller_Keyboard.h" />
     <ClInclude Include="Source\Controller_Mouse.h" />
-    <ClInclude Include="Source\Daughter.h" />
-    <ClInclude Include="Source\Family.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Collision.h" />
     <ClInclude Include="Source\InputManager.h" />
@@ -65,16 +60,16 @@
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Minimap.h" />
-    <ClInclude Include="Source\Mother.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\PlayerSS.h" />
     <ClInclude Include="Source\RigidBody.h" />
     <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\Scene1House.h" />
     <ClInclude Include="Source\Scene3D.h" />
     <ClInclude Include="Source\SceneAsn1.h" />
     <ClInclude Include="Source\SceneAsn2.h" />
+    <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\shader.hpp" />
-    <ClInclude Include="Source\Son.h" />
     <ClInclude Include="Source\Sound.h" />
     <ClInclude Include="Source\SpriteAnimation.h" />
     <ClInclude Include="Source\TileMap.h" />
