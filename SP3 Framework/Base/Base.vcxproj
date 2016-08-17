@@ -30,10 +30,7 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayerSS.cpp" />
     <ClCompile Include="Source\Scene1House.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="Source\Scene3Chicken.cpp" />
-=======
->>>>>>> a9cfa35115819a15101fd2b03eed2aebab922a22
     <ClCompile Include="Source\Scene3D.cpp" />
     <ClCompile Include="Source\RigidBody.cpp" />
     <ClCompile Include="Source\Scene5Dragon.cpp" />
@@ -73,10 +70,7 @@
     <ClInclude Include="Source\RigidBody.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Scene1House.h" />
-<<<<<<< HEAD
     <ClInclude Include="Source\Scene3Chicken.h" />
-=======
->>>>>>> a9cfa35115819a15101fd2b03eed2aebab922a22
     <ClInclude Include="Source\Scene3D.h" />
     <ClInclude Include="Source\Scene5Dragon.h" />
     <ClInclude Include="Source\Scene6Well.h" />
