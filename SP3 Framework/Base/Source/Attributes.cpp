@@ -1,7 +1,7 @@
 #include "Attributes.h"
 
 Attributes::Attributes()
-	:Protein(50)
+	: Protein(50)
 	, Carbohydrates(50)
 	, Fats(50)
 	, Vitamins(50)
@@ -35,6 +35,32 @@ float Attributes::getHydration()
 	return Hydration;
 }
 
+float Attributes::getHealth()
+{
+	return Health;
+}
+
+void Attributes::setProtein(float value)
+{
+	Protein = value;
+}
+void Attributes::setCarbohydrates(float value)
+{
+	Carbohydrates = value;
+}
+void Attributes::setFats(float value)
+{
+	Fats = value;
+}
+void Attributes::setVitamins(float value)
+{
+	Vitamins = value;
+}
+void Attributes::setHydration(float value)
+{
+	Hydration = value;
+}
+
 void Attributes::addProtein(float value)
 {
 	Protein += value;
@@ -56,23 +82,28 @@ void Attributes::addHydration(float value)
 	Hydration += value;
 }
 
-void Attributes::minusProtein(float value)
+void Attributes::minusProtein(const float& value, double dt)
 {
-	Protein -= value;
+	Protein -= value * (float)dt;
 }
-void Attributes::minusCarbohydrates(float value)
+void Attributes::minusCarbohydrates(const float& value, double dt)
 {
-	Carbohydrates -= value;
+	Carbohydrates -= value * (float)dt;
 }
-void Attributes::minusFats(float value)
+void Attributes::minusFats(const float& value, double dt)
 {
-	Fats -= value;
+	Fats -= value * (float)dt;
 }
-void Attributes::minusVitamins(float value)
+void Attributes::minusVitamins(const float& value, double dt)
 {
-	Vitamins -= value;
+	Vitamins -= value * (float)dt;
 }
-void Attributes::minusHydration(float value)
+void Attributes::minusHydration(const float& value, double dt)
 {
-	Hydration -= value;
+	Hydration -= value * (float)dt;
+}
+
+void Attributes::calculateHealth()
+{
+	Health = (Protein * 0.1f) * (Carbohydrates * 0.1f) * (Fats * 0.1f) * (Vitamins * 0.1f) * (Hydration * 0.1f);
 }

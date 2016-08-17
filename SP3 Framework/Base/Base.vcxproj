@@ -30,7 +30,10 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayerSS.cpp" />
     <ClCompile Include="Source\Scene1House.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Source\Scene3Chicken.cpp" />
+=======
+>>>>>>> a9cfa35115819a15101fd2b03eed2aebab922a22
     <ClCompile Include="Source\Scene3D.cpp" />
     <ClCompile Include="Source\RigidBody.cpp" />
     <ClCompile Include="Source\Scene5Dragon.cpp" />
@@ -38,6 +41,7 @@
     <ClCompile Include="Source\Scene8Cabbage.cpp" />
     <ClCompile Include="Source\Scene9Wheat.cpp" />
     <ClCompile Include="Source\SceneAsn2.cpp" />
+    <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Sound.cpp" />
     <ClCompile Include="Source\SpriteAnimation.cpp" />
@@ -69,7 +73,10 @@
     <ClInclude Include="Source\RigidBody.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Scene1House.h" />
+<<<<<<< HEAD
     <ClInclude Include="Source\Scene3Chicken.h" />
+=======
+>>>>>>> a9cfa35115819a15101fd2b03eed2aebab922a22
     <ClInclude Include="Source\Scene3D.h" />
     <ClInclude Include="Source\Scene5Dragon.h" />
     <ClInclude Include="Source\Scene6Well.h" />
@@ -77,6 +84,7 @@
     <ClInclude Include="Source\Scene9Wheat.h" />
     <ClInclude Include="Source\SceneAsn1.h" />
     <ClInclude Include="Source\SceneAsn2.h" />
+    <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Sound.h" />
     <ClInclude Include="Source\SpriteAnimation.h" />

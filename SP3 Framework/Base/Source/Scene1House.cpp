@@ -9,6 +9,7 @@
 #include "GenerateRange.h"
 #include "Collision.h"
 #include "Application.h"
+#include "SceneManager.h"
 
 Scene1House::Scene1House() {
 }
@@ -137,8 +138,17 @@ void Scene1House::InitPlayer() {
 
 	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
 		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-			if (tileMap.map[row][col] == 99) {
-				player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+			if (SceneManager::GetInstance().getPrevScene() == HOME)
+			{
+				if (tileMap.map[row][col] == 99) {
+					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+				}
+			}
+		//	if (SceneManager::GetInstance().getPrevScene() == )
+			{
+				if (tileMap.map[row][col] == 100) {
+					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+				}
 			}
 		}
 	}
@@ -167,7 +177,7 @@ void Scene1House::Update(const double& deltaTime) {
 	camera.Update(deltaTime);
 	if (player.transform.position.y < 1){
 
-		tileMap.LoadFile("TileMap//Map2.csv");
+	/*	tileMap.LoadFile("TileMap//Map2.csv");
 		tileMap.SetTileSize(1.0f);
 		for (int row = 0; row < tileMap.GetNumRows(); ++row) {
 			for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
@@ -176,13 +186,9 @@ void Scene1House::Update(const double& deltaTime) {
 				}
 			}
 		}
-		Level = 2;
+		Level = 2;*/
+		SceneManager::GetInstance().chgCurrEnumScene(COW);
 	}
-	if (player.transform.position.x > 30 && drop > -15 && Level == 2)
-	{
-		drop -= 3 * float(deltaTime);
-	}
-
 }
 
 void Scene1House::Render() {
