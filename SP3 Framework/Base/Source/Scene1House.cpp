@@ -93,15 +93,20 @@ void Scene1House::InitSpriteAnimations() {
 		spriteAnimationList[i] = nullptr;
 	}
 
-	spriteAnimationList[SPRITE_PENGUIN] = MeshBuilder::GenerateSpriteAnimation("Penguin", 8, 8);
-	spriteAnimationList[SPRITE_PENGUIN]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Items//Item_Penguin.tga");
-	spriteAnimationList[SPRITE_PENGUIN]->animation = new Animation();
-	spriteAnimationList[SPRITE_PENGUIN]->animation->Set(0, 63, 0, 5.f, true);
-
 	spriteAnimationList[SPRITE_PLAYER] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 4);
 	spriteAnimationList[SPRITE_PLAYER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player.tga");
 	spriteAnimationList[SPRITE_PLAYER]->animation = new Animation();
 	spriteAnimationList[SPRITE_PLAYER]->animation->Set(0, 3, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_PLAYER_IDLE] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 2);
+	spriteAnimationList[SPRITE_PLAYER_IDLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_idle.tga");
+	spriteAnimationList[SPRITE_PLAYER_IDLE]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_IDLE]->animation->Set(0, 1, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_PLAYER_JUMP] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 1);
+	spriteAnimationList[SPRITE_PLAYER_JUMP]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_jump.tga");
+	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation->Set(0, 0, 0, 1.f, true);
 
 	spriteAnimationList[SPRITE_PORTAL] = MeshBuilder::GenerateSpriteAnimation("portal", 1, 4);
 	spriteAnimationList[SPRITE_PORTAL]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//portal.tga");
@@ -252,35 +257,23 @@ void Scene1House::RenderTileMap() {
 void Scene1House::RenderPlayer() {
 
 	modelStack.PushMatrix();
-	modelStack.Translate(player.transform.position.x, player.transform.position.y, player.transform.position.z);
+	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.1f, player.transform.position.z);
 	//modelStack.Rotate(player.transform.rotation.z, 0, 0, 1);
 	if (player.getInvert())
 		modelStack.Scale(-player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
 	else
 		modelStack.Scale(player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
-	RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false , player.getInvert());
+	if (player.playerState == Player::WALKING)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false , player.getInvert());
+	else if (player.playerState == Player::IDLE)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
+	else if (player.playerState == Player::JUMPING)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
 	modelStack.PopMatrix();
 
 }
 
 void Scene1House::RenderText() {
-
-	std::ostringstream ssred;
-	ssred.precision(10);
-	ssred << "x" << player.score;
-
-	RenderMeshIn2D(spriteAnimationList[SPRITE_PENGUIN], 2.0f, camera.aspectRatio.x * -3.5f, camera.aspectRatio.y * 3.5f, 0.0f, 0.0f, 0.0f);
-	RenderTextOnScreen(fontList[FONT_CONSOLAS], ssred.str(), Color(1, 1, 0.2), 1.5, camera.aspectRatio.x * -3.2f, camera.aspectRatio.y * 3.2f);
-	if (drop < -14 && Level)
-	{
-		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-		modelStack.Translate(16, 16, 20);
-		modelStack.Scale(10, 10, 10);
-		RenderSpriteAnimation(spriteAnimationList[SPRITE_PENGUIN]);
-		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "YOU WIN", Color(0, 0, 1), 4, camera.aspectRatio.x  * -3.2f, camera.aspectRatio.y * -2.2f);
-	}
 
 
 }

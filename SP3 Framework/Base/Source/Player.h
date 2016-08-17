@@ -28,6 +28,8 @@ protected:
 
 	float hotspotOffset;
 
+	
+
 public:
 	Player();
 	virtual ~Player();
@@ -41,6 +43,15 @@ public:
     int score;
     int Level;
 
+	enum PLAYER_STATE
+	{
+		WALKING,
+		IDLE,
+		JUMPING,
+		TOTAL
+	};
+
+	PLAYER_STATE playerState = IDLE;
 };
 
 #endif

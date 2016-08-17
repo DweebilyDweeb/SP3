@@ -64,30 +64,49 @@ void PlayerSS::Update(const double& deltaTime) {
 	
 	//User Input
 	Vector3 acceleration;
+	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_MOVE_RIGHT]) {
+		playerState = IDLE;
+		rotateClock = false;
+	}
+	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_MOVE_LEFT]) {
+		playerState = IDLE;
+		counterClock = false;
+	}
+	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_JUMP] && onGround)
+	{
+		playerState = IDLE;
+	}
+	if (onGround)
+	{
+		playerState = IDLE;
+	}
+
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_MOVE_RIGHT]) {
+		playerState = WALKING;
 		acceleration.x += walkAcceleration * tileMap->GetTileSize();
 		invert = true;
         rotateClock = true;
 	}
 
-    if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_MOVE_RIGHT]) {
-        rotateClock = false;
-    }
-
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_MOVE_LEFT]) {
+		playerState = WALKING;
 		acceleration.x -= walkAcceleration * tileMap->GetTileSize();
 		invert = false;
         counterClock = true;
 	}
 
-    if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_MOVE_LEFT]) {
-        counterClock = false;
-    }
+   
 	acceleration.y = gravity * tileMap->GetTileSize();
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_JUMP] && onGround) {
+		playerState = JUMPING;
 		acceleration.y += jumpAcceleration * tileMap->GetTileSize();
 		onGround = false;
 	}
+	if (!onGround)
+	{
+		playerState = JUMPING;
+	}
+	
 
     if (rotateClock == true)
     {
