@@ -152,6 +152,7 @@
     <ClCompile Include="Source\Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Source\Attributes.cpp">
       <Filter>Source Files\Others</Filter>
     </ClCompile>
@@ -163,6 +164,13 @@
     </ClCompile>
     <ClCompile Include="Source\Daughter.cpp">
       <Filter>Source Files\Others</Filter>
+=======
+    <ClCompile Include="Source\Scene1House.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneManager.cpp">
+      <Filter>Source Files\Scenes</Filter>
+>>>>>>> 25f05df1d4be51b4508fed5587d97c174f072451
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +273,7 @@
     <ClInclude Include="Source\Sound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Source\Attributes.h">
       <Filter>Header Files\Others</Filter>
     </ClInclude>
@@ -279,6 +288,13 @@
     </ClInclude>
     <ClInclude Include="Source\Daughter.h">
       <Filter>Header Files\Others</Filter>
+=======
+    <ClInclude Include="Source\Scene1House.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneManager.h">
+      <Filter>Header Files</Filter>
+>>>>>>> 25f05df1d4be51b4508fed5587d97c174f072451
     </ClInclude>
   </ItemGroup>
 </Project>

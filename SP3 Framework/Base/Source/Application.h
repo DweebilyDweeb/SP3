@@ -11,9 +11,7 @@
 class Application {
 
 public:
-	//Scene
-	static Scene3D* scene;
-	
+
 	//Sound Engine
 	//Getter(s)
 	static Application& GetInstance();
