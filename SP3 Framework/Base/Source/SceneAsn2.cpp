@@ -9,6 +9,7 @@
 #include "GenerateRange.h"
 #include "Collision.h"
 #include "Application.h"
+#include "SceneManager.h"
 
 SceneAsn2::SceneAsn2() {
 }
@@ -156,8 +157,8 @@ void SceneAsn2::Update(const double& deltaTime) {
 	camera.Update(deltaTime);
     if (player.transform.position.y < 1){
 
-        tileMap.LoadFile("TileMap//Map2.csv");
-        tileMap.SetTileSize(1.0f);
+        /*tileMap.LoadFile("TileMap//Map2.csv");
+        tileMap.SetTileSize(1.0f);*
         for (int row = 0; row < tileMap.GetNumRows(); ++row) {
             for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
                 if (tileMap.map[row][col] == 99) {
@@ -165,8 +166,10 @@ void SceneAsn2::Update(const double& deltaTime) {
                 }
             }
         }
-        Level = 2;
+        Level = 2;*/
+		SceneManager::GetInstance().chgCurrEnumScene(HOME);
     }
+
     if (player.transform.position.x > 30 && drop > -15 && Level == 2)
     {
         drop -= 3 * float(deltaTime);
