@@ -248,7 +248,10 @@ void Scene1House::RenderPlayer() {
 	modelStack.PushMatrix();
 	modelStack.Translate(player.transform.position.x, player.transform.position.y, player.transform.position.z);
 	//modelStack.Rotate(player.transform.rotation.z, 0, 0, 1);
-	modelStack.Scale(player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
+	if (player.getInvert())
+		modelStack.Scale(-player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
+	else
+		modelStack.Scale(player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
 	RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false , player.getInvert());
 	modelStack.PopMatrix();
 
