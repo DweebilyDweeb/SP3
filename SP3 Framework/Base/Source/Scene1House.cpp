@@ -137,13 +137,13 @@ void Scene1House::InitPlayer() {
 
 	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
 		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-			if (SceneManager::GetInstance().getPrevScene() == HOME)
+/*			if (SceneManager::GetInstance().getPrevScene() == WHEAT)
 			{
 				if (tileMap.map[row][col] == 99) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
 				}
-			}
-		//	if (SceneManager::GetInstance().getPrevScene() == )
+			}*/
+			if (SceneManager::GetInstance().getPrevScene() == COW)
 			{
 				if (tileMap.map[row][col] == 100) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);

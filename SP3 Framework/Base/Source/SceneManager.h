@@ -8,13 +8,13 @@ enum SCENE_TYPE
 {
 	HOME,
 	COW,
-	/*CHICKEN,
-	POND,
+	CHICKEN,
+	//POND,
 	DRAGON,
 	WELL,
 	APPLE,
-	CABBAGE,
-	WHEAT,*/
+	//CABBAGE,
+	//WHEAT,
 	TOTAL_SCENES
 };
 
