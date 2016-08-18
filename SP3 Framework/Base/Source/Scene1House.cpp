@@ -27,12 +27,11 @@ void Scene1House::Exit() {
 
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
 		if (spriteAnimationList[i]) {
-			//delete spriteAnimationList[i];
+			delete spriteAnimationList[i];
 		}
 	}
 
 	Scene3D::Exit();
-
 }
 
 void Scene1House::Init() {

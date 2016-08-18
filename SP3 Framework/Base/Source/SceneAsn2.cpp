@@ -27,7 +27,7 @@ void SceneAsn2::Exit() {
 
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
 		if (spriteAnimationList[i]) {
-        //delete spriteAnimationList[i];
+			delete spriteAnimationList[i];
 		}
 	}
 
@@ -102,8 +102,7 @@ void SceneAsn2::InitMeshes() {
     meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
     meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Backgrounds//trees1.tga");
 
-    meshList[SPRITE_PENGUIN] = MeshBuilder::GenerateSpriteAnimation("Penguin", 8, 8);
-    meshList[SPRITE_PENGUIN]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Items//Item_Penguin.tga");
+  
 
 
 }
@@ -113,12 +112,11 @@ void SceneAsn2::InitSpriteAnimations() {
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
 		spriteAnimationList[i] = nullptr;
 	}
-    spriteAnimationList[SPRITE_PENGUIN] = dynamic_cast<SpriteAnimation*>(meshList[SPRITE_PENGUIN]);
-    if (spriteAnimationList[SPRITE_PENGUIN])
-    {
-        spriteAnimationList[SPRITE_PENGUIN]->animation = new Animation();
-        spriteAnimationList[SPRITE_PENGUIN]->animation->Set(0, 63, 0, 5.f, true);
-    }
+   
+	spriteAnimationList[SPRITE_PENGUIN] = MeshBuilder::GenerateSpriteAnimation("Penguin", 8, 8);
+	spriteAnimationList[SPRITE_PENGUIN]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Items//Item_Penguin.tga"); 
+	spriteAnimationList[SPRITE_PENGUIN]->animation = new Animation();
+	spriteAnimationList[SPRITE_PENGUIN]->animation->Set(0, 63, 0, 5.f, true);
 
 }
 
@@ -270,7 +268,7 @@ void SceneAsn2::RenderText() {
     ssred.precision(10);
     ssred << "x" << player.score;
 
-    RenderMeshIn2D(meshList[SPRITE_PENGUIN], 2.0f, camera.aspectRatio.x * -3.5f, camera.aspectRatio.y * 3.5f, 0.0f, 0.0f, 0.0f);
+    RenderMeshIn2D(spriteAnimationList[SPRITE_PENGUIN], 2.0f, camera.aspectRatio.x * -3.5f, camera.aspectRatio.y * 3.5f, 0.0f, 0.0f, 0.0f);
     RenderTextOnScreen(fontList[FONT_CONSOLAS], ssred.str(), Color(1, 1, 0.2), 1.5, camera.aspectRatio.x * -3.2f, camera.aspectRatio.y * 3.2f);
     if (drop < -14 && Level)
     {

@@ -23,6 +23,8 @@ void Scene3D::Exit() {
 
 	DeleteShaders();
 	glDeleteVertexArrays(1, &vertexArrayID);
+	delete referenceAxes;
+	delete fontList[FONT_CONSOLAS];
 
 }
 

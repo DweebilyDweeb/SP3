@@ -57,7 +57,10 @@ void SceneManager::Exit()
 	for (int i = 0; i < TOTAL_SCENES; ++i)
 	{
 		if (sceneList[i])
-			delete sceneList[i];
+		{
+			sceneList[i]->Exit();
+		}
+		delete sceneList[i];
 	}
 }
 

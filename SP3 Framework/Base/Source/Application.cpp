@@ -1,3 +1,4 @@
+
 #include "Application.h"
 
 //Include GLEW
@@ -8,6 +9,7 @@
 
 //Include the standard C++ headers
 #include <stdio.h>
+
 #include <stdlib.h>
 
 #include "InputManager.h"
