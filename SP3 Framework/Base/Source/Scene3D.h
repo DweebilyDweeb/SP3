@@ -6,6 +6,11 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include "SpriteAnimation.h"
+#include "Family.h"
+#include "Mother.h"
+#include "Son.h"
+#include "Daughter.h"
+
 
 const unsigned int MAX_LIGHTS = 8;
 
@@ -213,6 +218,18 @@ protected:
 	//Fonts
 	Mesh* fontList[NUM_FONT];
 
+	//bars
+
+	Mesh* healthBar;
+	Mesh* proteinBar;
+	Mesh* carbohydratesBar; 
+	Mesh* hydrationBar; 
+	Mesh* fatsBar; 
+	Mesh* vitaminsBar;
+	Mesh* uiBackground;
+
+	bool showStats;
+	
 public:
 	//Constructor(s) & Destructor
 	Scene3D();
@@ -243,12 +260,17 @@ public:
 	virtual void Render3D();
 	virtual void Render2D();
 	virtual void SetHUD(bool mode, float x = 80.0f, float y = 45.0f, float z = 10.0f);
-	virtual void RenderMeshIn2D(Mesh *mesh, float size = 1.0f, float x = 0.0f, float y = 0.0f, float rotationX = 0.0f, float rotationY = 0.0f, float rotationZ = 0.0f);
+	virtual void RenderMeshIn2D(Mesh *mesh, float sizeX = 1.0f, float sizeY = 1.0f, float x = 0.0f, float y = 0.0f, float z = 0.0f, float offsetX = 0.0f, float offsetY = 0.0f, float rotationX = 0.0f, float rotationY = 0.0f, float rotationZ = 0.0f);
 	virtual void RenderMesh(Mesh* mesh, bool enableLight = false, bool invert = false);
 	virtual void RenderSpriteAnimation(SpriteAnimation* sa, bool enableLight = false, bool invert = false);
 	//virtual void RenderMeshWithOutline(Mesh* mesh, bool enableLight, SHADER_TYPE shaderType = DEFAULT);
 	virtual void RenderText(Mesh* mesh, std::string text, Color color);
 	virtual void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+
+	void InitAttributeUI();
+	void UpdateAttributeUI(const double& deltaTime);
+	void RenderAttributeUI();
+
 
 };
 
