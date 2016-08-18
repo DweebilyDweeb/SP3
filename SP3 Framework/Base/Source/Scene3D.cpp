@@ -3,8 +3,12 @@
 #include "shader.hpp"
 #include "Utility.h"
 #include "MeshBuilder.h"
+#include "Application.h"
+#include "InputManager.h"
+//#include "Application.h"
 
 //Constructor(s) & Destructor
+
 
 Scene3D::Scene3D() {
 
@@ -415,17 +419,18 @@ void Scene3D::SetHUD(bool mode, float x, float y, float z) {
 
 }
 
-void Scene3D::RenderMeshIn2D(Mesh *mesh, float size, float x, float y, float rotationX, float rotationY, float rotationZ) {
+void Scene3D::RenderMeshIn2D(Mesh *mesh, float sizeX, float sizeY, float x, float y, float z, float offsetX, float offsetY,float rotationX, float rotationY, float rotationZ) {
 
 	viewStack.PushMatrix();
 		viewStack.LoadIdentity();
 		modelStack.PushMatrix();
 			modelStack.LoadIdentity();
-			modelStack.Translate(x, y, 0);
+			modelStack.Translate(x, y, z);
 			modelStack.Rotate(rotationY, 0, 1, 0);
 			modelStack.Rotate(rotationX, 1, 0, 0);
 			modelStack.Rotate(rotationZ, 0, 0, 1);
-			modelStack.Scale(size, size, size);
+			modelStack.Scale(sizeX, sizeY, sizeX);
+			modelStack.Translate(offsetX, offsetY, 0);
 
 			Mtx44 MVP, modelView, modelView_inverse_transpose;
 
@@ -570,4 +575,70 @@ void Scene3D::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 		modelStack.PopMatrix();
 	viewStack.PopMatrix();
 
+}
+
+void Scene3D::InitAttributeUI()
+{
+	healthBar = MeshBuilder::GenerateQuad("healthBar", Color(1, 0, 0), 1);
+	proteinBar = MeshBuilder::GenerateQuad("proteinBar", Color(1, 0.7f, 0.7f), 1);
+	carbohydratesBar = MeshBuilder::GenerateQuad("carbohydratesBar", Color(1, 1, 0), 1);
+	hydrationBar = MeshBuilder::GenerateQuad("hydrationBar", Color(0, 1, 1), 1);
+	fatsBar = MeshBuilder::GenerateQuad("fatsBar", Color(1, 0, 1), 1);
+	vitaminsBar = MeshBuilder::GenerateQuad("vitaminsBar", Color(0, 1, 0), 1);
+	uiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
+
+	Application::mother->Init();
+	Application::son->Init();
+	Application::daughter->Init();
+
+	showStats = false;
+}
+void Scene3D::UpdateAttributeUI(const double& deltaTime)
+{
+	Application::mother->Update(deltaTime);
+	Application::son->Update(deltaTime);
+	Application::daughter->Update(deltaTime);
+
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
+		showStats = true;
+	}
+	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_SHOW_ATTRIBUTES]){
+		showStats = false;
+	}
+}
+void Scene3D::RenderAttributeUI()
+{
+	if (!showStats)
+	{
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		RenderTextOnScreen(fontList[FONT_CONSOLAS], "HEALTH", Color(1, 0, 0), 1, -15, 11);
+		RenderTextOnScreen(fontList[FONT_CONSOLAS], "Mother:", Color(1, 0, 0), 0.5, -15, 10.5);
+		RenderTextOnScreen(fontList[FONT_CONSOLAS], "Son:", Color(1, 0, 0), 0.5, -15, 8.5);
+		RenderTextOnScreen(fontList[FONT_CONSOLAS], "Daughter:", Color(1, 0, 0), 0.5, -15, 6.5);
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		if (Application::mother->getHealth() > 0)
+			RenderMeshIn2D(healthBar, Application::mother->getHealth() / 20000, 0.5, -16, 10, 5, 0.5);
+
+		if (Application::son->getHealth() > 0)
+			RenderMeshIn2D(healthBar, Application::son->getHealth() / 20000, 0.5, -16, 8, 5, 0.5);
+
+		if (Application::daughter->getHealth() > 0)
+			RenderMeshIn2D(healthBar, Application::daughter->getHealth()/20000, 0.5, -16, 6, 5, 0.5);
+
+		RenderMeshIn2D(uiBackground, 10, 10, -14, 10);
+	}
+	else
+	{
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		RenderTextOnScreen(fontList[FONT_CONSOLAS], "STATS", Color(1, 0, 0), 1, -2, 11);
+		
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+		if (Application::mother->getProtein() > 0)
+			RenderMeshIn2D(proteinBar, Application::mother->getProtein() * 0.05f, 0.5, -16, 10, 5, 0.5);
+
+		RenderMeshIn2D(uiBackground, 25, 25);
+	}
+
+	
 }
