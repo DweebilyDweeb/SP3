@@ -77,7 +77,7 @@ void Scene5Dragon::InitMeshes() {
     meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
 
     meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
-    meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//house.tga");
+    meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//dragon.tga");
 
     meshList[GEO_BACKGROUND_2] = MeshBuilder::GenerateQuad("Background2", Color(1, 1, 1), 0.7);
     meshList[GEO_BACKGROUND_2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//mountains.tga");
@@ -226,6 +226,12 @@ void Scene5Dragon::RenderTileMap() {
                 RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
+			case 88:
+				dragonPos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), 20);
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				RenderMesh(meshList[GEO_GRASS]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
             }
             modelStack.PopMatrix();
         }
@@ -265,13 +271,13 @@ void Scene5Dragon::RenderBackground()
     float backgroundScaleX = camWidth * 2.0f;
     float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
 
-    //glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-    //modelStack.PushMatrix();
-    //modelStack.Translate(housePos.x, housePos.y + 2, housePos.z);
-    //modelStack.Scale(10, 10, 1);
-    //RenderMesh(meshList[GEO_BACKGROUND_1], false);
-    //modelStack.PopMatrix();
-    //glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+    glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+    modelStack.PushMatrix();
+    modelStack.Translate(dragonPos.x, dragonPos.y + 5, dragonPos.z);
+    modelStack.Scale(20, 15, 1);
+    RenderMesh(meshList[GEO_BACKGROUND_1], false);
+    modelStack.PopMatrix();
+    glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
     for (int i = 0; i < 5; ++i)
     {

@@ -16,13 +16,20 @@
 #include "SceneManager.h"
 
 //Include Scenes
-#include "SceneAsn2.h"
 #include "Scene1House.h"
+#include "Scene2Cow.h"
 #include "Scene3Chicken.h"
+#include "Scene4FishingPond.h"
 #include "Scene5Dragon.h"
 #include "Scene6Well.h"
+#include "Scene7Apple.h"
+#include "Scene8Cabbage.h"
+#include "Scene9Wheat.h"
 
 GLFWwindow* m_window;
+Family* Application::mother = new Mother();
+Family* Application::son = new Son();
+Family* Application::daughter = new Daughter();
 const unsigned char FPS = 60; //FPS of this game
 const unsigned int frameTime = 1000 / FPS; //time for each frame
 
@@ -177,7 +184,9 @@ void Application::Run() {
 }
 
 void Application::Exit() {
-
+    delete mother;
+    delete son;
+    delete daughter;
     //Sound Enginexxxxxxxxxxxxx++++++++++
     DeleteEngine();
     //Close OpenGL window and terminate GLFW

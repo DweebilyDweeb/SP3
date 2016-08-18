@@ -1,10 +1,10 @@
 #ifndef ATTRIBUTE_H_
 #define ATTRIBUTE_H_
 
-#define statDropRateSlow 1.f
-#define statDropRateFast 3.f
+#define statDropRateSlow 0.1f
+#define statDropRateFast 0.3f
 #define maxStat 100.f
-#define statAboveAverage 70.f
+#define statAboveAverage 80.f
 #define statBelowAverage 30.f
 #define statAverage 60.f
 

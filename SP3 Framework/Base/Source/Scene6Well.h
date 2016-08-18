@@ -56,7 +56,7 @@ private:
     float drop;
     int Level;
 
-    Vector3 housePos;
+    Vector3 wellPos;
 
 public:
     //Constructor(s) & Destructor

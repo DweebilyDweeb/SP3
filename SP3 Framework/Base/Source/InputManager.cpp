@@ -80,6 +80,16 @@ void InputManager::Update() {
         inputInfo.keyValue[INPUT_MOVE_UP] = 1.0f;
     }
 
+
+	if (keyboard.IsKeyPressed('Q')) {
+		inputInfo.keyDown[INPUT_SHOW_ATTRIBUTES] = 1;
+		inputInfo.keyValue[INPUT_SHOW_ATTRIBUTES] = 1.0f;
+	}
+	if (keyboard.IsKeyReleased('Q')){
+		inputInfo.keyReleased[INPUT_SHOW_ATTRIBUTES] = 1;
+		inputInfo.keyValue[INPUT_SHOW_ATTRIBUTES] = 1.0f;
+	}
+
 	/********************************************************************************************************************/
 	//Do not touch anything below unless you know what you're doing.
 	/********************************************************************************************************************/

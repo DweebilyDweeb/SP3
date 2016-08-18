@@ -51,7 +51,7 @@ void Scene8Cabbage::Init() {
 	EnableFog(false);
 
 
-	tileMap.LoadFile("TileMap//Map1.csv");
+	tileMap.LoadFile("TileMap//Scene8Cabbage.csv");
 	tileMap.SetTileSize(1.0f);
 	InitPlayer();
 	InitCamera();
@@ -125,15 +125,22 @@ void Scene8Cabbage::InitPlayer() {
 
 	player.SetTileMap(tileMap);
 
-	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-			if (tileMap.map[row][col] == 99) {
-				player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-			}
-		}
-	}
-
-
+    for (int row = 0; row < tileMap.GetNumRows(); ++row) {
+        for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
+            if (SceneManager::GetInstance().getPrevScene() == APPLE)
+            {
+                if (tileMap.map[row][col] == 99) {
+                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+                }
+            }
+            if (SceneManager::GetInstance().getPrevScene() == WHEAT)
+            {
+                if (tileMap.map[row][col] == 100) {
+                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+                }
+            }
+        }
+    }
 }
 
 void Scene8Cabbage::InitCamera() {
@@ -154,24 +161,6 @@ void Scene8Cabbage::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
-	if (player.transform.position.y < 1){
-
-		tileMap.LoadFile("TileMap//Map2.csv");
-		tileMap.SetTileSize(1.0f);
-		for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-			for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-				if (tileMap.map[row][col] == 99) {
-					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-				}
-			}
-		}
-		Level = 2;
-	}
-	if (player.transform.position.x > 30 && drop > -15 && Level == 2)
-	{
-		drop -= 3 * float(deltaTime);
-	}
-
 }
 
 void Scene8Cabbage::Render() {
