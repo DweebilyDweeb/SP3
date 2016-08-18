@@ -137,13 +137,13 @@ void Scene1House::InitPlayer() {
 
 	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
 		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-			if (SceneManager::GetInstance().getPrevScene() == HOME)
+			if (SceneManager::GetInstance().getPrevScene() == WELL)
 			{
 				if (tileMap.map[row][col] == 99) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
 				}
 			}
-		//	if (SceneManager::GetInstance().getPrevScene() == )
+			if (SceneManager::GetInstance().getPrevScene() == FISH)
 			{
 				if (tileMap.map[row][col] == 100) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
@@ -174,20 +174,6 @@ void Scene1House::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
-	if (player.transform.position.y < 1){
-
-	/*	tileMap.LoadFile("TileMap//Map2.csv");
-		tileMap.SetTileSize(1.0f);
-		for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-			for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-				if (tileMap.map[row][col] == 99) {
-					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-				}
-			}
-		}
-		Level = 2;*/
-		SceneManager::GetInstance().chgCurrEnumScene(COW);
-	}
 }
 
 void Scene1House::Render() {
@@ -229,6 +215,11 @@ void Scene1House::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
+            case 9:
+                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
+                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
 			case 20:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_DAUGHTER]);

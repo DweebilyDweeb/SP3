@@ -65,7 +65,7 @@
 //	virtual void Render3D();
 //	
 //	void InitMeshes();
-//	void InitPlayer();
+//	virtual void InitPlayer();
 //	
 //	//Enemy
 //	Enemy enemies[5];

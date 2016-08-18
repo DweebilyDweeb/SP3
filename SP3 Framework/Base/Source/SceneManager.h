@@ -4,17 +4,19 @@
 #include "SingletonTemplate.h"
 #include "Scene3D.h"
 
+
+
 enum SCENE_TYPE
 {
 	HOME,
-	COW,
-	/*CHICKEN,
-	POND,
+	//COW,
+	//CHICKEN,
+	FISH,
 	DRAGON,
 	WELL,
-	APPLE,
-	CABBAGE,
-	WHEAT,*/
+	//APPLE,
+	//CABBAGE,
+	//WHEAT,
 	TOTAL_SCENES
 };
 

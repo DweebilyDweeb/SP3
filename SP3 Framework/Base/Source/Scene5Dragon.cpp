@@ -10,6 +10,7 @@
 #include "Collision.h"
 #include "Application.h"
 
+
 Scene5Dragon::Scene5Dragon() {
 }
 
@@ -26,7 +27,7 @@ void Scene5Dragon::Exit() {
 
     for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
         if (spriteAnimationList[i]) {
-            //delete spriteAnimationList[i];
+            delete spriteAnimationList[i];
         }
     }
 
@@ -122,11 +123,21 @@ void Scene5Dragon::InitPlayer() {
 
     for (int row = 0; row < tileMap.GetNumRows(); ++row) {
         for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-            if (tileMap.map[row][col] == 99) {
-                player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+            if (SceneManager::GetInstance().getPrevScene() == FISH)
+            {
+                if (tileMap.map[row][col] == 99) {
+                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+                }
+            }
+           if (SceneManager::GetInstance().getPrevScene() == WELL)
+            {
+                if (tileMap.map[row][col] == 100) {
+                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+                }
             }
         }
     }
+
 
 
 }
@@ -150,23 +161,19 @@ void Scene5Dragon::Update(const double& deltaTime) {
 
     player.Update(deltaTime);
     camera.Update(deltaTime);
-    if (player.transform.position.y < 1){
+    //if (player.transform.position.y < 1){
 
-        tileMap.LoadFile("TileMap//Scene5Dragon.csv");
-        tileMap.SetTileSize(1.0f);
-        for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-            for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-                if (tileMap.map[row][col] == 99) {
-                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-                }
-            }
-        }
-        Level = 2;
-    }
-    if (player.transform.position.x > 30 && drop > -15 && Level == 2)
-    {
-        drop -= 3 * float(deltaTime);
-    }
+    //    tileMap.LoadFile("TileMap//Scene5Dragon.csv");
+    //    tileMap.SetTileSize(1.0f);
+    //    for (int row = 0; row < tileMap.GetNumRows(); ++row) {
+    //        for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
+    //            if (tileMap.map[row][col] == 99) {
+    //                player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+    //            }
+    //        }
+    //    }
+    //    Level = 2;
+    //}
 
 }
 
@@ -213,6 +220,12 @@ void Scene5Dragon::RenderTileMap() {
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 RenderMesh(meshList[GEO_GRASS]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
+            case 9:
+                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
+                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
             }
             modelStack.PopMatrix();
         }

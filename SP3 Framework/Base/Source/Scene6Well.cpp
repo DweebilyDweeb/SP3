@@ -10,6 +10,7 @@
 #include "Collision.h"
 #include "Application.h"
 
+
 Scene6Well::Scene6Well() {
 }
 
@@ -26,7 +27,7 @@ void Scene6Well::Exit() {
 
     for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
         if (spriteAnimationList[i]) {
-            //delete spriteAnimationList[i];
+            delete spriteAnimationList[i];
         }
     }
 
@@ -118,17 +119,25 @@ void Scene6Well::InitSpriteAnimations() {
 
 void Scene6Well::InitPlayer() {
 
+
     player.SetTileMap(tileMap);
 
     for (int row = 0; row < tileMap.GetNumRows(); ++row) {
         for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-            if (tileMap.map[row][col] == 99) {
-                player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+            if (SceneManager::GetInstance().getPrevScene() == DRAGON)
+            {
+                if (tileMap.map[row][col] == 99) {
+                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+                }
+            }
+            if (SceneManager::GetInstance().getPrevScene() == HOME)
+            {
+                if (tileMap.map[row][col] == 100) {
+                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+                }
             }
         }
     }
-
-
 }
 
 void Scene6Well::InitCamera() {
@@ -150,23 +159,19 @@ void Scene6Well::Update(const double& deltaTime) {
 
     player.Update(deltaTime);
     camera.Update(deltaTime);
-    if (player.transform.position.y < 1){
+    //if (player.transform.position.y < 1){
 
-        tileMap.LoadFile("TileMap//Scene6Well.csv");
-        tileMap.SetTileSize(1.0f);
-        for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-            for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-                if (tileMap.map[row][col] == 99) {
-                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-                }
-            }
-        }
-        Level = 2;
-    }
-    if (player.transform.position.x > 30 && drop > -15 && Level == 2)
-    {
-        drop -= 3 * float(deltaTime);
-    }
+    //    tileMap.LoadFile("TileMap//Scene6Well.csv");
+    //    tileMap.SetTileSize(1.0f);
+    //    for (int row = 0; row < tileMap.GetNumRows(); ++row) {
+    //        for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
+    //            if (tileMap.map[row][col] == 99) {
+    //                player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+    //            }
+    //        }
+    //    }
+    //    Level = 2;
+    //}
 
 }
 
@@ -218,6 +223,12 @@ void Scene6Well::RenderTileMap() {
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 RenderMesh(meshList[GEO_GRASS]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+            case 9:
+                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
+                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
             }
             modelStack.PopMatrix();
         }

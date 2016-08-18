@@ -173,6 +173,9 @@
     <ClCompile Include="Source\Scene1House.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene4FishingPond.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -293,6 +296,9 @@
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene1House.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene4FishingPond.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>

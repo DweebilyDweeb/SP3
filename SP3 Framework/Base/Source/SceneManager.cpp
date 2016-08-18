@@ -1,16 +1,38 @@
 #include "SceneManager.h"
 #include "Scene1House.h"
-#include "SceneAsn2.h"
+#include "Scene3Chicken.h"
+#include "Scene4FishingPond.h"
+#include "Scene5Dragon.h"
+#include "Scene6Well.h"
+#include "Scene8Cabbage.h"
+#include "Scene9Wheat.h"
 
 SceneManager::~SceneManager() 
 {
 
 };
 
+void SceneManager::Init()
+{
+    sceneList[HOME] = new Scene1House;
+    sceneList[FISH] = new Scene4FishingPond;
+    sceneList[DRAGON] = new Scene5Dragon;
+    sceneList[WELL] = new Scene6Well;
+
+    setPrevScene(FISH);
+    sceneType = DRAGON;
+
+    for (int i = 0; i < TOTAL_SCENES; ++i)
+    {
+        sceneList[i]->Init();
+    }
+}
+
 void SceneManager::chgCurrEnumScene(SCENE_TYPE type)
 {
 	prevScene = sceneType;
 	sceneType = type;
+    sceneList[sceneType]->InitPlayer();
 }
 
 SCENE_TYPE SceneManager::getCurrSceneEnum() const
@@ -28,19 +50,6 @@ SCENE_TYPE SceneManager::getPrevScene() const
 	return prevScene;
 }
 
-void SceneManager::Init()
-{
-	sceneList[HOME] = new Scene1House;
-	sceneList[COW] = new SceneAsn2;
-
-	for (int i = 0; i < TOTAL_SCENES; ++i)
-	{
-		sceneList[i]->Init();
-	}
-
-	chgCurrEnumScene(COW);
-	setPrevScene(HOME);
-}
 
 void SceneManager::Update(double dt)
 {

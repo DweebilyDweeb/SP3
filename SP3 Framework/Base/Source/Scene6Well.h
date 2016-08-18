@@ -8,6 +8,7 @@
 #include "Camera2D.h"
 #include "PlayerSS.h"
 
+
 class Scene6Well : public Scene3D {
 
 private:
@@ -42,7 +43,7 @@ private:
     void InitMeshes();
     void InitSpriteAnimations();
     void InitCamera();
-    void InitPlayer();
+    virtual void InitPlayer();
 
     void RenderTileMap();
     void RenderPlayer();

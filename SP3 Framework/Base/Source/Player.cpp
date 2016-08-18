@@ -176,7 +176,6 @@ bool Player::CheckCollisionLeft() {
 		}
 
 	}*/
-
 	return false;
 
 }
@@ -210,7 +209,9 @@ bool Player::CheckCollisionRight() {
 		if (collidables[i] == tileMap->map[tileY][tileX]) {
 			return true;
 		}
-	}/*for (size_t i = 0; i < collectibles.size(); ++i) {
+	}
+   
+    /*for (size_t i = 0; i < collectibles.size(); ++i) {
 		if (collectibles[i] == tileMap->map[tileY][tileX]) {
 			if (tileMap->map[tileY][tileX] == 2)
 			{
@@ -272,7 +273,7 @@ bool Player::CheckCollisionRight() {
 			return true;
 		}
 	}
-
+  
    /* for (size_t i = 0; i < collectibles.size(); ++i) {
         if (collectibles[i] == tileMap->map[tileY][tileX]) {
             tileMap->map[tileY][tileX] = 0;
@@ -346,7 +347,9 @@ bool Player::CheckCollisionDown() {
 		if (collidables[i] == tileMap->map[tileY][tileX]) {
 			return true;
 		}
-	}/*for (size_t i = 0; i < collectibles.size(); ++i) {
+	}
+    
+    /*for (size_t i = 0; i < collectibles.size(); ++i) {
 		if (collectibles[i] == tileMap->map[tileY][tileX]) {
 			if (tileMap->map[tileY][tileX] == 2)
 			{
@@ -408,6 +411,13 @@ bool Player::CheckCollisionDown() {
 			return true;
 		}
 	}
+
+    for (size_t i = 0; i < portal.size(); ++i) {
+        if (portal[i] == tileMap->map[tileY][tileX]) {
+            return true;
+        }
+    }
+   
    /* for (size_t i = 0; i < collectibles.size(); ++i) {
         if (collectibles[i] == tileMap->map[tileY][tileX]) {
             tileMap->map[tileY][tileX] = 0;
@@ -481,7 +491,9 @@ bool Player::CheckCollisionUp() {
 		if (collidables[i] == tileMap->map[tileY][tileX]) {
 			return true;
 		}
-	}/*for (size_t i = 0; i < collectibles.size(); ++i) {
+	}
+   
+    /*for (size_t i = 0; i < collectibles.size(); ++i) {
 		if (collectibles[i] == tileMap->map[tileY][tileX]) {
 			if (tileMap->map[tileY][tileX] == 2)
 			{
@@ -543,6 +555,7 @@ bool Player::CheckCollisionUp() {
 			return true;
 		}
 	}
+    
     /*for (size_t i = 0; i < collectibles.size(); ++i) {
         if (collectibles[i] == tileMap->map[tileY][tileX]) {
             tileMap->map[tileY][tileX] = 0;
@@ -620,6 +633,17 @@ void Player::SetHotspotOffset(float hotspotOffset) {
 		this->hotspotOffset = hotspotOffset;
 	}
 
+}
+
+int Player::CheckPortal() {
+    int tileX = tileMap->GetTileX(transform.position.x);
+    int tileY = tileMap->GetTileY(transform.position.y);
+    for (size_t i = 0; i < portal.size(); ++i) {
+        if (portal[i] == tileMap->map[tileY][tileX]) {
+            return portal[i];
+        }
+    }
+    return 0;
 }
 
 float Player::GetHotspotCentre() {

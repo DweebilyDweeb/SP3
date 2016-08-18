@@ -9,7 +9,7 @@
 #include "GenerateRange.h"
 #include "Collision.h"
 #include "Application.h"
-#include "SceneManager.h"
+
 
 Scene4FishingPond::Scene4FishingPond() {
 }
@@ -134,7 +134,7 @@ void Scene4FishingPond::InitPlayer() {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
 				}
 			}
-			//	if (SceneManager::GetInstance().getPrevScene() == )
+				if (SceneManager::GetInstance().getPrevScene() == DRAGON)
 			{
 				if (tileMap.map[row][col] == 100) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
@@ -165,7 +165,7 @@ void Scene4FishingPond::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
-	if (player.transform.position.y < 1){
+	//if (player.transform.position.y < 1){
 
 		/*	tileMap.LoadFile("TileMap//Map2.csv");
 		tileMap.SetTileSize(1.0f);
@@ -177,8 +177,7 @@ void Scene4FishingPond::Update(const double& deltaTime) {
 		}
 		}
 		Level = 2;*/
-		SceneManager::GetInstance().chgCurrEnumScene(COW);
-	}
+	
 }
 
 void Scene4FishingPond::Render() {
@@ -220,6 +219,11 @@ void Scene4FishingPond::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
+            case 9:
+                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
+                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
 			case 5:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_WATER]);

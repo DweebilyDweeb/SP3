@@ -5,6 +5,7 @@
 #include "TileMap.h"
 #include "TileIndex.h"
 #include "Vector3.h"
+#include "SceneManager.h"
 
 class Player : public GameObject {
 
@@ -24,6 +25,8 @@ protected:
 	bool CheckCollisionUp();
 	bool CheckCollisionDown();
 	
+    int CheckPortal();
+
 	TileMap* tileMap;
 
 	float hotspotOffset;

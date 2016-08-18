@@ -21,6 +21,8 @@ PlayerSS::PlayerSS() {
     portal.push_back(TILE_PORTAL);
     flag.push_back(TILE_FLAG);
     pole.push_back(TILE_POLE);*/
+    portal.push_back(TILE_PORTAL);
+    portal.push_back(TILE_PORTAL2);
 
 }
 
@@ -63,6 +65,44 @@ void PlayerSS::Update(const double& deltaTime) {
 	int tileX = tileMap->GetTileX(transform.position.x);
 	int tileY = tileMap->GetTileY(transform.position.y);
 	
+    switch (CheckPortal())
+    {
+    case TILE_PORTAL:
+    {
+        switch (SceneManager::GetInstance().getCurrSceneEnum())
+        {
+        case (0) :
+            SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(TOTAL_SCENES - 1));
+            velocity.x = 0;
+            velocity.y = 0;
+            break;
+        default:
+            SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() - 1));
+            velocity.x = 0;
+            velocity.y = 0;
+            break;
+        }
+        break;
+    }
+    case TILE_PORTAL2:
+    {
+        switch (SceneManager::GetInstance().getCurrSceneEnum())
+        {
+        case (TOTAL_SCENES - 1) :
+            SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(0));
+            velocity.x = 0;
+            velocity.y = 0;
+            break;
+        default:
+            SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() + 1));
+            velocity.x = 0;
+            velocity.y = 0;
+            break;
+        }
+        break;
+    }
+    }
+
 	//User Input
 	Vector3 acceleration;
 	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_MOVE_RIGHT]) {

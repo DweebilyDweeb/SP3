@@ -33,6 +33,7 @@
     <ClCompile Include="Source\Scene3Chicken.cpp" />
     <ClCompile Include="Source\Scene3D.cpp" />
     <ClCompile Include="Source\RigidBody.cpp" />
+    <ClCompile Include="Source\Scene4FishingPond.cpp" />
     <ClCompile Include="Source\Scene5Dragon.cpp" />
     <ClCompile Include="Source\Scene6Well.cpp" />
     <ClCompile Include="Source\Scene8Cabbage.cpp" />
@@ -72,6 +73,7 @@
     <ClInclude Include="Source\Scene1House.h" />
     <ClInclude Include="Source\Scene3Chicken.h" />
     <ClInclude Include="Source\Scene3D.h" />
+    <ClInclude Include="Source\Scene4FishingPond.h" />
     <ClInclude Include="Source\Scene5Dragon.h" />
     <ClInclude Include="Source\Scene6Well.h" />
     <ClInclude Include="Source\Scene8Cabbage.h" />

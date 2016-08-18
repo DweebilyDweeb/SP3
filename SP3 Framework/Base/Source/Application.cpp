@@ -143,7 +143,7 @@ void Application::Run() {
 
     //Main Loop
 	SceneManager::GetInstance().Init();
-    Play();
+   // Play();
     m_timer.startTimer(); //Start timer to calculate how long it takes to render this frame
     while (glfwWindowShouldClose(m_window) == false && quit == false) {
 

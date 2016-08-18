@@ -228,7 +228,8 @@ public:
 	virtual void InitShaders(const char* vertexShaderFile, const char* fragmentShaderFile, SHADER_TYPE shaderType);
 	virtual void InitLights();
 	virtual void InitFog(Color color = Color(0.5f, 0.5f, 0.5f), int fogType = 2, float start = 25.0f, float end = 1000.0f, float density = 0.005f);
-	virtual void EnableFog(bool enable);
+    virtual void InitPlayer() = 0;
+    virtual void EnableFog(bool enable);
 
 	//Update
 	virtual void Update(const double& deltaTime);
