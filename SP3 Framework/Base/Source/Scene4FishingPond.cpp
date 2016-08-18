@@ -1,4 +1,4 @@
-#include "Scene1House.h"
+#include "Scene4FishingPond.h"
 #include "GL\glew.h"
 #include "shader.hpp"
 #include "Utility.h"
@@ -11,13 +11,13 @@
 #include "Application.h"
 #include "SceneManager.h"
 
-Scene1House::Scene1House() {
+Scene4FishingPond::Scene4FishingPond() {
 }
 
-Scene1House::~Scene1House() {
+Scene4FishingPond::~Scene4FishingPond() {
 }
 
-void Scene1House::Exit() {
+void Scene4FishingPond::Exit() {
 
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		if (meshList[i]) {
@@ -34,7 +34,7 @@ void Scene1House::Exit() {
 	Scene3D::Exit();
 }
 
-void Scene1House::Init() {
+void Scene4FishingPond::Init() {
 
 	InitGL();
 
@@ -51,7 +51,7 @@ void Scene1House::Init() {
 	EnableFog(false);
 
 
-	tileMap.LoadFile("TileMap//Scene1House.csv");
+	tileMap.LoadFile("TileMap//Scene4FishingPond.csv");
 	tileMap.SetTileSize(1.0f);
 	InitPlayer();
 	InitCamera();
@@ -60,7 +60,7 @@ void Scene1House::Init() {
 	Level = 1;
 }
 
-void Scene1House::InitMeshes() {
+void Scene4FishingPond::InitMeshes() {
 
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		meshList[i] = nullptr;
@@ -76,7 +76,7 @@ void Scene1House::InitMeshes() {
 	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
 
 	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
-	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//house.tga");
+	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//fishing_rod.tga");
 
 	meshList[GEO_BACKGROUND_2] = MeshBuilder::GenerateQuad("Background2", Color(1, 1, 1), 0.7);
 	meshList[GEO_BACKGROUND_2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//mountains.tga");
@@ -86,7 +86,7 @@ void Scene1House::InitMeshes() {
 
 }
 
-void Scene1House::InitSpriteAnimations() {
+void Scene4FishingPond::InitSpriteAnimations() {
 
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
 		spriteAnimationList[i] = nullptr;
@@ -112,38 +112,29 @@ void Scene1House::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PORTAL]->animation = new Animation();
 	spriteAnimationList[SPRITE_PORTAL]->animation->Set(0, 3, 0, 1.f, true);
 
-	spriteAnimationList[SPRITE_MOTHER] = MeshBuilder::GenerateSpriteAnimation("mother", 1, 4);
-	spriteAnimationList[SPRITE_MOTHER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//mother.tga");
-	spriteAnimationList[SPRITE_MOTHER]->animation = new Animation();
-	spriteAnimationList[SPRITE_MOTHER]->animation->Set(0, 3, 0, 1.f, true);
+	spriteAnimationList[SPRITE_WATER] = MeshBuilder::GenerateSpriteAnimation("water", 1, 32);
+	spriteAnimationList[SPRITE_WATER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//water.tga");
+	spriteAnimationList[SPRITE_WATER]->animation = new Animation();
+	spriteAnimationList[SPRITE_WATER]->animation->Set(0, 31, 0, 5.f, true);
 
-	spriteAnimationList[SPRITE_SON] = MeshBuilder::GenerateSpriteAnimation("son", 1, 4);
-	spriteAnimationList[SPRITE_SON]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//son.tga");
-	spriteAnimationList[SPRITE_SON]->animation = new Animation();
-	spriteAnimationList[SPRITE_SON]->animation->Set(0, 3, 0, 1.f, true);
 
-	spriteAnimationList[SPRITE_DAUGHTER] = MeshBuilder::GenerateSpriteAnimation("daughter", 1, 4);
-	spriteAnimationList[SPRITE_DAUGHTER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//daughter.tga");
-	spriteAnimationList[SPRITE_DAUGHTER]->animation = new Animation();
-	spriteAnimationList[SPRITE_DAUGHTER]->animation->Set(0, 3, 0, 1.f, true);
 
-	
-	InitAttributeUI();
+
 }
 
-void Scene1House::InitPlayer() {
+void Scene4FishingPond::InitPlayer() {
 
 	player.SetTileMap(tileMap);
 
 	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
 		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-/*			if (SceneManager::GetInstance().getPrevScene() == WHEAT)
+			if (SceneManager::GetInstance().getPrevScene() == HOME)
 			{
 				if (tileMap.map[row][col] == 99) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
 				}
-			}*/
-			if (SceneManager::GetInstance().getPrevScene() == COW)
+			}
+			//	if (SceneManager::GetInstance().getPrevScene() == )
 			{
 				if (tileMap.map[row][col] == 100) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
@@ -155,14 +146,14 @@ void Scene1House::InitPlayer() {
 
 }
 
-void Scene1House::InitCamera() {
+void Scene4FishingPond::InitCamera() {
 
 	camera.SetPlayer(player);
 	camera.SetTileMap(tileMap);
 
 }
 
-void Scene1House::Update(const double& deltaTime) {
+void Scene4FishingPond::Update(const double& deltaTime) {
 
 
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i)
@@ -174,28 +165,26 @@ void Scene1House::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
-	UpdateAttributeUI(deltaTime);
 	if (player.transform.position.y < 1){
 
-	/*	tileMap.LoadFile("TileMap//Map2.csv");
+		/*	tileMap.LoadFile("TileMap//Map2.csv");
 		tileMap.SetTileSize(1.0f);
 		for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-			for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-				if (tileMap.map[row][col] == 99) {
-					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-				}
-			}
+		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
+		if (tileMap.map[row][col] == 99) {
+		player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+		}
+		}
 		}
 		Level = 2;*/
 		SceneManager::GetInstance().chgCurrEnumScene(COW);
 	}
 }
 
-void Scene1House::Render() {
+void Scene4FishingPond::Render() {
 
 	Scene3D::Render();
 	SetToCameraView(&camera);
-	RenderAttributeUI();
 	RenderTileMap();
 	RenderBackground();
 	RenderPlayer();
@@ -203,7 +192,7 @@ void Scene1House::Render() {
 
 }
 
-void Scene1House::RenderTileMap() {
+void Scene4FishingPond::RenderTileMap() {
 
 	float cameraAspectRatio = static_cast<float>(camera.aspectRatio.x) / static_cast<float>(camera.aspectRatio.y);
 	float cameraWidth = cameraAspectRatio * camera.GetOrthoSize();
@@ -231,21 +220,13 @@ void Scene1House::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 20:
+			case 5:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_DAUGHTER]);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_WATER]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 21:
-				housePos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -20);
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_MOTHER]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				break;
-			case 22:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_SON]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+			case 8:
+				fishingRodPos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -20);
 				break;
 			}
 			modelStack.PopMatrix();
@@ -255,7 +236,7 @@ void Scene1House::RenderTileMap() {
 }
 
 
-void Scene1House::RenderPlayer() {
+void Scene4FishingPond::RenderPlayer() {
 
 	modelStack.PushMatrix();
 	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.1f, player.transform.position.z);
@@ -265,7 +246,7 @@ void Scene1House::RenderPlayer() {
 	else
 		modelStack.Scale(player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
 	if (player.playerState == Player::WALKING)
-		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false , player.getInvert());
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false, player.getInvert());
 	else if (player.playerState == Player::IDLE)
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
 	else if (player.playerState == Player::JUMPING)
@@ -274,11 +255,11 @@ void Scene1House::RenderPlayer() {
 
 }
 
-void Scene1House::RenderText() {
+void Scene4FishingPond::RenderText() {
 
 
 }
-void Scene1House::RenderBackground()
+void Scene4FishingPond::RenderBackground()
 {
 
 	float xRatio = (static_cast<float>(camera.aspectRatio.x / static_cast<float>(camera.aspectRatio.y)));
@@ -288,8 +269,8 @@ void Scene1House::RenderBackground()
 
 	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
-	modelStack.Translate(housePos.x, housePos.y+2, housePos.z);
-	modelStack.Scale(10, 10, 1);
+	modelStack.Translate(fishingRodPos.x + 1.f, fishingRodPos.y + 0.5f, fishingRodPos.z);
+	modelStack.Scale(2, 2, 1);
 	RenderMesh(meshList[GEO_BACKGROUND_1], false);
 	modelStack.PopMatrix();
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);

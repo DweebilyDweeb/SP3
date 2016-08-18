@@ -15,6 +15,9 @@ public:
 	//Sound Engine
 	//Getter(s)
 	static Application& GetInstance();
+	static Family* mother;
+	static Family* son;
+	static Family* daughter;
 	int GetWindowWidth();
 	int GetWindowHeight();
 

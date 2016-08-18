@@ -23,6 +23,9 @@
 #include "Scene6Well.h"
 
 GLFWwindow* m_window;
+Family* Application::mother = new Mother();
+Family* Application::son = new Son();
+Family* Application::daughter = new Daughter();
 const unsigned char FPS = 60; //FPS of this game
 const unsigned int frameTime = 1000 / FPS; //time for each frame
 
