@@ -27,13 +27,11 @@ void Scene8Cabbage::Exit() {
 
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
 		if (spriteAnimationList[i]) {
-			//delete spriteAnimationList[i];
 			delete spriteAnimationList[i];
 		}
 	}
 
 	Scene3D::Exit();
-
 }
 
 void Scene8Cabbage::Init() {
@@ -77,8 +75,14 @@ void Scene8Cabbage::InitMeshes() {
 	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
 
-	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
-	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//house.tga");
+	meshList[GEO_CABBAGE] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_CABBAGE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//cabbage.tga");
+
+	meshList[GEO_CARROT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_CARROT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//carrot.tga");
+
+	meshList[GEO_POTATO] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_POTATO]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//potato.tga");
 
 	meshList[GEO_BACKGROUND_2] = MeshBuilder::GenerateQuad("Background2", Color(1, 1, 1), 0.7);
 	meshList[GEO_BACKGROUND_2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//mountains.tga");
@@ -114,45 +118,32 @@ void Scene8Cabbage::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PORTAL]->animation = new Animation();
 	spriteAnimationList[SPRITE_PORTAL]->animation->Set(0, 3, 0, 1.f, true);
 
-	spriteAnimationList[SPRITE_MOTHER] = MeshBuilder::GenerateSpriteAnimation("mother", 1, 4);
-	spriteAnimationList[SPRITE_MOTHER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//mother.tga");
-	spriteAnimationList[SPRITE_MOTHER]->animation = new Animation();
-	spriteAnimationList[SPRITE_MOTHER]->animation->Set(0, 3, 0, 1.f, true);
-
-	spriteAnimationList[SPRITE_SON] = MeshBuilder::GenerateSpriteAnimation("son", 1, 4);
-	spriteAnimationList[SPRITE_SON]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//son.tga");
-	spriteAnimationList[SPRITE_SON]->animation = new Animation();
-	spriteAnimationList[SPRITE_SON]->animation->Set(0, 3, 0, 1.f, true);
-
-	spriteAnimationList[SPRITE_DAUGHTER] = MeshBuilder::GenerateSpriteAnimation("daughter", 1, 4);
-	spriteAnimationList[SPRITE_DAUGHTER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//daughter.tga");
-	spriteAnimationList[SPRITE_DAUGHTER]->animation = new Animation();
-	spriteAnimationList[SPRITE_DAUGHTER]->animation->Set(0, 3, 0, 1.f, true);
-
-
-
+	spriteAnimationList[SPRITE_WATER] = MeshBuilder::GenerateSpriteAnimation("water", 1, 32);
+	spriteAnimationList[SPRITE_WATER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//water.tga");
+	spriteAnimationList[SPRITE_WATER]->animation = new Animation();
+	spriteAnimationList[SPRITE_WATER]->animation->Set(0, 31, 0, 5.f, true);
 }
 
 void Scene8Cabbage::InitPlayer() {
 
 	player.SetTileMap(tileMap);
 
-    for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-        for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-            if (SceneManager::GetInstance().getPrevScene() == APPLE)
-            {
-                if (tileMap.map[row][col] == 99) {
-                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-                }
-            }
-            if (SceneManager::GetInstance().getPrevScene() == WHEAT)
-            {
-                if (tileMap.map[row][col] == 100) {
-                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-                }
-            }
-        }
-    }
+	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
+		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
+			if (SceneManager::GetInstance().getPrevScene() == APPLE)
+			{
+				if (tileMap.map[row][col] == 99) {
+					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+				}
+			}
+			if (SceneManager::GetInstance().getPrevScene() == WHEAT)
+			{
+				if (tileMap.map[row][col] == 100) {
+					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+				}
+			}
+		}
+	}
 }
 
 void Scene8Cabbage::InitCamera() {
@@ -174,8 +165,6 @@ void Scene8Cabbage::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
-
-	
 }
 
 void Scene8Cabbage::Render() {
@@ -217,25 +206,32 @@ void Scene8Cabbage::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 4:
+			case 5:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_WATER]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 9:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 20:
+			case 15:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_DAUGHTER]);
+				modelStack.Rotate(-40, 0, 0, 1);
+				RenderMesh(meshList[GEO_CABBAGE]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 21:
-				housePos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -20);
+			case 16:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_MOTHER]);
+				modelStack.Translate(0, -0.5f, 1);
+				RenderMesh(meshList[GEO_CARROT]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 22:
+			case 17:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_SON]);
+				modelStack.Translate(0, -0.2f, 1);
+				RenderMesh(meshList[GEO_POTATO]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			}
@@ -277,13 +273,13 @@ void Scene8Cabbage::RenderBackground()
 	float backgroundScaleX = camWidth * 2.0f;
 	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
 
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	/*glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
 	modelStack.Translate(housePos.x, housePos.y + 2, housePos.z);
 	modelStack.Scale(10, 10, 1);
 	RenderMesh(meshList[GEO_BACKGROUND_1], false);
 	modelStack.PopMatrix();
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);*/
 
 	for (int i = 0; i < 5; ++i)
 	{
