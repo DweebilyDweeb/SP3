@@ -156,6 +156,8 @@ void Scene7Apple::Update(const double& deltaTime) {
 
 		SceneManager::GetInstance().chgCurrEnumScene(COW);
 	}
+
+	Scene3D::Update(deltaTime);
 }
 
 void Scene7Apple::Render() {
@@ -198,11 +200,6 @@ void Scene7Apple::RenderTileMap() {
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 7:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderMesh(meshList[GEO_GRASS]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				break;
-			case 8:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderMesh(meshList[GEO_GRASS]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);

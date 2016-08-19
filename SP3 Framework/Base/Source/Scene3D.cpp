@@ -4,6 +4,7 @@
 #include "Utility.h"
 #include "MeshBuilder.h"
 #include "Application.h"
+#include "LoadTGA.h"
 #include "InputManager.h"
 //#include "Application.h"
 
@@ -15,7 +16,11 @@ Scene3D::Scene3D() {
 	referenceAxes = MeshBuilder::GenerateAxes("Reference Axes", 5000000.0f, 5000000.0f, 5000000.0f);
 	fontList[FONT_CONSOLAS] = MeshBuilder::GenerateText("Consolas", 16, 16, "Image//Fonts//Consolas.tga");
 	currentShader = NONE;
-
+	InitAttributeUI();
+	
+	zoomAmount = 1;
+	zoomOffsetY = 0;
+	zoomOffsetX = 0;
 }
 
 Scene3D::~Scene3D() {
@@ -29,6 +34,14 @@ void Scene3D::Exit() {
 	glDeleteVertexArrays(1, &vertexArrayID);
 	delete referenceAxes;
 	delete fontList[FONT_CONSOLAS];
+	delete healthBar;
+	delete proteinBar;
+	delete carbohydratesBar;
+	delete hydrationBar;
+	delete fatsBar;
+	delete vitaminsBar;
+	delete healthUiBackground;
+	delete statUiBackground;
 
 }
 
@@ -275,6 +288,7 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 //Update
 
 void Scene3D::Update(const double& deltaTime) {
+	UpdateAttributeUI(deltaTime);
 }
 
 //Things that need to be updated every frame.
@@ -343,38 +357,72 @@ void Scene3D::UseShader(SHADER_TYPE shaderType) {
 
 }
 
-void Scene3D::SetToCameraView(Camera* camera) {
+void Scene3D::SetToCameraView(Camera* camera, float zoom) {
 
-	modelStack.LoadIdentity();
-	viewStack.LoadIdentity();
-	viewStack.LookAt(camera->transform.position.x, camera->transform.position.y, camera->transform.position.z,
-					 camera->transform.position.x + camera->transform.GetForward().x,
-					 camera->transform.position.y + camera->transform.GetForward().y,
-					 camera->transform.position.z + camera->transform.GetForward().z,
-					 camera->transform.GetUp().x, camera->transform.GetUp().y, camera->transform.GetUp().z);
+	if (zoom == 1)
+	{
+		modelStack.LoadIdentity();
+		viewStack.LoadIdentity();
+		viewStack.LookAt(camera->transform.position.x + zoomOffsetX, camera->transform.position.y + zoomOffsetY, camera->transform.position.z,
+			camera->transform.position.x + camera->transform.GetForward().x + zoomOffsetX,
+			camera->transform.position.y + camera->transform.GetForward().y +zoomOffsetY,
+			camera->transform.position.z + camera->transform.GetForward().z,
+			camera->transform.GetUp().x, camera->transform.GetUp().y, camera->transform.GetUp().z);
 
-	float aspectRatio = static_cast<float>(camera->aspectRatio.x) / static_cast<float>(camera->aspectRatio.y);
-	if (camera->IsOrtho()) {
-		Mtx44 orthoMatrix;
-		orthoMatrix.SetToOrtho(-aspectRatio * camera->GetOrthoSize(), aspectRatio * camera->GetOrthoSize(),
-							   -camera->GetOrthoSize(), camera->GetOrthoSize(),
-							   camera->GetNearClippingPlane(), camera->GetFarClippingPlane());
-		
-		projectionStack.LoadMatrix(orthoMatrix);
-	} else {
-		Mtx44 perspMatrix;
-		perspMatrix.SetToPerspective(camera->GetFOV(),
-									 aspectRatio,
-									 camera->GetNearClippingPlane(),
-									 camera->GetFarClippingPlane());
+		float aspectRatio = static_cast<float>(camera->aspectRatio.x) / static_cast<float>(camera->aspectRatio.y);
+		if (camera->IsOrtho()) {
+			Mtx44 orthoMatrix;
+			orthoMatrix.SetToOrtho(-aspectRatio * camera->GetOrthoSize() / zoomAmount, aspectRatio * camera->GetOrthoSize() / zoomAmount,
+				-camera->GetOrthoSize() / zoomAmount, camera->GetOrthoSize() / zoomAmount,
+				camera->GetNearClippingPlane(), camera->GetFarClippingPlane());
 
-		projectionStack.LoadMatrix(perspMatrix);
+			projectionStack.LoadMatrix(orthoMatrix);
+		}
+		else {
+			Mtx44 perspMatrix;
+			perspMatrix.SetToPerspective(camera->GetFOV(),
+				aspectRatio,
+				camera->GetNearClippingPlane(),
+				camera->GetFarClippingPlane());
+
+			projectionStack.LoadMatrix(perspMatrix);
+		}
+		showStats = false;
 	}
+	else
+	{
+		modelStack.LoadIdentity();
+		viewStack.LoadIdentity();
+		viewStack.LookAt(camera->transform.position.x, camera->transform.position.y, camera->transform.position.z,
+			camera->transform.position.x + camera->transform.GetForward().x,
+			camera->transform.position.y + camera->transform.GetForward().y ,
+			camera->transform.position.z + camera->transform.GetForward().z,
+			camera->transform.GetUp().x, camera->transform.GetUp().y, camera->transform.GetUp().z);
 
+		float aspectRatio = static_cast<float>(camera->aspectRatio.x) / static_cast<float>(camera->aspectRatio.y);
+		if (camera->IsOrtho()) {
+			Mtx44 orthoMatrix;
+			orthoMatrix.SetToOrtho(-aspectRatio * camera->GetOrthoSize(), aspectRatio * camera->GetOrthoSize(),
+				-camera->GetOrthoSize(), camera->GetOrthoSize(),
+				camera->GetNearClippingPlane(), camera->GetFarClippingPlane());
+
+			projectionStack.LoadMatrix(orthoMatrix);
+		}
+		else {
+			Mtx44 perspMatrix;
+			perspMatrix.SetToPerspective(camera->GetFOV(),
+				aspectRatio,
+				camera->GetNearClippingPlane(),
+				camera->GetFarClippingPlane());
+
+			projectionStack.LoadMatrix(perspMatrix);
+		}
+	}
 }
 
 void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	RenderAttributeUI();
 }
 
 void Scene3D::Render2D() {
@@ -585,7 +633,10 @@ void Scene3D::InitAttributeUI()
 	hydrationBar = MeshBuilder::GenerateQuad("hydrationBar", Color(0, 1, 1), 1);
 	fatsBar = MeshBuilder::GenerateQuad("fatsBar", Color(1, 0, 1), 1);
 	vitaminsBar = MeshBuilder::GenerateQuad("vitaminsBar", Color(0, 1, 0), 1);
-	uiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
+	healthUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
+	healthUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health2.tga");
+	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
+	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
 
 	Application::mother->Init();
 	Application::son->Init();
@@ -602,6 +653,11 @@ void Scene3D::UpdateAttributeUI(const double& deltaTime)
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
 		showStats = true;
 	}
+	else
+	{
+		showStats = false;
+	}
+
 	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_SHOW_ATTRIBUTES]){
 		showStats = false;
 	}
@@ -610,22 +666,18 @@ void Scene3D::RenderAttributeUI()
 {
 	if (!showStats)
 	{
-		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "HEALTH", Color(1, 0, 0), 1, -15, 11);
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "Mother:", Color(1, 0, 0), 0.5, -15, 10.5);
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "Son:", Color(1, 0, 0), 0.5, -15, 8.5);
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "Daughter:", Color(1, 0, 0), 0.5, -15, 6.5);
-		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		if (Application::mother->getHealth() > 0)
-			RenderMeshIn2D(healthBar, Application::mother->getHealth() / 20000, 0.5, -16, 10, 5, 0.5);
+			RenderMeshIn2D(healthBar, Application::mother->getHealth() / 20000, 0.5, -14.4, 10.2, 5, 0.5);
 
 		if (Application::son->getHealth() > 0)
-			RenderMeshIn2D(healthBar, Application::son->getHealth() / 20000, 0.5, -16, 8, 5, 0.5);
+			RenderMeshIn2D(healthBar, Application::son->getHealth() / 20000, 0.5, -14.4, 8.7, 5, 0.5);
 
 		if (Application::daughter->getHealth() > 0)
-			RenderMeshIn2D(healthBar, Application::daughter->getHealth()/20000, 0.5, -16, 6, 5, 0.5);
+			RenderMeshIn2D(healthBar, 5, 0.5, -14.4, 7.2, 5, 0.5);
 
-		RenderMeshIn2D(uiBackground, 10, 10, -14, 10);
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
 	else
 	{
@@ -667,8 +719,60 @@ void Scene3D::RenderAttributeUI()
 		if (Application::daughter->getVitamins() > 0)
 			RenderMeshIn2D(vitaminsBar, Application::daughter->getVitamins() * 0.05f, 0.5, 6, -2, 5, 0.5);
 
-		RenderMeshIn2D(uiBackground, 25, 25);
+		RenderMeshIn2D(statUiBackground, 25, 25);
 	}
 
 	
+}
+
+bool Scene3D::getDistXY(Vector3 one, Vector3 two, float dist)
+{
+	Vector3 temp = one - two;
+	temp.z = 0;
+	
+	if (temp.LengthSquared() < dist * dist)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool Scene3D::getDistX(Vector3 one, Vector3 two, float dist)
+{
+	Vector3 temp = one - two;
+	temp.z = 0;
+	temp.y = 0;
+	if (abs(temp.x) < dist)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool Scene3D::getDistY(Vector3 one, Vector3 two, float dist)
+{
+	Vector3 temp = one - two;
+	temp.z = 0;
+	temp.x = 0;
+	if (abs(temp.y) < dist)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void Scene3D::setZoomValues(float zoomAmount, float zoomOffsetX, float zoomOffsetY)
+{
+	this->zoomAmount = zoomAmount;
+	this->zoomOffsetX = zoomOffsetX;
+	this->zoomOffsetY = zoomOffsetY;
 }

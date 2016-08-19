@@ -160,6 +160,7 @@ void Scene6Well::Update(const double& deltaTime) {
     player.Update(deltaTime);
     camera.Update(deltaTime);
 
+	Scene3D::Update(deltaTime);
 }
 
 void Scene6Well::Render() {
@@ -206,10 +207,6 @@ void Scene6Well::RenderTileMap() {
                 RenderMesh(meshList[GEO_GRASS]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-            case 8:
-                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                RenderMesh(meshList[GEO_GRASS]);
-                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
             case 9:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);

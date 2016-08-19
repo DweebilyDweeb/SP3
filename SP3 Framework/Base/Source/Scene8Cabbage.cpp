@@ -165,6 +165,8 @@ void Scene8Cabbage::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
+
+	Scene3D::Update(deltaTime);
 }
 
 void Scene8Cabbage::Render() {

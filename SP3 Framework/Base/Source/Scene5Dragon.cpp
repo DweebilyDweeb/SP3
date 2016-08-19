@@ -159,6 +159,7 @@ void Scene5Dragon::Update(const double& deltaTime) {
     player.Update(deltaTime);
     camera.Update(deltaTime);
   
+	Scene3D::Update(deltaTime);
 }
 
 void Scene5Dragon::Render() {

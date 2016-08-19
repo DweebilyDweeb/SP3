@@ -159,6 +159,8 @@ void Scene2Cow::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
+
+	Scene3D::Update(deltaTime);
 }
 
 void Scene2Cow::Render() {
