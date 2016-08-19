@@ -34,6 +34,7 @@ void SceneManager::Init()
 
     setPrevScene(WHEAT);
     sceneType = HOME;
+
     if (sceneType == HOME)
     {
         Home = true;

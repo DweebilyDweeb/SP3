@@ -40,6 +40,12 @@ public:
 	void minusHydration(const float&  value, double dt);
 
 	void calculateHealth();
+
+	friend Attributes operator+ (const Attributes&, const Attributes&);
+	friend Attributes operator- (const Attributes&, const Attributes&);
+	Attributes operator+= (const Attributes& other);
+	Attributes operator-= (const Attributes& other);
+
 protected:
 	float Protein;
 	float Carbohydrates;

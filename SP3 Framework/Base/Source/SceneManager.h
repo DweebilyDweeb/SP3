@@ -20,6 +20,20 @@ enum SCENE_TYPE
 	TOTAL_SCENES
 };
 
+enum SUBSCENE_TYPE
+{
+	SUB_HOME,
+	SUB_COW,
+	SUB_CHICKEN,
+	SUB_FISH,
+	SUB_DRAGON,
+	SUB_WELL,
+	SUB_APPLE,
+	SUB_CABBAGE,
+	SUB_WHEAT,
+	TOTAL_SUBSCENES
+};
+
 class SceneManager : public Singleton<SceneManager>	
 {
 	friend class Singleton<SceneManager>;

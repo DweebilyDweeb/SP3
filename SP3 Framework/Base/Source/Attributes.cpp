@@ -107,3 +107,43 @@ void Attributes::calculateHealth()
 {
 	Health = (Protein * 0.1f) * (Carbohydrates * 0.1f) * (Fats * 0.1f) * (Vitamins * 0.1f) * (Hydration * 0.1f);
 }
+
+Attributes operator+ (const Attributes& lhs, const Attributes& rhs)
+{
+	Attributes temp;
+	temp.setCarbohydrates(lhs.Carbohydrates + rhs.Carbohydrates);
+	temp.setFats(lhs.Fats + rhs.Fats);
+	temp.setHydration(lhs.Hydration + rhs.Hydration);
+	temp.setProtein(lhs.Protein + rhs.Protein);
+	temp.setVitamins(lhs.Vitamins + rhs.Vitamins);
+	return temp;
+}
+
+Attributes operator- (const Attributes& lhs, const Attributes& rhs)
+{
+	Attributes temp;
+	temp.setCarbohydrates(lhs.Carbohydrates - rhs.Carbohydrates);
+	temp.setFats(lhs.Fats - rhs.Fats);
+	temp.setHydration(lhs.Hydration - rhs.Hydration);
+	temp.setProtein(lhs.Protein - rhs.Protein);
+	temp.setVitamins(lhs.Vitamins - rhs.Vitamins);
+	return temp;
+}
+
+Attributes Attributes::operator+= (const Attributes& other)
+{
+	this->Carbohydrates + other.Carbohydrates;
+	this->Fats + other.Fats;
+	this->Hydration + other.Hydration;
+	this->Protein + other.Protein;
+	this->Vitamins + other.Vitamins;
+}
+
+Attributes Attributes::operator-= (const Attributes& other)
+{
+	this->Carbohydrates - other.Carbohydrates;
+	this->Fats - other.Fats;
+	this->Hydration - other.Hydration;
+	this->Protein - other.Protein;
+	this->Vitamins - other.Vitamins;
+}
