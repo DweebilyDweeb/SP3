@@ -160,6 +160,7 @@ void Scene6Well::Update(const double& deltaTime) {
     player.Update(deltaTime);
     camera.Update(deltaTime);
 
+	Scene3D::Update(deltaTime);
 }
 
 void Scene6Well::Render() {

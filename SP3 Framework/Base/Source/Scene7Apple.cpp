@@ -156,6 +156,8 @@ void Scene7Apple::Update(const double& deltaTime) {
 
 		SceneManager::GetInstance().chgCurrEnumScene(COW);
 	}
+
+	Scene3D::Update(deltaTime);
 }
 
 void Scene7Apple::Render() {

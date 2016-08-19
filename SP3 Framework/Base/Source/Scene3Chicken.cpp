@@ -173,6 +173,7 @@ void Scene3Chicken::Update(const double& deltaTime) {
 		Level = 2;*/
 		SceneManager::GetInstance().chgCurrEnumScene(COW);
 	}
+	Scene3D::Update(deltaTime);
 }
 
 void Scene3Chicken::Render() {

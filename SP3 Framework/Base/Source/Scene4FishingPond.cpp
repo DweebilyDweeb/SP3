@@ -165,6 +165,8 @@ void Scene4FishingPond::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
+
+	Scene3D::Update(deltaTime);
 }
 
 void Scene4FishingPond::Render() {

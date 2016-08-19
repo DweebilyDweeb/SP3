@@ -128,7 +128,7 @@ void Scene1House::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_DAUGHTER]->animation->Set(0, 3, 0, 1.f, true);
 
 	
-	InitAttributeUI();
+	
 }
 
 void Scene1House::InitPlayer() {
@@ -180,14 +180,13 @@ void Scene1House::Update(const double& deltaTime) {
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
 
-	UpdateAttributeUI(deltaTime);
+	Scene3D::Update(deltaTime);
 }
 
 void Scene1House::Render() {
 
 	Scene3D::Render();
 	SetToCameraView(&camera);
-	RenderAttributeUI();
 	RenderTileMap();
 	RenderBackground();
 	RenderPlayer();

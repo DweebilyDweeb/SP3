@@ -15,6 +15,7 @@ Scene3D::Scene3D() {
 	referenceAxes = MeshBuilder::GenerateAxes("Reference Axes", 5000000.0f, 5000000.0f, 5000000.0f);
 	fontList[FONT_CONSOLAS] = MeshBuilder::GenerateText("Consolas", 16, 16, "Image//Fonts//Consolas.tga");
 	currentShader = NONE;
+	InitAttributeUI();
 
 }
 
@@ -282,6 +283,7 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 //Update
 
 void Scene3D::Update(const double& deltaTime) {
+	UpdateAttributeUI(deltaTime);
 }
 
 //Things that need to be updated every frame.
@@ -382,6 +384,7 @@ void Scene3D::SetToCameraView(Camera* camera) {
 
 void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	RenderAttributeUI();
 }
 
 void Scene3D::Render2D() {
