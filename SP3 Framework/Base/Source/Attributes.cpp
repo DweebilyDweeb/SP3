@@ -137,6 +137,8 @@ Attributes Attributes::operator+= (const Attributes& other)
 	this->Hydration + other.Hydration;
 	this->Protein + other.Protein;
 	this->Vitamins + other.Vitamins;
+
+	return *this;
 }
 
 Attributes Attributes::operator-= (const Attributes& other)
@@ -146,4 +148,6 @@ Attributes Attributes::operator-= (const Attributes& other)
 	this->Hydration - other.Hydration;
 	this->Protein - other.Protein;
 	this->Vitamins - other.Vitamins;
+
+	return *this;
 }
