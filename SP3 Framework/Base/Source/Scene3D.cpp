@@ -634,7 +634,7 @@ void Scene3D::InitAttributeUI()
 	fatsBar = MeshBuilder::GenerateQuad("fatsBar", Color(1, 0, 1), 1);
 	vitaminsBar = MeshBuilder::GenerateQuad("vitaminsBar", Color(0, 1, 0), 1);
 	healthUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
-	healthUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
+	healthUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health2.tga");
 	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
 
@@ -667,15 +667,17 @@ void Scene3D::RenderAttributeUI()
 	if (!showStats)
 	{
 		if (Application::mother->getHealth() > 0)
-			RenderMeshIn2D(healthBar, Application::mother->getHealth() / 20000, 0.5, -14.5, 10, 5, 0.5);
+			RenderMeshIn2D(healthBar, Application::mother->getHealth() / 20000, 0.5, -14.4, 10.2, 5, 0.5);
 
 		if (Application::son->getHealth() > 0)
-			RenderMeshIn2D(healthBar, Application::son->getHealth() / 20000, 0.5, -14.5, 8, 5, 0.5);
+			RenderMeshIn2D(healthBar, Application::son->getHealth() / 20000, 0.5, -14.4, 8.7, 5, 0.5);
 
 		if (Application::daughter->getHealth() > 0)
-			RenderMeshIn2D(healthBar, Application::daughter->getHealth()/20000, 0.5, -14.5, 6.3, 5, 0.5);
+			RenderMeshIn2D(healthBar, 5, 0.5, -14.4, 7.2, 5, 0.5);
 
-		RenderMeshIn2D(healthUiBackground, 8, 8, -13, 9);
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
 	else
 	{
@@ -743,7 +745,7 @@ bool Scene3D::getDistX(Vector3 one, Vector3 two, float dist)
 	Vector3 temp = one - two;
 	temp.z = 0;
 	temp.y = 0;
-	if (temp.LengthSquared() < dist * dist)
+	if (abs(temp.x) < dist)
 	{
 		return true;
 	}
@@ -758,7 +760,7 @@ bool Scene3D::getDistY(Vector3 one, Vector3 two, float dist)
 	Vector3 temp = one - two;
 	temp.z = 0;
 	temp.x = 0;
-	if (temp.LengthSquared() < dist * dist)
+	if (abs(temp.y) < dist)
 	{
 		return true;
 	}
