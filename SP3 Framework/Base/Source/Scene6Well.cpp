@@ -207,10 +207,6 @@ void Scene6Well::RenderTileMap() {
                 RenderMesh(meshList[GEO_GRASS]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-            case 8:
-                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                RenderMesh(meshList[GEO_GRASS]);
-                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
             case 9:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);

@@ -255,6 +255,7 @@ public:
 
 	//Update
 	virtual void Update(const double& deltaTime);
+	virtual void UpdateSub(const double& deltaTime);
 	virtual	void UpdateLights();
 	virtual void UpdateLightAttributes(unsigned int n);
 	virtual void UseShader(SHADER_TYPE shaderType);
@@ -262,6 +263,7 @@ public:
 	//Rendering
 	virtual void SetToCameraView(Camera* camera, float zoom = 0.f);
 	virtual void Render();
+	virtual void RenderSub();
 	virtual void RenderAxes();
 	virtual void Render3D();
 	virtual void Render2D();
