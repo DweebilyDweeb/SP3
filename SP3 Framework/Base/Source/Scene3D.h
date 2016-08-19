@@ -255,7 +255,7 @@ public:
 
 	//Update
 	virtual void Update(const double& deltaTime);
-	virtual void UpdateSub(const double& deltaTime);
+	virtual void UpdateSub(const double& deltaTime) = 0;
 	virtual	void UpdateLights();
 	virtual void UpdateLightAttributes(unsigned int n);
 	virtual void UseShader(SHADER_TYPE shaderType);

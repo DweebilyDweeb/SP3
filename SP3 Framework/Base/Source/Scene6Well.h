@@ -66,8 +66,10 @@ public:
     //Virtual Function(s)
     virtual void Init();
     virtual void Update(const double& deltaTime);
-    virtual void Render();
-    virtual void Exit();
+	 virtual void UpdateSub(const double& deltaTime){};
+	virtual void Render();
+	virtual void RenderSub(){};
+	virtual void Exit();
 
 };
 

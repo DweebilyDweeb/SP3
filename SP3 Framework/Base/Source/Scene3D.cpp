@@ -424,6 +424,9 @@ void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	RenderAttributeUI();
 }
+void Scene3D::RenderSub() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+}
 
 void Scene3D::Render2D() {
 }
