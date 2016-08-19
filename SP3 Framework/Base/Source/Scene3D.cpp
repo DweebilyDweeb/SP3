@@ -17,7 +17,7 @@ Scene3D::Scene3D() {
 	fontList[FONT_CONSOLAS] = MeshBuilder::GenerateText("Consolas", 16, 16, "Image//Fonts//Consolas.tga");
 	currentShader = NONE;
 	InitAttributeUI();
-	inZoomMode = true;
+	
 	zoomAmount = 1;
 	zoomOffsetY = 0;
 	zoomOffsetX = 0;
@@ -387,7 +387,6 @@ void Scene3D::SetToCameraView(Camera* camera, float zoom) {
 
 			projectionStack.LoadMatrix(perspMatrix);
 		}
-		inZoomMode = false;
 		showStats = false;
 	}
 	else
@@ -418,7 +417,6 @@ void Scene3D::SetToCameraView(Camera* camera, float zoom) {
 
 			projectionStack.LoadMatrix(perspMatrix);
 		}
-		inZoomMode = true;
 	}
 }
 
@@ -652,10 +650,15 @@ void Scene3D::UpdateAttributeUI(const double& deltaTime)
 	Application::son->Update(deltaTime);
 	Application::daughter->Update(deltaTime);
 
-	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES] && inZoomMode == true) {
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
 		showStats = true;
 	}
-	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_SHOW_ATTRIBUTES] && inZoomMode == true){
+	else
+	{
+		showStats = false;
+	}
+
+	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_SHOW_ATTRIBUTES]){
 		showStats = false;
 	}
 }

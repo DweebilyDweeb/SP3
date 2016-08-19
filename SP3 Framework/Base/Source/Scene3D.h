@@ -230,7 +230,6 @@ protected:
 	Mesh* statUiBackground;
 
 	bool showStats;
-	bool inZoomMode;
 
 	float zoomAmount;
 	float zoomOffsetY;
