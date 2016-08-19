@@ -639,6 +639,7 @@ void Scene3D::InitAttributeUI()
 	healthUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
 	healthUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health2.tga");
 	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
+    statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//stats.tga");
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
 
 	Application::mother->Init();
@@ -721,8 +722,9 @@ void Scene3D::RenderAttributeUI()
 			RenderMeshIn2D(fatsBar, Application::daughter->getFats() * 0.05f, 0.5, 6, 0, 5, 0.5);
 		if (Application::daughter->getVitamins() > 0)
 			RenderMeshIn2D(vitaminsBar, Application::daughter->getVitamins() * 0.05f, 0.5, 6, -2, 5, 0.5);
-
+        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderMeshIn2D(statUiBackground, 25, 25);
+        glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
 
 	
