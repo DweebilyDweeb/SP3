@@ -226,9 +226,15 @@ protected:
 	Mesh* hydrationBar; 
 	Mesh* fatsBar; 
 	Mesh* vitaminsBar;
-	Mesh* uiBackground;
+	Mesh* healthUiBackground;
+	Mesh* statUiBackground;
 
 	bool showStats;
+	bool inZoomMode;
+
+	float zoomAmount;
+	float zoomOffsetY;
+	float zoomOffsetX;
 	
 public:
 	//Constructor(s) & Destructor
@@ -255,7 +261,7 @@ public:
 	virtual void UseShader(SHADER_TYPE shaderType);
 
 	//Rendering
-	virtual void SetToCameraView(Camera* camera);
+	virtual void SetToCameraView(Camera* camera, float zoom = 0.f);
 	virtual void Render();
 	virtual void RenderAxes();
 	virtual void Render3D();
@@ -268,11 +274,17 @@ public:
 	virtual void RenderText(Mesh* mesh, std::string text, Color color);
 	virtual void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 
+	bool getDistXY(Vector3 one, Vector3 two, float dist);
+	bool getDistX(Vector3 one, Vector3 two, float dist);
+	bool getDistY(Vector3 one, Vector3 two, float dist);
+
+	void setZoomValues(float zoomAmount, float zoomOffsetX, float zoomOffsetY);
+
 	void InitAttributeUI();
 	void UpdateAttributeUI(const double& deltaTime);
 	void RenderAttributeUI();
 
-
+	
 };
 
 #endif
