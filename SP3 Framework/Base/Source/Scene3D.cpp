@@ -635,7 +635,37 @@ void Scene3D::RenderAttributeUI()
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 		if (Application::mother->getProtein() > 0)
-			RenderMeshIn2D(proteinBar, Application::mother->getProtein() * 0.05f, 0.5, -16, 10, 5, 0.5);
+			RenderMeshIn2D(proteinBar, Application::mother->getProtein() * 0.05f, 0.5, -10, 6, 5, 0.5);
+		if (Application::mother->getCarbohydrates() > 0)
+			RenderMeshIn2D(carbohydratesBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -10, 4, 5, 0.5);
+		if (Application::mother->getHydration() > 0)
+			RenderMeshIn2D(hydrationBar, Application::mother->getHydration() * 0.05f, 0.5, -10, 2, 5, 0.5);
+		if (Application::mother->getFats() > 0)
+			RenderMeshIn2D(fatsBar, Application::mother->getFats() * 0.05f, 0.5, -10, 0, 5, 0.5);
+		if (Application::mother->getVitamins() > 0)
+			RenderMeshIn2D(vitaminsBar, Application::mother->getVitamins() * 0.05f, 0.5, -10, -2, 5, 0.5);
+
+		if (Application::son->getProtein() > 0)
+			RenderMeshIn2D(proteinBar, Application::son->getProtein() * 0.05f, 0.5, -2, 6, 5, 0.5);
+		if (Application::son->getCarbohydrates() > 0)
+			RenderMeshIn2D(carbohydratesBar, Application::son->getCarbohydrates() * 0.05f, 0.5, -2, 4, 5, 0.5);
+		if (Application::son->getHydration() > 0)
+			RenderMeshIn2D(hydrationBar, Application::son->getHydration() * 0.05f, 0.5, -2, 2, 5, 0.5);
+		if (Application::son->getFats() > 0)
+			RenderMeshIn2D(fatsBar, Application::son->getFats() * 0.05f, 0.5, -2, 0, 5, 0.5);
+		if (Application::son->getVitamins() > 0)
+			RenderMeshIn2D(vitaminsBar, Application::son->getVitamins() * 0.05f, 0.5, -2, -2, 5, 0.5);
+
+		if (Application::daughter->getProtein() > 0)
+			RenderMeshIn2D(proteinBar, Application::daughter->getProtein() * 0.05f, 0.5, 6, 6, 5, 0.5);
+		if (Application::daughter->getCarbohydrates() > 0)
+			RenderMeshIn2D(carbohydratesBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 6, 4, 5, 0.5);
+		if (Application::daughter->getHydration() > 0)
+			RenderMeshIn2D(hydrationBar, Application::daughter->getHydration() * 0.05f, 0.5, 6, 2, 5, 0.5);
+		if (Application::daughter->getFats() > 0)
+			RenderMeshIn2D(fatsBar, Application::daughter->getFats() * 0.05f, 0.5, 6, 0, 5, 0.5);
+		if (Application::daughter->getVitamins() > 0)
+			RenderMeshIn2D(vitaminsBar, Application::daughter->getVitamins() * 0.05f, 0.5, 6, -2, 5, 0.5);
 
 		RenderMeshIn2D(uiBackground, 25, 25);
 	}
