@@ -44,7 +44,7 @@ private:
 	void InitMeshes();
 	void InitSpriteAnimations();
 	void InitCamera();
-	virtual void InitPlayer();
+	void InitPlayer();
 
 	void RenderTileMap();
 	void RenderPlayer();

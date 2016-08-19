@@ -123,22 +123,22 @@ void Scene3Chicken::InitPlayer() {
 
 	player.SetTileMap(tileMap);
 
-    for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-        for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-            if (SceneManager::GetInstance().getPrevScene() == COW)
-            {
-                if (tileMap.map[row][col] == 99) {
-                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-                }
-            }
-            if (SceneManager::GetInstance().getPrevScene() == FISH)
-            {
-                if (tileMap.map[row][col] == 100) {
-                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-                }
-            }
-        }
-    }
+	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
+		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
+			if (SceneManager::GetInstance().getPrevScene() == COW)
+			{
+				if (tileMap.map[row][col] == 99) {
+					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+				}
+			}
+			if (SceneManager::GetInstance().getPrevScene() == FISH)
+			{
+				if (tileMap.map[row][col] == 100) {
+					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+				}
+			}
+		}
+	}
 }
 
 void Scene3Chicken::InitCamera() {
@@ -159,6 +159,20 @@ void Scene3Chicken::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
+	if (player.transform.position.y < 1){
+
+		/*	tileMap.LoadFile("TileMap//Map2.csv");
+		tileMap.SetTileSize(1.0f);
+		for (int row = 0; row < tileMap.GetNumRows(); ++row) {
+		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
+		if (tileMap.map[row][col] == 99) {
+		player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+		}
+		}
+		}
+		Level = 2;*/
+		SceneManager::GetInstance().chgCurrEnumScene(COW);
+	}
 }
 
 void Scene3Chicken::Render() {

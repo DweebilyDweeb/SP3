@@ -16,7 +16,8 @@ private:
 		GEO_EMPTY,
 		GEO_DIRT,
 		GEO_GRASS,
-		GEO_BACKGROUND_1,
+		GEO_WHEAT,
+		GEO_CORN,
 		GEO_BACKGROUND_2,
 		GEO_BACKGROUND_3,
 
@@ -31,9 +32,8 @@ private:
 		SPRITE_PLAYER_IDLE,
 		SPRITE_PLAYER_JUMP,
 		SPRITE_PORTAL,
-		SPRITE_MOTHER,
-		SPRITE_SON,
-		SPRITE_DAUGHTER,
+		SPRITE_WATER,
+
 		NUM_SPRITE,
 	};
 
@@ -45,7 +45,7 @@ private:
 	void InitMeshes();
 	void InitSpriteAnimations();
 	void InitCamera();
-	virtual void InitPlayer();
+	void InitPlayer();
 
 	void RenderTileMap();
 	void RenderPlayer();
