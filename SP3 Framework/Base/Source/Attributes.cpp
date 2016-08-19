@@ -146,7 +146,7 @@ Attributes Attributes::operator-= (const Attributes& other)
 	this->Carbohydrates - other.Carbohydrates;
 	this->Fats - other.Fats;
 	this->Hydration - other.Hydration;
-	this->Protein - other.Protein;
+	this->Protein - other.Protein;   
 	this->Vitamins - other.Vitamins;
 
 	return *this;

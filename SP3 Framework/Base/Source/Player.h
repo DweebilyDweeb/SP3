@@ -26,6 +26,7 @@ protected:
 	bool CheckCollisionDown();
 	
     int CheckPortal();
+	bool CheckTrigger();
 
 	TileMap* tileMap;
 
