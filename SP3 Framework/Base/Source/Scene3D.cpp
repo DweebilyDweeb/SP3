@@ -29,6 +29,13 @@ void Scene3D::Exit() {
 	glDeleteVertexArrays(1, &vertexArrayID);
 	delete referenceAxes;
 	delete fontList[FONT_CONSOLAS];
+	delete healthBar;
+	delete proteinBar;
+	delete carbohydratesBar;
+	delete hydrationBar;
+	delete fatsBar;
+	delete vitaminsBar;
+	delete uiBackground;
 
 }
 
