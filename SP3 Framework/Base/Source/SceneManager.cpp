@@ -8,7 +8,7 @@
 #include "Scene7Apple.h"
 #include "Scene8Cabbage.h"
 #include "Scene9Wheat.h"
-
+#include "Sound.h"
 
 SceneManager::~SceneManager() 
 {
@@ -16,6 +16,12 @@ SceneManager::~SceneManager()
 
 void SceneManager::Init()
 {
+    Home = true;
+    World = false;
+    Dragon = false;
+
+
+
     sceneList[HOME] = new Scene1House;
     sceneList[COW] = new Scene2Cow;
     sceneList[CHICKEN] = new Scene3Chicken;
@@ -28,6 +34,38 @@ void SceneManager::Init()
 
     setPrevScene(WHEAT);
     sceneType = HOME;
+    if (sceneType == HOME)
+    {
+        Home = true;
+        World = false;
+        Dragon = false;
+    }
+    if (sceneType == COW || sceneType == CHICKEN || sceneType == FISH || sceneType == WELL || sceneType == APPLE || sceneType == CABBAGE || sceneType == WHEAT)
+    {
+        Home = false;
+        World = true;
+        Dragon = false;
+        
+    }
+    if (sceneType == DRAGON)
+    {
+        Home = false;
+        World = false;
+        Dragon = true;
+    }
+    if (Home == true)
+    {
+        PlayHome();
+    }
+
+    if (World == true)
+    {
+        PlayWorld();
+    }
+    if (Dragon == true)
+    {
+        PlayDragon();
+    }
 
     for (int i = 0; i < TOTAL_SCENES; ++i)
     {

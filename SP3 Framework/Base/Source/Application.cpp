@@ -187,7 +187,7 @@ void Application::Exit() {
     delete mother;
     delete son;
     delete daughter;
-    //Sound Enginexxxxxxxxxxxxx++++++++++
+    //Sound Engine
     DeleteEngine();
     //Close OpenGL window and terminate GLFW
     glfwDestroyWindow(m_window);

@@ -9,6 +9,7 @@
 #include "GenerateRange.h"
 #include "Collision.h"
 #include "Application.h"
+#include "SceneManager.h"
 
 Scene8Cabbage::Scene8Cabbage() {
 }
@@ -27,6 +28,7 @@ void Scene8Cabbage::Exit() {
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
 		if (spriteAnimationList[i]) {
 			//delete spriteAnimationList[i];
+			delete spriteAnimationList[i];
 		}
 	}
 
@@ -65,45 +67,24 @@ void Scene8Cabbage::InitMeshes() {
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		meshList[i] = nullptr;
 	}
-
-	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("Player", Color(1, 1, 1), 1);
 	//meshList[GEO_PLAYER] = MeshBuilder::Generate2DTile("Player", Color(1, 1, 1), 1);
-	meshList[GEO_PLAYER]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Balls//Ball_Loco.tga");
 
 	//meshList[GEO_TILE_BRICK] = MeshBuilder::Generate2DTile("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_TILE_BRICK] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_TILE_BRICK]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Tiles//Tile_Leaf2.tga");
 
-	meshList[GEO_SPIKE] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_SPIKE]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Items//Item_Spike.tga");
+	meshList[GEO_DIRT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
 
-	meshList[GEO_BOUNCE] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_BOUNCE]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Items//Item_Bounce.tga");
-
-	meshList[GEO_PORTAL] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_PORTAL]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Items//Item_Portal.tga");
-
-	meshList[GEO_FLAG] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_FLAG]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Tiles//Tile_Flag.tga");
-
-	meshList[GEO_POLE] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_POLE]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Tiles//Tile_Pole.tga");
-
-	meshList[GEO_BLOCK] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_BLOCK]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Tiles//Tile_Block.tga");
+	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
 
 	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
-	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Backgrounds//trees.tga");
+	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//house.tga");
 
 	meshList[GEO_BACKGROUND_2] = MeshBuilder::GenerateQuad("Background2", Color(1, 1, 1), 0.7);
-	meshList[GEO_BACKGROUND_2]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Backgrounds//trees2.tga");
+	meshList[GEO_BACKGROUND_2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//mountains.tga");
 
 	meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
-	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Backgrounds//trees1.tga");
-
-	meshList[SPRITE_PENGUIN] = MeshBuilder::GenerateSpriteAnimation("Penguin", 8, 8);
-	meshList[SPRITE_PENGUIN]->textureArray[0] = LoadTGA("Image//Game_Dev_Asn2//Items//Item_Penguin.tga");
-
+	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
 
 }
 
@@ -112,12 +93,43 @@ void Scene8Cabbage::InitSpriteAnimations() {
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
 		spriteAnimationList[i] = nullptr;
 	}
-	spriteAnimationList[SPRITE_PENGUIN] = dynamic_cast<SpriteAnimation*>(meshList[SPRITE_PENGUIN]);
-	if (spriteAnimationList[SPRITE_PENGUIN])
-	{
-		spriteAnimationList[SPRITE_PENGUIN]->animation = new Animation();
-		spriteAnimationList[SPRITE_PENGUIN]->animation->Set(0, 63, 0, 5.f, true);
-	}
+
+	spriteAnimationList[SPRITE_PLAYER] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 4);
+	spriteAnimationList[SPRITE_PLAYER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player.tga");
+	spriteAnimationList[SPRITE_PLAYER]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER]->animation->Set(0, 3, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_PLAYER_IDLE] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 2);
+	spriteAnimationList[SPRITE_PLAYER_IDLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_idle.tga");
+	spriteAnimationList[SPRITE_PLAYER_IDLE]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_IDLE]->animation->Set(0, 1, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_PLAYER_JUMP] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 1);
+	spriteAnimationList[SPRITE_PLAYER_JUMP]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_jump.tga");
+	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation->Set(0, 0, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_PORTAL] = MeshBuilder::GenerateSpriteAnimation("portal", 1, 4);
+	spriteAnimationList[SPRITE_PORTAL]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//portal.tga");
+	spriteAnimationList[SPRITE_PORTAL]->animation = new Animation();
+	spriteAnimationList[SPRITE_PORTAL]->animation->Set(0, 3, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_MOTHER] = MeshBuilder::GenerateSpriteAnimation("mother", 1, 4);
+	spriteAnimationList[SPRITE_MOTHER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//mother.tga");
+	spriteAnimationList[SPRITE_MOTHER]->animation = new Animation();
+	spriteAnimationList[SPRITE_MOTHER]->animation->Set(0, 3, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_SON] = MeshBuilder::GenerateSpriteAnimation("son", 1, 4);
+	spriteAnimationList[SPRITE_SON]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//son.tga");
+	spriteAnimationList[SPRITE_SON]->animation = new Animation();
+	spriteAnimationList[SPRITE_SON]->animation->Set(0, 3, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_DAUGHTER] = MeshBuilder::GenerateSpriteAnimation("daughter", 1, 4);
+	spriteAnimationList[SPRITE_DAUGHTER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//daughter.tga");
+	spriteAnimationList[SPRITE_DAUGHTER]->animation = new Animation();
+	spriteAnimationList[SPRITE_DAUGHTER]->animation->Set(0, 3, 0, 1.f, true);
+
+
 
 }
 
@@ -155,12 +167,15 @@ void Scene8Cabbage::Update(const double& deltaTime) {
 
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i)
 	{
+
 		spriteAnimationList[i]->Update(deltaTime);
 		spriteAnimationList[i]->animation->animActive = true;
 	}
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
+
+	
 }
 
 void Scene8Cabbage::Render() {
@@ -192,42 +207,35 @@ void Scene8Cabbage::RenderTileMap() {
 			modelStack.Scale(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
 			switch (tileMap.map[row][col]) {
 			case 1:
-				RenderMesh(meshList[GEO_TILE_BRICK]);
+				RenderMesh(meshList[GEO_DIRT]);
 				break;
 			case 2:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_PENGUIN]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				RenderMesh(meshList[GEO_GRASS]);
 				break;
 			case 3:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderMesh(meshList[GEO_SPIKE]);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 4:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderMesh(meshList[GEO_BOUNCE]);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 5:
+			case 20:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderMesh(meshList[GEO_PORTAL]);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_DAUGHTER]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 6:
+			case 21:
+				housePos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -20);
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Translate(0, drop, 0);
-				RenderMesh(meshList[GEO_FLAG]);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_MOTHER]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 7:
+			case 22:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderMesh(meshList[GEO_POLE]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				break;
-			case 8:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderMesh(meshList[GEO_BLOCK]);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_SON]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			}
@@ -241,33 +249,23 @@ void Scene8Cabbage::RenderTileMap() {
 void Scene8Cabbage::RenderPlayer() {
 
 	modelStack.PushMatrix();
-	modelStack.Translate(player.transform.position.x, player.transform.position.y, player.transform.position.z);
-	modelStack.Rotate(player.transform.rotation.z, 0, 0, 1);
-	modelStack.Scale(player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
-	RenderMesh(meshList[GEO_PLAYER]);
+	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.1f, player.transform.position.z);
+	//modelStack.Rotate(player.transform.rotation.z, 0, 0, 1);
+	if (player.getInvert())
+		modelStack.Scale(-player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
+	else
+		modelStack.Scale(player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
+	if (player.playerState == Player::WALKING)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false, player.getInvert());
+	else if (player.playerState == Player::IDLE)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
+	else if (player.playerState == Player::JUMPING)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
 	modelStack.PopMatrix();
 
 }
 
 void Scene8Cabbage::RenderText() {
-
-
-	std::ostringstream ssred;
-	ssred.precision(10);
-	ssred << "x" << player.score;
-
-	RenderMeshIn2D(meshList[SPRITE_PENGUIN], 2.0f, camera.aspectRatio.x * -3.5f, camera.aspectRatio.y * 3.5f, 0.0f, 0.0f, 0.0f);
-	RenderTextOnScreen(fontList[FONT_CONSOLAS], ssred.str(), Color(1, 1, 0.2), 1.5, camera.aspectRatio.x * -3.2f, camera.aspectRatio.y * 3.2f);
-	if (drop < -14 && Level)
-	{
-		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-		modelStack.Translate(16, 16, 20);
-		modelStack.Scale(10, 10, 10);
-		RenderSpriteAnimation(spriteAnimationList[SPRITE_PENGUIN]);
-		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "YOU WIN", Color(0, 0, 1), 4, camera.aspectRatio.x  * -3.2f, camera.aspectRatio.y * -2.2f);
-	}
 
 
 }
@@ -279,12 +277,13 @@ void Scene8Cabbage::RenderBackground()
 	float backgroundScaleX = camWidth * 2.0f;
 	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
 
-
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
-	modelStack.Translate(camera.transform.position.x, camera.transform.position.y, -50);
-	modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
+	modelStack.Translate(housePos.x, housePos.y + 2, housePos.z);
+	modelStack.Scale(10, 10, 1);
 	RenderMesh(meshList[GEO_BACKGROUND_1], false);
 	modelStack.PopMatrix();
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 	for (int i = 0; i < 5; ++i)
 	{
@@ -304,3 +303,5 @@ void Scene8Cabbage::RenderBackground()
 		modelStack.PopMatrix();
 	}
 }
+
+

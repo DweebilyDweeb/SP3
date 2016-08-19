@@ -14,26 +14,26 @@ void Play()
 	engine->play2D("Audio/BGM/BGM.mp3", true);
 }
 
-void Play2()
+void PlayHome()
 {
-    if (engine->isCurrentlyPlaying("Audio/Sprint.wav"))
+    if (engine->isCurrentlyPlaying("Audio/BGM/Home.mp3"))
         return;
-    engine->play2D("Audio/Sprint.wav", false);
+    engine->play2D("Audio/BGM/Home.mp3", true);
 }
 
-void Play3()
+void PlayWorld()
 {
-    if (engine->isCurrentlyPlaying("Audio/AK.wav"))
+    if (engine->isCurrentlyPlaying("Audio/BGM/World.mp3"))
         return;
-    engine->play2D("Audio/AK.wav", false);
+    engine->play2D("Audio/BGM/World.mp3", true);
 }
 
 
-void Play4()
+void PlayDragon()
 {
-    if (engine->isCurrentlyPlaying("Audio/Jump.wav"))
+    if (engine->isCurrentlyPlaying("Audio/BGM/Dragon.mp3"))
         return;
-    engine->play2D("Audio/Jump.wav", false);
+    engine->play2D("Audio/BGM/Dragon.mp3", true);
 }
 
 void Play5()

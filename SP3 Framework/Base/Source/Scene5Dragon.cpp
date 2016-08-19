@@ -137,9 +137,6 @@ void Scene5Dragon::InitPlayer() {
             }
         }
     }
-
-
-
 }
 
 void Scene5Dragon::InitCamera() {
@@ -161,20 +158,7 @@ void Scene5Dragon::Update(const double& deltaTime) {
 
     player.Update(deltaTime);
     camera.Update(deltaTime);
-    //if (player.transform.position.y < 1){
-
-    //    tileMap.LoadFile("TileMap//Scene5Dragon.csv");
-    //    tileMap.SetTileSize(1.0f);
-    //    for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-    //        for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-    //            if (tileMap.map[row][col] == 99) {
-    //                player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-    //            }
-    //        }
-    //    }
-    //    Level = 2;
-    //}
-
+  
 }
 
 void Scene5Dragon::Render() {

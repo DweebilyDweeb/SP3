@@ -49,6 +49,10 @@ private:
 	SCENE_TYPE sceneType;
 	SCENE_TYPE prevScene;
 	Scene3D* sceneList[TOTAL_SCENES];
+
+    bool Home;
+    bool World;
+    bool Dragon;
 };
 
 #endif //SCENE_MANAGER_H

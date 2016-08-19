@@ -412,11 +412,6 @@ bool Player::CheckCollisionDown() {
 		}
 	}
 
-    for (size_t i = 0; i < portal.size(); ++i) {
-        if (portal[i] == tileMap->map[tileY][tileX]) {
-            return true;
-        }
-    }
    
    /* for (size_t i = 0; i < collectibles.size(); ++i) {
         if (collectibles[i] == tileMap->map[tileY][tileX]) {

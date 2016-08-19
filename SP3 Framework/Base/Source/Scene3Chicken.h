@@ -14,13 +14,9 @@ private:
 	enum GEOMETRY_TYPE {
 		//Tiles
 		GEO_EMPTY,
-		GEO_TILE_BRICK,
-		GEO_SPIKE,
-		GEO_BOUNCE,
-		GEO_PORTAL,
-		GEO_FLAG,
-		GEO_POLE,
-		GEO_BLOCK,
+		GEO_DIRT,
+		GEO_GRASS,
+		GEO_FENCE,
 		GEO_BACKGROUND_1,
 		GEO_BACKGROUND_2,
 		GEO_BACKGROUND_3,
@@ -32,8 +28,11 @@ private:
 	};
 
 	enum SPRITE_TYPE {
-		SPRITE_PENGUIN,
-
+		SPRITE_CHICKEN,
+		SPRITE_PLAYER,
+		SPRITE_PLAYER_IDLE,
+		SPRITE_PLAYER_JUMP,
+		SPRITE_PORTAL,
 		NUM_SPRITE,
 	};
 
@@ -57,6 +56,8 @@ private:
 
 	float drop;
 	int Level;
+
+	Vector3 housePos;
 
 public:
 	//Constructor(s) & Destructor
