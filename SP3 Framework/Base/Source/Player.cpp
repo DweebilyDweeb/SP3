@@ -69,52 +69,6 @@ bool Player::CheckCollisionLeft() {
 		}
 	}
 
-    /*for (size_t i = 0; i < collectibles.size(); ++i) {
-        if (collectibles[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 2)
-            {
-                tileMap->map[tileY][tileX] = 0;
-                score++;
-                break;
-            }
-        }
-
-    }
-
-    for (size_t i = 0; i < spikes.size(); ++i) {
-        if (spikes[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 3)
-            {
-                tileMap->map[tileY][tileX] = 0;
-                score -= 10;
-                break;
-            }
-        }
-
-    }
-
-    for (size_t i = 0; i < bounce.size(); ++i) {
-        if (bounce[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 4)
-            {
-                Player::velocity.y += 200 * tileMap->GetTileSize();
-                break;
-            }
-        }
-
-    }
-
-    for (size_t i = 0; i < portal.size(); ++i) {
-        if (portal[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 5)
-            {
-                Player::Level = 2;
-                break;
-            }
-        }
-
-    }*/
-
 	Vector3 pointB(transform.position.x - transform.scale.x * 0.5f, transform.position.y - (transform.scale.y * hotspotOffset), 0);
 	//The reason we +0.5f is because we need to round off the number.
 	tileX = tileMap->GetTileX(pointB.x);
@@ -131,51 +85,7 @@ bool Player::CheckCollisionLeft() {
 		if (collidables[i] == tileMap->map[tileY][tileX]) {
 			return true;
 		}
-	}/*for (size_t i = 0; i < collectibles.size(); ++i) {
-		if (collectibles[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 2)
-			{
-				tileMap->map[tileY][tileX] = 0;
-				score++;
-				break;
-			}
-		}
-
 	}
-
-	for (size_t i = 0; i < spikes.size(); ++i) {
-		if (spikes[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 3)
-			{
-				tileMap->map[tileY][tileX] = 0;
-				score -= 10;
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < bounce.size(); ++i) {
-		if (bounce[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 4)
-			{
-				Player::velocity.y += 200 * tileMap->GetTileSize();
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < portal.size(); ++i) {
-		if (portal[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 5)
-			{
-				Player::Level = 2;
-				break;
-			}
-		}
-
-	}*/
 	return false;
 
 }
@@ -210,52 +120,6 @@ bool Player::CheckCollisionRight() {
 			return true;
 		}
 	}
-   
-    /*for (size_t i = 0; i < collectibles.size(); ++i) {
-		if (collectibles[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 2)
-			{
-				tileMap->map[tileY][tileX] = 0;
-				score++;
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < spikes.size(); ++i) {
-		if (spikes[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 3)
-			{
-				tileMap->map[tileY][tileX] = 0;
-				score -= 10;
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < bounce.size(); ++i) {
-		if (bounce[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 4)
-			{
-				Player::velocity.y += 200 * tileMap->GetTileSize();
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < portal.size(); ++i) {
-		if (portal[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 5)
-			{
-				Player::Level = 2;
-				break;
-			}
-		}
-
-	}*/
 
 	Vector3 pointB(transform.position.x + (transform.scale.x * 0.5f), transform.position.y - (transform.scale.y * hotspotOffset), 0);
 	tileX = tileMap->GetTileX(pointB.x);
@@ -274,46 +138,6 @@ bool Player::CheckCollisionRight() {
 		}
 	}
   
-   /* for (size_t i = 0; i < collectibles.size(); ++i) {
-        if (collectibles[i] == tileMap->map[tileY][tileX]) {
-            tileMap->map[tileY][tileX] = 0;
-            score++;
-            break;
-        }
-    }
-    for (size_t i = 0; i < spikes.size(); ++i) {
-        if (spikes[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 3)
-            {
-                tileMap->map[tileY][tileX] = 0;
-                score -= 10;
-                break;
-            }
-        }
-
-    }
-
-    for (size_t i = 0; i < bounce.size(); ++i) {
-        if (bounce[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 4)
-            {
-				Player::velocity.y += 200 * tileMap->GetTileSize();
-                break;
-            }
-        }
-
-    }
-
-    for (size_t i = 0; i < portal.size(); ++i) {
-        if (portal[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 5)
-            {
-                Player::Level = 2;
-                break;
-            }
-        }
-
-    }*/
 	return false;
 
 }
@@ -348,52 +172,6 @@ bool Player::CheckCollisionDown() {
 			return true;
 		}
 	}
-    
-    /*for (size_t i = 0; i < collectibles.size(); ++i) {
-		if (collectibles[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 2)
-			{
-				tileMap->map[tileY][tileX] = 0;
-				score++;
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < spikes.size(); ++i) {
-		if (spikes[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 3)
-			{
-				tileMap->map[tileY][tileX] = 0;
-				score -= 10;
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < bounce.size(); ++i) {
-		if (bounce[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 4)
-			{
-				Player::velocity.y += 200 * tileMap->GetTileSize();
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < portal.size(); ++i) {
-		if (portal[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 5)
-			{
-				Player::Level = 2;
-				break;
-			}
-		}
-
-	}*/
 
 	Vector3 pointB(transform.position.x + (transform.scale.x * hotspotOffset), transform.position.y - (transform.scale.y * 0.5f), 0);
 	tileX = tileMap->GetTileX(pointB.x);
@@ -412,47 +190,6 @@ bool Player::CheckCollisionDown() {
 		}
 	}
 
-   
-   /* for (size_t i = 0; i < collectibles.size(); ++i) {
-        if (collectibles[i] == tileMap->map[tileY][tileX]) {
-            tileMap->map[tileY][tileX] = 0;
-            score++;
-            break;
-        }
-    }
-    for (size_t i = 0; i < spikes.size(); ++i) {
-        if (spikes[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 3)
-            {
-                tileMap->map[tileY][tileX] = 0;
-                score -= 10;
-                break;
-            }
-        }
-
-    }
-
-    for (size_t i = 0; i < bounce.size(); ++i) {
-        if (bounce[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 4)
-            {
-				Player::velocity.y += 200 * tileMap->GetTileSize();
-                break;
-            }
-        }
-
-    }
-
-    for (size_t i = 0; i < portal.size(); ++i) {
-        if (portal[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 5)
-            {
-                Player::Level = 2;
-                break;
-            }
-        }
-
-    }*/
 	return false;
 
 }
@@ -487,52 +224,6 @@ bool Player::CheckCollisionUp() {
 			return true;
 		}
 	}
-   
-    /*for (size_t i = 0; i < collectibles.size(); ++i) {
-		if (collectibles[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 2)
-			{
-				tileMap->map[tileY][tileX] = 0;
-				score++;
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < spikes.size(); ++i) {
-		if (spikes[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 3)
-			{
-				tileMap->map[tileY][tileX] = 0;
-				score -= 10;
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < bounce.size(); ++i) {
-		if (bounce[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 4)
-			{
-				Player::velocity.y += 200 * tileMap->GetTileSize();
-				break;
-			}
-		}
-
-	}
-
-	for (size_t i = 0; i < portal.size(); ++i) {
-		if (portal[i] == tileMap->map[tileY][tileX]) {
-			if (tileMap->map[tileY][tileX] == 5)
-			{
-				Player::Level = 2;
-				break;
-			}
-		}
-
-	}*/
 
 	Vector3 pointB(transform.position.x + (transform.scale.x * hotspotOffset), transform.position.y + (transform.scale.y * 0.5f), 0);
 	tileX = tileMap->GetTileX(pointB.x);
@@ -550,47 +241,7 @@ bool Player::CheckCollisionUp() {
 			return true;
 		}
 	}
-    
-    /*for (size_t i = 0; i < collectibles.size(); ++i) {
-        if (collectibles[i] == tileMap->map[tileY][tileX]) {
-            tileMap->map[tileY][tileX] = 0;
-            score++;
-            break;
-        }
-    }
-    for (size_t i = 0; i < spikes.size(); ++i) {
-        if (spikes[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 3)
-            {
-                tileMap->map[tileY][tileX] = 0;
-                score -= 10;
-                break;
-            }
-        }
-
-    }
-
-    for (size_t i = 0; i < bounce.size(); ++i) {
-        if (bounce[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 4)
-            {
-				Player::velocity.y += 200 * tileMap->GetTileSize();
-                break;
-            }
-        }
-
-    }
-
-    for (size_t i = 0; i < portal.size(); ++i) {
-        if (portal[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 5)
-            {
-                Player::Level = 2;
-                break;
-            }
-        }
-
-    }*/
+   
 	return false;
 
 }
@@ -639,6 +290,17 @@ int Player::CheckPortal() {
         }
     }
     return 0;
+}
+
+bool Player::CheckTrigger() {
+	int tileX = tileMap->GetTileX(transform.position.x);
+	int tileY = tileMap->GetTileY(transform.position.y);
+	if (tileMap->map[tileY][tileX] == TILE_CHICKEN || 
+		tileMap->map[tileY][tileX] == TILE_COW     ||
+		tileMap->map[tileY][tileX] == TILE_TRIGGER) {
+		return true;
+	}
+	return false;
 }
 
 float Player::GetHotspotCentre() {

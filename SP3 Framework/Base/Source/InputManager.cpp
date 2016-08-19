@@ -90,6 +90,15 @@ void InputManager::Update() {
 		inputInfo.keyValue[INPUT_SHOW_ATTRIBUTES] = 1.0f;
 	}
 
+	if (keyboard.IsKeyPressed('E')) {
+		inputInfo.keyDown[INPUT_INTERACT] = 1;
+		inputInfo.keyValue[INPUT_INTERACT] = 1.0f;
+	}
+	if (keyboard.IsKeyReleased('E')){
+		inputInfo.keyReleased[INPUT_INTERACT] = 1;
+		inputInfo.keyValue[INPUT_INTERACT] = 1.0f;
+	}
+
 	/********************************************************************************************************************/
 	//Do not touch anything below unless you know what you're doing.
 	/********************************************************************************************************************/

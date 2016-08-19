@@ -19,7 +19,7 @@ void SceneManager::Init()
     Home = true;
     World = false;
     Dragon = false;
-
+	subScene = false;
 
 
     sceneList[HOME] = new Scene1House;
@@ -94,6 +94,16 @@ void SceneManager::setPrevScene(SCENE_TYPE prev)
 SCENE_TYPE SceneManager::getPrevScene() const
 {
 	return prevScene;
+}
+
+void SceneManager::setSubScene()
+{
+	subScene = !subScene;
+}
+
+bool SceneManager::getSubScene() const
+{
+	return subScene;
 }
 
 void SceneManager::Update(double dt)
