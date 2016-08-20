@@ -31,6 +31,13 @@ void Scene4FishingPond::Exit() {
 		}
 	}
 
+	while (m_foList.size() > 0)
+	{
+		FishObject *fo = m_foList.back();
+		delete fo;
+		m_foList.pop_back();
+	}
+
 	Scene3D::Exit();
 }
 
@@ -83,6 +90,9 @@ void Scene4FishingPond::InitMeshes() {
 
 	meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
 	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
+
+	meshList[GEO_TROUT] = MeshBuilder::GenerateQuad("trout", Color(1, 1, 1), 0.4);
+	meshList[GEO_TROUT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//fish.tga");
 
 }
 
@@ -173,6 +183,14 @@ void Scene4FishingPond::Render() {
 
 	Scene3D::Render();
 	SetToCameraView(&camera);
+	for (std::vector<FishObject *>::iterator it = m_foList.begin(); it != m_foList.end(); ++it)
+	{
+		FishObject *fo = (FishObject *)*it;
+		if (fo->active)
+		{
+			RenderFO(fo);
+		}
+	}
 	RenderTileMap();
 	RenderBackground();
 	RenderPlayer();
@@ -288,3 +306,41 @@ void Scene4FishingPond::RenderBackground()
 }
 
 
+FishObject* Scene4FishingPond::FetchFO()
+{
+	for (std::vector<FishObject *>::iterator it = m_foList.begin(); it != m_foList.end(); ++it)
+	{
+		FishObject *fo = (FishObject *)*it;
+		if (!fo->active)
+		{
+			fo->active = true;
+			//m_objectCount;
+			return fo;
+		}
+	}
+	for (unsigned i = 0; i < 10; ++i)
+	{
+		FishObject *fo = new FishObject(FishObject::FT_TROUT);
+		m_foList.push_back(fo);
+	}
+	FishObject *fo = m_foList.back();
+	fo->active = true;
+	//++m_objectCount;
+	return fo;
+}
+
+void Scene4FishingPond::RenderFO(FishObject *fo)
+{
+	switch (fo->type)
+	{
+	case FishObject::FT_TROUT:
+		modelStack.PushMatrix();
+		modelStack.Translate(fo->pos.x, fo->pos.y, fo->pos.z);
+		modelStack.Rotate(fo->rotation, 0, 0, 1);
+		modelStack.Scale(fo->scale.x, fo->scale.y, fo->scale.z);
+		RenderMesh(meshList[GEO_TROUT], false);
+		modelStack.PopMatrix();
+		break;
+	
+	}
+}
