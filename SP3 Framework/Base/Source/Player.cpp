@@ -68,6 +68,16 @@ bool Player::CheckCollisionLeft() {
 			return true;
 		}
 	}
+    for (size_t i = 0; i < bounce.size(); ++i) {
+        if (bounce[i] == tileMap->map[tileY][tileX]) {
+            if (tileMap->map[tileY][tileX] == 7)
+            {
+                Player::velocity.y += 200 * tileMap->GetTileSize();
+                break;
+            }
+        }
+
+    }
 
 	Vector3 pointB(transform.position.x - transform.scale.x * 0.5f, transform.position.y - (transform.scale.y * hotspotOffset), 0);
 	//The reason we +0.5f is because we need to round off the number.
@@ -86,6 +96,16 @@ bool Player::CheckCollisionLeft() {
 			return true;
 		}
 	}
+    for (size_t i = 0; i < bounce.size(); ++i) {
+        if (bounce[i] == tileMap->map[tileY][tileX]) {
+            if (tileMap->map[tileY][tileX] == 7)
+            {
+                Player::velocity.y += 200 * tileMap->GetTileSize();
+                break;
+            }
+        }
+
+    }
 	return false;
 
 }
@@ -120,6 +140,16 @@ bool Player::CheckCollisionRight() {
 			return true;
 		}
 	}
+    for (size_t i = 0; i < bounce.size(); ++i) {
+        if (bounce[i] == tileMap->map[tileY][tileX]) {
+            if (tileMap->map[tileY][tileX] == 7)
+            {
+                Player::velocity.y += 200 * tileMap->GetTileSize();
+                break;
+            }
+        }
+
+    }
 
 	Vector3 pointB(transform.position.x + (transform.scale.x * 0.5f), transform.position.y - (transform.scale.y * hotspotOffset), 0);
 	tileX = tileMap->GetTileX(pointB.x);
@@ -137,6 +167,16 @@ bool Player::CheckCollisionRight() {
 			return true;
 		}
 	}
+    for (size_t i = 0; i < bounce.size(); ++i) {
+        if (bounce[i] == tileMap->map[tileY][tileX]) {
+            if (tileMap->map[tileY][tileX] == 7)
+            {
+                Player::velocity.y += 200 * tileMap->GetTileSize();
+                break;
+            }
+        }
+
+    }
   
 	return false;
 
@@ -172,6 +212,16 @@ bool Player::CheckCollisionDown() {
 			return true;
 		}
 	}
+    for (size_t i = 0; i < bounce.size(); ++i) {
+        if (bounce[i] == tileMap->map[tileY][tileX]) {
+            if (tileMap->map[tileY][tileX] == 7)
+            {
+                Player::velocity.y += 200 * tileMap->GetTileSize();
+                break;
+            }
+        }
+
+    }
 
 	Vector3 pointB(transform.position.x + (transform.scale.x * hotspotOffset), transform.position.y - (transform.scale.y * 0.5f), 0);
 	tileX = tileMap->GetTileX(pointB.x);
@@ -189,6 +239,16 @@ bool Player::CheckCollisionDown() {
 			return true;
 		}
 	}
+    for (size_t i = 0; i < bounce.size(); ++i) {
+        if (bounce[i] == tileMap->map[tileY][tileX]) {
+            if (tileMap->map[tileY][tileX] == 7)
+            {
+                Player::velocity.y += 200 * tileMap->GetTileSize();
+                break;
+            }
+        }
+
+    }
 
 	return false;
 
@@ -224,6 +284,16 @@ bool Player::CheckCollisionUp() {
 			return true;
 		}
 	}
+    for (size_t i = 0; i < bounce.size(); ++i) {
+        if (bounce[i] == tileMap->map[tileY][tileX]) {
+            if (tileMap->map[tileY][tileX] == 7)
+            {
+                Player::velocity.y += 200 * tileMap->GetTileSize();
+                break;
+            }
+        }
+
+    }
 
 	Vector3 pointB(transform.position.x + (transform.scale.x * hotspotOffset), transform.position.y + (transform.scale.y * 0.5f), 0);
 	tileX = tileMap->GetTileX(pointB.x);
@@ -241,6 +311,16 @@ bool Player::CheckCollisionUp() {
 			return true;
 		}
 	}
+    for (size_t i = 0; i < bounce.size(); ++i) {
+        if (bounce[i] == tileMap->map[tileY][tileX]) {
+            if (tileMap->map[tileY][tileX] == 7)
+            {
+                Player::velocity.y += 200 * tileMap->GetTileSize();
+                break;
+            }
+        }
+
+    }
    
 	return false;
 

@@ -14,9 +14,9 @@ PlayerSS::PlayerSS() {
     spin = 0.0f;
 	collidables.push_back(TILE_DIRT);
 	collidables.push_back(TILE_GRASS);
-    collidables.push_back(TILE_PLATFORM);
     portal.push_back(TILE_PORTAL);
     portal.push_back(TILE_PORTAL2);
+    bounce.push_back(TILE_PLATFORM);
 
 }
 

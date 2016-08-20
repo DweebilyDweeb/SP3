@@ -19,6 +19,7 @@ private:
         GEO_BACKGROUND_1,
         GEO_BACKGROUND_2,
         GEO_BACKGROUND_3,
+        GEO_FLY,
 
         //Others
         GEO_PLAYER,
