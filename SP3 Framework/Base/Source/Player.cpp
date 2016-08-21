@@ -383,6 +383,21 @@ bool Player::CheckTrigger() {
 	return false;
 }
 
+bool Player::CheckVegetation()
+{
+	int tileX = tileMap->GetTileX(transform.position.x);
+	int tileY = tileMap->GetTileY(transform.position.y);
+	if (tileMap->map[tileY][tileX] == TILE_CABBAGE ||
+		tileMap->map[tileY][tileX] == TILE_CARROT ||
+		tileMap->map[tileY][tileX] == TILE_POTATO ||
+		tileMap->map[tileY][tileX] == TILE_WHEAT ||
+		tileMap->map[tileY][tileX] == TILE_CORN)
+	{
+		return true;
+	}
+	return false;
+}
+
 float Player::GetHotspotCentre() {
 
 	return this->hotspotOffset;

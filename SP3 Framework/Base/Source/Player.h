@@ -27,6 +27,7 @@ protected:
 	
     int CheckPortal();
 	bool CheckTrigger();
+	bool CheckVegetation();
 
 	TileMap* tileMap;
 

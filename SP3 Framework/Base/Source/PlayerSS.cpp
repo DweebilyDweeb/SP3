@@ -210,6 +210,12 @@ void PlayerSS::Update(const double& deltaTime) {
 			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
 				SceneManager::GetInstance().setSubScene();
 		}
+		if (CheckVegetation())
+		{
+			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
+			tileMap->map[tileY][tileX] = 0;
+		}
+
 		/************************************************************************/
 	}
 	else

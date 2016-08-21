@@ -42,6 +42,7 @@ private:
 	SpriteAnimation* spriteAnimationList[NUM_SPRITE];
 
 	TileMap tileMap;
+	TileMap minigame;
 
 	void InitMeshes();
 	void InitSpriteAnimations();
@@ -53,14 +54,16 @@ private:
 	void RenderBackground();
 	void RenderText();
 
-	void RenderSub();
-	void UpdateSub(double deltaTime);
+	/*void RenderSub();
+	void UpdateSub(double deltaTime);*/
 
 	Camera2D camera;
 	PlayerSS player;
 
 	float drop;
 	int Level;
+
+	bool changing;
 
 	Vector3 housePos;
 
@@ -72,9 +75,9 @@ public:
 	//Virtual Function(s)
 	virtual void Init();
 	virtual void Update(const double& deltaTime);
-	 virtual void UpdateSub(const double& deltaTime){};
+	virtual void UpdateSub(const double& deltaTime);
 	virtual void Render();
-	virtual void RenderSub(){};
+	virtual void RenderSub();
 	virtual void Exit();
 
 };
