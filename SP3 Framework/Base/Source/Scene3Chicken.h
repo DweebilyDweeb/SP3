@@ -17,9 +17,11 @@ private:
 		GEO_DIRT,
 		GEO_GRASS,
 		GEO_FENCE,
+		GEO_TOP_GRASS,
 		GEO_BACKGROUND_1,
 		GEO_BACKGROUND_2,
 		GEO_BACKGROUND_3,
+		GEO_BACKGROUND_4,
 
 		//Others
 		GEO_PLAYER,
@@ -50,6 +52,9 @@ private:
 	void RenderPlayer();
 	void RenderBackground();
 	void RenderText();
+
+	void RenderSub();
+	void UpdateSub(double deltaTime);
 
 	Camera2D camera;
 	PlayerSS player;
