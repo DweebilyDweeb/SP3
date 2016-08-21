@@ -51,7 +51,7 @@ void Scene3Chicken::Init() {
 	EnableFog(false);
 
 
-	tileMap.LoadFile("TileMap//Scene3Chicken.csv");
+	tileMap.LoadFile("TileMap//Scene3Chicken2.csv");
 	tileMap.SetTileSize(1.0f);
 	InitPlayer();
 	InitCamera();
@@ -75,6 +75,9 @@ void Scene3Chicken::InitMeshes() {
 	meshList[GEO_FENCE] = MeshBuilder::GenerateQuad("Fence", Color(1, 1, 1));
 	meshList[GEO_FENCE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//fence.tga");
 
+	meshList[GEO_TOP_GRASS] = MeshBuilder::GenerateQuad("Game Time", Color(1, 1, 1));
+	meshList[GEO_TOP_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//top_grass.tga");
+
 	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
 	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//chicken_coop.tga");
 
@@ -83,6 +86,9 @@ void Scene3Chicken::InitMeshes() {
 
 	meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
 	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
+
+	meshList[GEO_BACKGROUND_4] = MeshBuilder::GenerateQuad("Background4", Color(1, 1, 1), 0.4);
+	meshList[GEO_BACKGROUND_4]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//top_grass.tga");
 
 }
 
@@ -159,20 +165,6 @@ void Scene3Chicken::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
-	if (player.transform.position.y < 1){
-
-		/*	tileMap.LoadFile("TileMap//Map2.csv");
-		tileMap.SetTileSize(1.0f);
-		for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-		if (tileMap.map[row][col] == 99) {
-		player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-		}
-		}
-		}
-		Level = 2;*/
-		SceneManager::GetInstance().chgCurrEnumScene(COW);
-	}
 	Scene3D::Update(deltaTime);
 }
 
@@ -225,9 +217,9 @@ void Scene3Chicken::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 10:
+			case 30:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Translate(0, 0.1f, -1);
+				modelStack.Translate(-0.5f, 0.1f, -1);
 				modelStack.Scale(2, 1.8f, 2);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_CHICKEN]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
@@ -239,6 +231,10 @@ void Scene3Chicken::RenderTileMap() {
 				RenderMesh(meshList[GEO_BACKGROUND_1]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
+			case 50:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				RenderMesh(meshList[GEO_TOP_GRASS]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 			}
 			modelStack.PopMatrix();
 		}
@@ -278,8 +274,6 @@ void Scene3Chicken::RenderBackground()
 	float backgroundScaleX = camWidth * 2.0f;
 	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
 
-
-
 	for (int i = 0; i < 5; ++i)
 	{
 		modelStack.PushMatrix();
@@ -297,6 +291,13 @@ void Scene3Chicken::RenderBackground()
 		RenderMesh(meshList[GEO_BACKGROUND_3], false);
 		modelStack.PopMatrix();
 	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(16.5f, 11, -5);
+	modelStack.Scale(85, 85, 85);
+	RenderMesh(meshList[GEO_BACKGROUND_4]);
+	modelStack.PopMatrix();
+
 }
 
 
