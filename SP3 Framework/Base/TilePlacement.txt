@@ -9,6 +9,11 @@
 8 - Trigger
 9 - Right Portal
 
+15 - Cabbage
+16 - Carrot
+17 - Potato
+18 - Wheat
+19 - Corn
 
 30 - Chicken
 31 - Cow
