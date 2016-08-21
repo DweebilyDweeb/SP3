@@ -65,6 +65,8 @@ void Scene4FishingPond::Init() {
 
 	drop = 0.0f;
 	Level = 1;
+	maxFish = 3;
+	fishCount = 0;
 }
 
 void Scene4FishingPond::InitMeshes() {
@@ -92,7 +94,7 @@ void Scene4FishingPond::InitMeshes() {
 	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
 
 	meshList[GEO_TROUT] = MeshBuilder::GenerateQuad("trout", Color(1, 1, 1), 0.4);
-	meshList[GEO_TROUT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//fish.tga");
+	meshList[GEO_TROUT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//fish2.tga");
 
 }
 
@@ -176,13 +178,23 @@ void Scene4FishingPond::Update(const double& deltaTime) {
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
 
+	spawningOfFish(deltaTime);
+	displacementOfFish(deltaTime);
+
 	Scene3D::Update(deltaTime);
 }
 
 void Scene4FishingPond::Render() {
 
-	Scene3D::Render();
 	SetToCameraView(&camera);
+	Scene3D::Render();
+	Scene3D::setZoomValues(2, 0, -5);
+	bool b = Scene3D::getDistXY(player.transform.position, Vector3(21.5,5,0), 15);
+	if (b)
+		SetToCameraView(&camera, 1);
+	else
+		SetToCameraView(&camera);
+	
 	for (std::vector<FishObject *>::iterator it = m_foList.begin(); it != m_foList.end(); ++it)
 	{
 		FishObject *fo = (FishObject *)*it;
@@ -263,6 +275,7 @@ void Scene4FishingPond::RenderPlayer() {
 	else if (player.playerState == Player::JUMPING)
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
 	modelStack.PopMatrix();
+	//cout << player.transform.position<<endl;
 
 }
 
@@ -336,11 +349,58 @@ void Scene4FishingPond::RenderFO(FishObject *fo)
 	case FishObject::FT_TROUT:
 		modelStack.PushMatrix();
 		modelStack.Translate(fo->pos.x, fo->pos.y, fo->pos.z);
-		modelStack.Rotate(fo->rotation, 0, 0, 1);
+		modelStack.Rotate(fo->rotation - 225, 0, 0, 1);
 		modelStack.Scale(fo->scale.x, fo->scale.y, fo->scale.z);
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderMesh(meshList[GEO_TROUT], false);
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		modelStack.PopMatrix();
 		break;
 	
+	}
+}
+
+void Scene4FishingPond::spawningOfFish(const double& deltaTime)
+{
+	if (fishCount < maxFish)
+	{
+		FishObject * fo = FetchFO();
+		fo->active = true;
+		fo->type = FishObject::FT_TROUT;
+		fo->scale.Set(1, 1, 1);
+		fo->mass = 5;
+		fo->pos.Set(Math::RandFloatMinMax(18, 24), 4, -1.1);
+		fo->vel.Set(Math::RandFloatMinMax(-10, 10), Math::RandFloatMinMax(100, 150), 0);
+
+		fishCount += 1;
+	}
+}
+void Scene4FishingPond::displacementOfFish(const double& deltaTime)
+{
+	for (std::vector<FishObject *>::iterator it = m_foList.begin(); it != m_foList.end(); ++it)
+	{
+		FishObject *fo = (FishObject *)*it;
+		if (fo->active)
+		{
+			Vector3 acceleration, gravity;
+			gravity.Set(0, 1, 0);
+			acceleration = (gravity * 5) * (1 / fo->mass);
+			fo->vel -= acceleration * (float)deltaTime;
+			if (fo->vel.LengthSquared() > 25)
+			{
+				fo->vel.Normalize();
+				fo->vel *= 5;
+				//go->active = false;
+
+			}
+			if (fo->pos.y < 4)
+			{
+				fishCount -= 1;
+				fo->active = false;
+			}
+			fo->rotation = Math::RadianToDegree(atan2(fo->vel.y, fo->vel.x));
+		}
+
+		fo->pos += (float)deltaTime * fo->vel;
 	}
 }

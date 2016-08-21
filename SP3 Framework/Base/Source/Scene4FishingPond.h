@@ -58,7 +58,8 @@ private:
 
 	float drop;
 	int Level;
-
+	int maxFish;
+	int fishCount;
 	Vector3 fishingRodPos;
 
 	std::vector<FishObject *> m_foList;
@@ -77,6 +78,8 @@ public:
 	virtual void Exit();
 
 	void RenderFO(FishObject *fo);
+	void spawningOfFish(const double& deltaTime);
+	void displacementOfFish(const double& deltaTime);
 
 	FishObject* FetchFO();
 };
