@@ -85,6 +85,7 @@ void Scene5Dragon::InitMeshes() {
     meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
     meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
 
+    
 }
 
 void Scene5Dragon::InitSpriteAnimations() {
