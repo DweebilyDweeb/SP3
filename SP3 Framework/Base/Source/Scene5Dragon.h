@@ -67,7 +67,8 @@ public:
     virtual void Update(const double& deltaTime);
     virtual void Render();
     virtual void Exit();
-
+    virtual void UpdateSub(const double& deltaTime) {};
+    virtual void RenderSub() {};
 };
 
 #endif

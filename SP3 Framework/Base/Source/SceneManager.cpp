@@ -57,7 +57,7 @@ void SceneManager::Init()
     }
     if (Home == true)
     {
-        //PlayHome();
+        PlayHome();
     }
 
     if (World == true)
