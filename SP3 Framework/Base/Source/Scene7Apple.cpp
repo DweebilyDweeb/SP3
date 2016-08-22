@@ -166,6 +166,8 @@ void Scene7Apple::Update(const double& deltaTime) {
 	if (SceneManager::GetInstance().getIsSubScene()) {
 		SceneManager::GetInstance().setSubScene(ZOOMED_IN);
 	}
+	else
+		SceneManager::GetInstance().setSubScene(SUB_NONE);
 }
 
 Item* Scene7Apple::FetchApples()
@@ -209,7 +211,7 @@ void Scene7Apple::Render() {
 	SetToCameraView(&camera);
 	Scene3D::Render();
 	Scene3D::setZoomValues(2, 0, -2);
-	if (SceneManager::GetInstance().getSubScene())
+	if (SceneManager::GetInstance().getIsSubScene())
 		SetToCameraView(&camera, 1);
 	else
 		SetToCameraView(&camera);
@@ -226,7 +228,6 @@ void Scene7Apple::RenderSub() {
 	RenderBasket();
 }
 void Scene7Apple::RenderTileMap() {
-
 	float cameraAspectRatio = static_cast<float>(camera.aspectRatio.x) / static_cast<float>(camera.aspectRatio.y);
 	float cameraWidth = cameraAspectRatio * camera.GetOrthoSize();
 
