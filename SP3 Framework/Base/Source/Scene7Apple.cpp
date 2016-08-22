@@ -67,7 +67,7 @@ void Scene7Apple::InitMeshes() {
 	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
 
 	meshList[GEO_APPLE] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_APPLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Item//item_apple.tga");
+	meshList[GEO_APPLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//apple.tga");
 
 	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
@@ -156,16 +156,18 @@ void Scene7Apple::Update(const double& deltaTime) {
 	camera.Update(deltaTime);
 
 	Scene3D::Update(deltaTime);
-	if (!SceneManager::GetInstance().getSubScene()) {
+	if (!SceneManager::GetInstance().getChgScene()) {
 		while (appList.size() > 0) {
 			Item* im = appList.back();
 			delete im;
 			appList.pop_back();
 		}
 	}
-	if (SceneManager::GetInstance().getIsSubScene()) {
-		SceneManager::GetInstance().setSubScene(ZOOMED_IN);
+	if (SceneManager::GetInstance().getIsChgScene()) {
+		SceneManager::GetInstance().setChgScene(CHG_APPLE);
 	}
+	else
+		SceneManager::GetInstance().setChgScene(CHG_NONE);
 }
 
 Item* Scene7Apple::FetchApples()
@@ -209,7 +211,8 @@ void Scene7Apple::Render() {
 	SetToCameraView(&camera);
 	Scene3D::Render();
 	Scene3D::setZoomValues(2, 0, -2);
-	if (SceneManager::GetInstance().getSubScene())
+	//if (SceneManager::GetInstance().getSubScene())
+	if (SceneManager::GetInstance().getIsChgScene())
 		SetToCameraView(&camera, 1);
 	else
 		SetToCameraView(&camera);
@@ -266,7 +269,7 @@ void Scene7Apple::RenderTileMap() {
 			case 88:
 				treePos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -20);
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderMesh(meshList[GEO_GRASS]);
+				RenderMesh(meshList[GEO_DIRT]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			}
@@ -309,7 +312,7 @@ void Scene7Apple::RenderBackground()
 	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
 
 	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-	float offsetY = 10.f;
+	float offsetY = 12.f;
 	modelStack.PushMatrix();
 	modelStack.Translate(treePos.x, treePos.y + offsetY, treePos.z);
 	modelStack.Scale(treeScale, treeScale, 1);

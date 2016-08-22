@@ -20,8 +20,8 @@ void SceneManager::Init()
     Home = true;
     World = false;
     Dragon = false;
-	subScene = SUB_NONE;
-	subSceneMode = false;
+	chgScene = CHG_NONE;
+	chgSceneMode = false;
 
     sceneList[HOME] = new Scene1House;
     sceneList[COW] = new Scene2Cow;
@@ -32,6 +32,8 @@ void SceneManager::Init()
     sceneList[APPLE] = new Scene7Apple;
     sceneList[CABBAGE] = new Scene8Cabbage;
     sceneList[WHEAT] = new Scene9Wheat;
+
+	//subList[SUB_WELL] = new <CPP_NAME>
 
     setPrevScene(WHEAT);
     sceneType = HOME;
@@ -57,7 +59,7 @@ void SceneManager::Init()
     }
     if (Home == true)
     {
-        PlayHome();
+        //PlayHome();
     }
 
     if (World == true)
@@ -73,6 +75,7 @@ void SceneManager::Init()
     {
         sceneList[i]->Init();
     }
+	
 }
 
 void SceneManager::chgCurrEnumScene(SCENE_TYPE type)
@@ -97,39 +100,82 @@ SCENE_TYPE SceneManager::getPrevScene() const
 	return prevScene;
 }
 
-void SceneManager::setSubScene(SUBSCENE_TYPE type)
+void SceneManager::setChgScene(CHANGESCENE_TYPE type)
 {
-	subScene = type;
+	chgScene = type;
 }
 
-SUBSCENE_TYPE SceneManager::getSubScene() const
+CHANGESCENE_TYPE SceneManager::getChgScene() const
 {
-	return subScene;
+	return chgScene;
 }
 
-void SceneManager::isSubScene(bool mode)
+void SceneManager::isChgScene(bool mode)
 {
-	subSceneMode = mode;
+	chgSceneMode = mode;
 }
 
-bool SceneManager::getIsSubScene() const
+bool SceneManager::getIsChgScene() const
 {
-	return subSceneMode;
+	return chgSceneMode;
 }
 
 void SceneManager::Update(double dt)
 {
-	sceneList[sceneType]->Update(dt);
-
-	if (subScene != SUB_NONE)
+	if (subType == SUB_NONE)
+		sceneList[sceneType]->Update(dt);
+	//else
+	//  subList[subType]->Update(dt);	
+	if (chgScene != CHG_NONE)
 		sceneList[sceneType]->UpdateSub(dt);
+
+    if (sceneType == HOME)
+    {
+        Home = true;
+        World = false;
+        Dragon = false;
+    }
+    if (sceneType == COW || sceneType == CHICKEN || sceneType == FISH || sceneType == WELL || sceneType == APPLE || sceneType == CABBAGE || sceneType == WHEAT)
+    {
+        Home = false;
+        World = true;
+        Dragon = false;
+
+    }
+    if (sceneType == DRAGON)
+    {
+        Home = false;
+        World = false;
+        Dragon = true;
+    }
+    if (Home == true)
+    {
+        PlayHome();
+        StopWorld();
+        StopDragon();
+    }
+
+    if (World == true)
+    {
+        PlayWorld();
+        StopHome();
+        StopDragon();
+    }
+    if (Dragon == true)
+    {
+        PlayDragon();
+        StopHome();
+        StopWorld();
+    }
 }
 
 void SceneManager::Render()
 {
-	sceneList[sceneType]->Render();
-
-	if (subScene != SUB_NONE)
+	if (subType == SUB_NONE)
+		sceneList[sceneType]->Render();
+	//else
+	//  subList[subType]->Render(dt);	
+	if (chgScene != CHG_NONE)
 		sceneList[sceneType]->RenderSub();
 }
 

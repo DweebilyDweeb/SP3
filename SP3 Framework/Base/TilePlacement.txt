@@ -8,15 +8,27 @@
 7 - Platform
 8 - Trigger
 9 - Right Portal
+<<<<<<< HEAD
 10 - Invisible Collision
 11 - Well
 12 - Well2
+=======
+
+10 - Invisible Collision
+11 - Well
+12 - Well2
+
+>>>>>>> 6b34f53bbebbad91a5e229ab23a1241c7596fbf1
 
 15 - Cabbage
 16 - Carrot
 17 - Potato
 18 - Wheat
 19 - Corn
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6b34f53bbebbad91a5e229ab23a1241c7596fbf1
 
 30 - Chicken
 31 - Cow
@@ -26,6 +38,7 @@
 20 - Daughter
 21 - Mother
 22 - Son
+23 - Electricity
 88 - CENTRE PLACEMENT
 99 - PLAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 100 - PLAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

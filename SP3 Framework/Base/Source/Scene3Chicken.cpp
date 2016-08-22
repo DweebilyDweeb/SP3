@@ -156,6 +156,11 @@ void Scene3Chicken::InitCamera() {
 	camera.SetPlayer(player);
 	camera.SetTileMap(tileMap);
 
+	if (SceneManager::GetInstance().getChgScene() == false)
+		camera.SetTileMap(tileMap);
+	else
+		camera.SetTileMap(minigame);
+
 }
 
 void Scene3Chicken::Update(const double& deltaTime) {
@@ -180,6 +185,15 @@ void Scene3Chicken::Render() {
 	RenderBackground();
 	RenderPlayer();
 	RenderText();
+	if (SceneManager::GetInstance().getChgScene() == true)
+		RenderSub();
+	else
+	{
+		RenderTileMap();
+		RenderBackground();
+		RenderPlayer();
+		RenderText();
+	}
 
 }
 

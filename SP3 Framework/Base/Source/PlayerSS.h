@@ -22,6 +22,7 @@ protected:
 	void MoveRight(const double& deltaTime);
 private:
 	bool invert;
+	float accumTime;
 public:
 	PlayerSS();
 	virtual ~PlayerSS();

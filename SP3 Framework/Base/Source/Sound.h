@@ -12,6 +12,9 @@ void PlayDragon();
 void Play5();
 void Play6();
 void Play7();
+void StopHome();
+void StopWorld();
+void StopDragon();
 void DeleteEngine();
 
 #endif

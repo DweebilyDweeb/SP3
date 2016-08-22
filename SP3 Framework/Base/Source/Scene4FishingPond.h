@@ -17,6 +17,7 @@ private:
 		GEO_EMPTY,
 		GEO_DIRT,
 		GEO_GRASS,
+		GEO_GENERATOR,
 		GEO_BACKGROUND_1,
 		GEO_BACKGROUND_2,
 		GEO_BACKGROUND_3,
@@ -25,6 +26,7 @@ private:
 		GEO_PLAYER,
 
 		GEO_TROUT,
+		GEO_SHARK,
 
 		NUM_GEOMETRY,
 	};
@@ -35,6 +37,7 @@ private:
 		SPRITE_PLAYER_JUMP,
 		SPRITE_PORTAL,
 		SPRITE_WATER,
+		SPRITE_ELECTRICITY,
 		NUM_SPRITE,
 	};
 
@@ -57,6 +60,8 @@ private:
 	PlayerSS player;
 
 	float drop;
+	float accumTime;
+	bool onElectricity;
 	int Level;
 	int maxFish;
 	int fishCount;

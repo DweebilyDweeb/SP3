@@ -18,7 +18,8 @@ Scene3D::Scene3D() {
 	fontList[FONT_CONSOLAS] = MeshBuilder::GenerateText("Consolas", 16, 16, "Image//Fonts//Consolas.tga");
 	currentShader = NONE;
 	InitAttributeUI();
-	
+	InitInventoryUI();
+
 	zoomAmount = 1;
 	zoomOffsetY = 0;
 	zoomOffsetX = 0;
@@ -44,6 +45,8 @@ void Scene3D::Exit() {
 	delete healthUiBackground;
 	delete statUiBackground;
 	delete barBackground;
+	delete inventoryBar;
+	delete apple_item;
 }
 
 void Scene3D::DeleteShaders() {
@@ -426,6 +429,7 @@ void Scene3D::SetToCameraView(Camera* camera, float zoom) {
 void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	RenderAttributeUI();
+	RenderInventoryUI();
 }
 void Scene3D::RenderSub() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -689,14 +693,6 @@ void Scene3D::RenderAttributeUI()
 		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 7.2, 5, 0.5);
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
-		
-		float temp = 11.f;
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "INVENTORY", Color(1, 0, 0), 1, 6, temp);
-		for (map<string, Item*>::iterator it = ItemManager::GetInstance().itemMap.begin(); it != ItemManager::GetInstance().itemMap.end(); ++it) {
-			ostringstream ss;
-			ss << it->first << " x" << it->second->getNum();
-			RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 0, 0), 1, 6, temp-=2);
-		}
 
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
@@ -767,6 +763,37 @@ void Scene3D::RenderAttributeUI()
 	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	RenderMeshIn2D(clockHandH, 2, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, Application::clock->getRotation());
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+}
+
+void Scene3D::InitInventoryUI()
+{
+	inventoryBar = MeshBuilder::GenerateQuad("inventory", Color(0, 0, 0), 1);
+	inventoryBar->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//inventory.tga");
+	Inventory::GetInstance().setPos(Vector3(0, -10, 5));
+	Inventory::GetInstance().setSize(Vector3(30, 5, 0));
+
+	apple_item = MeshBuilder::GenerateQuad("apple_item", Color(0, 0, 0), 1);
+	apple_item->textureArray[0] = LoadTGA("Image//SP3_Texture//Item//item_apple.tga");
+}
+
+void Scene3D::UpdateInventoryUI(const double& deltaTime)
+{
+
+}
+
+void Scene3D::RenderInventoryUI()
+{
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE); 
+	RenderMeshIn2D(inventoryBar, Inventory::GetInstance().getSize().x, Inventory::GetInstance().getSize().y, Inventory::GetInstance().getPos().x, Inventory::GetInstance().getPos().y);
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+	for (map<string, Item*>::iterator it = ItemManager::GetInstance().itemMap.begin(); it != ItemManager::GetInstance().itemMap.end(); ++it) {
+		if (it->first == "Apple") {
+			glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+			RenderMeshIn2D(apple_item, 2, 2, -1.7, Inventory::GetInstance().getPos().y - 0.6, Inventory::GetInstance().getPos().z + 1);
+			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		}
+	}
 }
 
 bool Scene3D::getDistXY(Vector3 one, Vector3 two, float dist)
