@@ -17,8 +17,6 @@ PlayerSS::PlayerSS() {
 
     collidables.push_back(TILE_WELL);
 
-	collidables.push_back(TILE_CENTRE);
-
     portal.push_back(TILE_PORTAL);
     portal.push_back(TILE_PORTAL2);
     bounce.push_back(TILE_PLATFORM);
