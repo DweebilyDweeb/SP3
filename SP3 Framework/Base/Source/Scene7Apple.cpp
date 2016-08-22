@@ -67,7 +67,7 @@ void Scene7Apple::InitMeshes() {
 	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
 
 	meshList[GEO_APPLE] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_APPLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Item//item_apple.tga");
+	meshList[GEO_APPLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//apple.tga");
 
 	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");

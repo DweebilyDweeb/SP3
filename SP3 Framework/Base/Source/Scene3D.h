@@ -10,7 +10,7 @@
 #include "Mother.h"
 #include "Son.h"
 #include "Daughter.h"
-
+#include "ItemManager.h"
 
 const unsigned int MAX_LIGHTS = 8;
 
@@ -230,6 +230,7 @@ protected:
 	Mesh* statUiBackground;
 	Mesh* barBackground;
 	Mesh* inventoryBar;
+	Mesh* apple_item;
 
 	bool showStats;
 
@@ -286,6 +287,10 @@ public:
 	void InitAttributeUI();
 	void UpdateAttributeUI(const double& deltaTime);
 	void RenderAttributeUI();
+
+	void InitInventoryUI();
+	void UpdateInventoryUI(const double& deltaTime);
+	void RenderInventoryUI();
 
 	
 };

@@ -207,10 +207,6 @@ void PlayerSS::Update(const double& deltaTime) {
 			}
 		}
 	} 
-	else {
-			if (SceneManager::GetInstance().getIsSubScene())
-				SceneManager::GetInstance().isSubScene(false);
-	}
 
 	if (CheckVegetation())
 	{
@@ -220,7 +216,7 @@ void PlayerSS::Update(const double& deltaTime) {
 
 	switch (SceneManager::GetInstance().getSubScene()) {
 	case(ZOOMED_IN) : {
-						  if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
+		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES] || !CheckTrigger()) {
 							  //if(InputManager::GetInstance().GetInputInfo().keyDown[INPUT_QUIT])
 							  if (SceneManager::GetInstance().getIsSubScene()) {
 								  SceneManager::GetInstance().isSubScene(false);

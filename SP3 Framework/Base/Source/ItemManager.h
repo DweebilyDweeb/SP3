@@ -3,6 +3,7 @@
 #define GRAVITY -10
 
 #include <map>
+#include <vector>
 #include <sstream>
 #include <iostream>
 #include "Attributes.h"
@@ -49,6 +50,32 @@ public:
 	map<string, Item*>itemMap;
 private:
 	ItemManager() {};
+};
+
+class Inventory : public Singleton<Inventory>
+{
+	friend class Singleton<Inventory>;
+
+public:
+	~Inventory(){
+	};
+	vector<Item*> inventoryVec;
+	void setSize(const Vector3& size) {
+		this->size = size;
+	}
+	Vector3 getSize() const {
+		return size;
+	}
+	void setPos(const Vector3& pos) {
+		this->pos = pos;
+	}
+	Vector3 getPos() const {
+		return pos;
+	}
+
+private:
+	Vector3 size;
+	Vector3 pos;
 };
 
 
