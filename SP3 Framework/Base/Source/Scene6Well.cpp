@@ -176,7 +176,6 @@ void Scene6Well::Update(const double& deltaTime) {
     
 	Scene3D::Update(deltaTime);
 
-    if (== 1)
 }
 
 void Scene6Well::Render() {

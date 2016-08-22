@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "LoadTGA.h"
 #include "InputManager.h"
+#include "ItemManager.h"
 //#include "Application.h"
 
 //Constructor(s) & Destructor
@@ -42,7 +43,7 @@ void Scene3D::Exit() {
 	delete vitaminsBar;
 	delete healthUiBackground;
 	delete statUiBackground;
-
+	delete barBackground;
 }
 
 void Scene3D::DeleteShaders() {
@@ -640,6 +641,7 @@ void Scene3D::InitAttributeUI()
 	healthUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health2.tga");
 	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
     statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//stats2.tga");
+	barBackground = MeshBuilder::GenerateQuad("barBackground", Color(0.5, 0.5, 0.5), 1);
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
 
 	Application::mother->Init();
@@ -672,52 +674,80 @@ void Scene3D::RenderAttributeUI()
 	{
 		if (Application::mother->getHealth() > 0)
 			RenderMeshIn2D(healthBar, Application::mother->getHealth() / 20000, 0.5, -14.4, 10.2, 5, 0.5);
-
+		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 10.2, 5, 0.5);
 		if (Application::son->getHealth() > 0)
 			RenderMeshIn2D(healthBar, Application::son->getHealth() / 20000, 0.5, -14.4, 8.7, 5, 0.5);
-
+		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 8.7, 5, 0.5);
 		if (Application::daughter->getHealth() > 0)
 			RenderMeshIn2D(healthBar, Application::daughter->getHealth() / 20000, 0.5, -14.4, 7.2, 5, 0.5);
-
+		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 7.2, 5, 0.5);
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
+		
+		float temp = 11.f;
+		RenderTextOnScreen(fontList[FONT_CONSOLAS], "INVENTORY", Color(1, 0, 0), 1, 6, temp);
+		for (map<string, Item*>::iterator it = ItemManager::GetInstance().itemMap.begin(); it != ItemManager::GetInstance().itemMap.end(); ++it) {
+			ostringstream ss;
+			ss << it->first << " x" << it->second->getNum();
+			RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 0, 0), 1, 6, temp-=2);
+		}
+
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
 	else
 	{
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		RenderTextOnScreen(fontList[FONT_CONSOLAS], "STATS", Color(1, 0, 0), 1, -2, 11);
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
 
 		if (Application::son->getProtein() > 0)
 			RenderMeshIn2D(proteinBar, Application::son->getCarbohydrates() * 0.05f, 0.5, -5.5, -0.3, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -0.3, 5, 0.5);
 		if (Application::son->getCarbohydrates() > 0)
 			RenderMeshIn2D(carbohydratesBar, Application::son->getCarbohydrates() * 0.05f, 0.5, -5.5, -2.75, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -2.75, 5, 0.5);
 		if (Application::son->getFats() > 0)
 			RenderMeshIn2D(fatsBar, Application::son->getFats() * 0.05f, 0.5, -5.5, -5, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -5, 5, 0.5);
 		if (Application::son->getVitamins() > 0)
 			RenderMeshIn2D(vitaminsBar, Application::son->getVitamins() * 0.05f, 0.5, -5.5, -7.2, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -7.2, 5, 0.5);
 		if (Application::son->getHydration() > 0)
 			RenderMeshIn2D(hydrationBar, Application::son->getHydration() * 0.05f, 0.5, -5.5, -9.25, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -9.25, 5, 0.5);
 
 		if (Application::mother->getProtein() > 0)
 			RenderMeshIn2D(proteinBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -0.25, -0.3, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -0.3, 5, 0.5);
 		if (Application::mother->getCarbohydrates() > 0)
 			RenderMeshIn2D(carbohydratesBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -0.25, -2.75, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -2.75, 5, 0.5);
 		if (Application::mother->getFats() > 0)
 			RenderMeshIn2D(fatsBar, Application::mother->getFats() * 0.05f, 0.5, -0.25, -5, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -5, 5, 0.5);
 		if (Application::mother->getVitamins() > 0)
 			RenderMeshIn2D(vitaminsBar, Application::mother->getVitamins() * 0.05f, 0.5, -0.25, -7.2, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -7.2, 5, 0.5);
 		if (Application::mother->getHydration() > 0)
 			RenderMeshIn2D(hydrationBar, Application::mother->getHydration() * 0.05f, 0.5, -0.25, -9.25, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -9.25, 5, 0.5);
 
 		if (Application::daughter->getProtein() > 0)
 			RenderMeshIn2D(proteinBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 5, -0.3, 5, 0.5);
+		RenderMeshIn2D(barBackground,5, 0.5, 5, -0.3, 5, 0.5);
 		if (Application::daughter->getCarbohydrates() > 0)
 			RenderMeshIn2D(carbohydratesBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 5, -2.75, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, 5, -2.75, 5, 0.5);
 		if (Application::daughter->getFats() > 0)
 			RenderMeshIn2D(fatsBar, Application::daughter->getFats() * 0.05f, 0.5, 5, -5, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, 5, -5, 5, 0.5);
 		if (Application::daughter->getVitamins() > 0)
 			RenderMeshIn2D(vitaminsBar, Application::daughter->getVitamins() * 0.05f, 0.5, 5, -7.2, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, 5, -7.2, 5, 0.5);
 		if (Application::daughter->getHydration() > 0)
 			RenderMeshIn2D(hydrationBar, Application::daughter->getHydration() * 0.05f, 0.5, 5, -9.25, 5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, 5, -9.25, 5, 0.5);
 		
         glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderMeshIn2D(statUiBackground, 30, 30);

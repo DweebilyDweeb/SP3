@@ -8,9 +8,18 @@
 7 - Platform
 8 - Trigger
 9 - Right Portal
+<<<<<<< HEAD
 10 - Invisible Collision
 11 - Well
 12 - Well2
+=======
+
+15 - Cabbage
+16 - Carrot
+17 - Potato
+18 - Wheat
+19 - Corn
+>>>>>>> 7e44d2e68dc06d2cc5c838e7a93628c1daa01878
 
 30 - Chicken
 31 - Cow

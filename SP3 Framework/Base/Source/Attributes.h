@@ -20,12 +20,15 @@ public:
 	float getVitamins();
 	float getHydration();
 	float getHealth();
+	Attributes getAttributes();
 
 	void setProtein(float value);
 	void setCarbohydrates(float value);
 	void setFats(float value);
 	void setVitamins(float value);
 	void setHydration(float value);
+	void setAttributes(float p, float c, float f, float v, float h);
+
 
 	void addProtein(float value);
 	void addCarbohydrates(float value);

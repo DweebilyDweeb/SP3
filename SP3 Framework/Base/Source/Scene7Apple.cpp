@@ -11,6 +11,7 @@
 #include "Application.h"
 #include "SceneManager.h"
 
+
 Scene7Apple::Scene7Apple() {
 }
 
@@ -30,14 +31,13 @@ void Scene7Apple::Exit() {
 			delete spriteAnimationList[i];
 		}
 	}
-
 	Scene3D::Exit();
 }
 
 void Scene7Apple::Init() {
 
 	InitGL();
-
+	Math::InitRNG();
 	//Create & User Our Shader
 	InitShaders("Shader//Default.vertexshader", "Shader//Default.fragmentshader", DEFAULT);
 	UseShader(DEFAULT);
@@ -50,9 +50,9 @@ void Scene7Apple::Init() {
 	InitFog(Color(0.5f, 0.5f, 0.5f), 2, 20.0f, 800.0f, 0.005f);
 	EnableFog(false);
 
-
 	tileMap.LoadFile("TileMap//Scene7Apple.csv");
 	tileMap.SetTileSize(1.0f);
+	spawnOffset.Set(4.f, 2.f, 0.f);
 	InitPlayer();
 	InitCamera();
 }
@@ -62,12 +62,12 @@ void Scene7Apple::InitMeshes() {
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		meshList[i] = nullptr;
 	}
-	//meshList[GEO_PLAYER] = MeshBuilder::Generate2DTile("Player", Color(1, 1, 1), 1);
-
-	//meshList[GEO_TILE_BRICK] = MeshBuilder::Generate2DTile("Tile Brick", Color(1, 1, 1), 1);
 
 	meshList[GEO_DIRT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
+
+	meshList[GEO_APPLE] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_APPLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Item//item_apple.tga");
 
 	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
@@ -81,6 +81,8 @@ void Scene7Apple::InitMeshes() {
 	meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
 	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
 
+	meshList[GEO_BASKET] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
+	meshList[GEO_BASKET]->textureArray[0] = LoadTGA("Image//SP3_Texture//Item//basket.tga");
 }
 
 void Scene7Apple::InitSpriteAnimations() {
@@ -152,27 +154,80 @@ void Scene7Apple::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
-	if (player.transform.position.y < 1){
-
-		SceneManager::GetInstance().chgCurrEnumScene(COW);
-	}
 
 	Scene3D::Update(deltaTime);
+	if (!SceneManager::GetInstance().getSubScene()) {
+		while (appList.size() > 0) {
+			Item* im = appList.back();
+			delete im;
+			appList.pop_back();
+		}
+	}
+	if (SceneManager::GetInstance().getIsSubScene()) {
+		SceneManager::GetInstance().setSubScene(ZOOMED_IN);
+	}
+	else
+		SceneManager::GetInstance().setSubScene(SUB_NONE);
+}
+
+Item* Scene7Apple::FetchApples()
+{
+	Item* apple = new Apple(1);
+	apple->setPosition(Vector3(Math::RandFloatMinMax(treePos.x - tileMap.GetTileSize() * spawnOffset.x, treePos.x + tileMap.GetTileSize() * spawnOffset.x),
+		Math::RandFloatMinMax(treePos.y + treeScale / 2 + tileMap.GetTileSize(), treePos.y + treeScale / 2 + tileMap.GetTileSize() * spawnOffset.y),
+							   treePos.z + 1));
+	appList.push_back(apple);
+	return apple;
+}
+
+void Scene7Apple::UpdateSub(const double& deltaTime) {
+	
+	static double rdmTimer = 0.0;
+	double timeLimit = 0.0;
+	timeLimit = (double)Math::RandFloatMinMax(0.5f, 2.0f);
+	rdmTimer += deltaTime;
+	if (rdmTimer > timeLimit) {
+		FetchApples();
+		rdmTimer = 0.0;
+	}
+
+	for (int i = 0; i < appList.size(); ++i) {
+		appList[i]->Update(deltaTime);
+
+		if (appList[i]->getPosition().y < 0)  {
+			appList.erase(appList.begin() + i);
+		}
+
+		if ((appList[i]->getPosition().x > player.transform.position.x - 0.5f && appList[i]->getPosition().y > player.transform.position.y - 0.5f) &&
+			(appList[i]->getPosition().x < player.transform.position.x + 0.5f && appList[i]->getPosition().y < player.transform.position.y + 0.5f)) {
+			ItemManager::GetInstance().addItem(appList[i]);
+			appList.erase(appList.begin() + i);
+		}
+	}
 }
 
 void Scene7Apple::Render() {
 
-	Scene3D::Render();
 	SetToCameraView(&camera);
+	Scene3D::Render();
+	Scene3D::setZoomValues(2, 0, -2);
+	if (SceneManager::GetInstance().getIsSubScene())
+		SetToCameraView(&camera, 1);
+	else
+		SetToCameraView(&camera);
 	RenderTileMap();
 	RenderBackground();
 	RenderPlayer();
 	RenderText();
-
 }
 
+void Scene7Apple::RenderSub() {
+	for (vector<Item*>::iterator it = appList.begin(); it != appList.end(); ++it) {
+		RenderApples(*it);
+	}
+	RenderBasket();
+}
 void Scene7Apple::RenderTileMap() {
-
 	float cameraAspectRatio = static_cast<float>(camera.aspectRatio.x) / static_cast<float>(camera.aspectRatio.y);
 	float cameraWidth = cameraAspectRatio * camera.GetOrthoSize();
 
@@ -224,9 +279,9 @@ void Scene7Apple::RenderTileMap() {
 
 void Scene7Apple::RenderPlayer() {
 
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
 	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.1f, player.transform.position.z);
-	//modelStack.Rotate(player.transform.rotation.z, 0, 0, 1);
 	if (player.getInvert())
 		modelStack.Scale(-player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
 	else
@@ -238,7 +293,7 @@ void Scene7Apple::RenderPlayer() {
 	else if (player.playerState == Player::JUMPING)
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
 	modelStack.PopMatrix();
-
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 }
 
 void Scene7Apple::RenderText() {
@@ -255,11 +310,13 @@ void Scene7Apple::RenderBackground()
 	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
 
 	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	float offsetY = 10.f;
 	modelStack.PushMatrix();
-	modelStack.Translate(treePos.x, treePos.y + 10.f, treePos.z);
-	modelStack.Scale(20, 20, 1);
+	modelStack.Translate(treePos.x, treePos.y + offsetY, treePos.z);
+	modelStack.Scale(treeScale, treeScale, 1);
 	RenderMesh(meshList[GEO_BACKGROUND_1], false);
 	modelStack.PopMatrix();
+
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 	for (int i = 0; i < 5; ++i)
@@ -281,4 +338,22 @@ void Scene7Apple::RenderBackground()
 	}
 }
 
+void Scene7Apple::RenderApples(Item* item) {
+	modelStack.PushMatrix();
+	modelStack.Translate(item->getPosition().x, item->getPosition().y , item->getPosition().z);
+	modelStack.Scale(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE); 
+	RenderMesh(meshList[GEO_APPLE], false);
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PopMatrix();
+}
 
+void Scene7Apple::RenderBasket() {
+	modelStack.PushMatrix();
+	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.2f, player.transform.position.z + 1);
+	modelStack.Scale(tileMap.GetTileSize() * 2, tileMap.GetTileSize() * 2, tileMap.GetTileSize());
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	RenderMesh(meshList[GEO_BASKET], false);
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PopMatrix();
+}

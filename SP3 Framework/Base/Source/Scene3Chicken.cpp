@@ -53,6 +53,10 @@ void Scene3Chicken::Init() {
 
 	tileMap.LoadFile("TileMap//Scene3Chicken.csv");
 	tileMap.SetTileSize(1.0f);
+	
+	minigame.LoadFile("TileMap//Scene3Chicken2.csv");
+	minigame.SetTileSize(1.0f);
+
 	InitPlayer();
 	InitCamera();
 
@@ -75,6 +79,9 @@ void Scene3Chicken::InitMeshes() {
 	meshList[GEO_FENCE] = MeshBuilder::GenerateQuad("Fence", Color(1, 1, 1));
 	meshList[GEO_FENCE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//fence.tga");
 
+	meshList[GEO_TOP_GRASS] = MeshBuilder::GenerateQuad("Game Time", Color(1, 1, 1));
+	meshList[GEO_TOP_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//top_grass.tga");
+
 	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
 	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//chicken_coop.tga");
 
@@ -83,6 +90,9 @@ void Scene3Chicken::InitMeshes() {
 
 	meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
 	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
+
+	meshList[GEO_BACKGROUND_4] = MeshBuilder::GenerateQuad("Background4", Color(1, 1, 1), 0.4);
+	meshList[GEO_BACKGROUND_4]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//top_grass.tga");
 
 }
 
@@ -144,7 +154,11 @@ void Scene3Chicken::InitPlayer() {
 void Scene3Chicken::InitCamera() {
 
 	camera.SetPlayer(player);
-	camera.SetTileMap(tileMap);
+
+	if (SceneManager::GetInstance().getSubScene() == false)
+		camera.SetTileMap(tileMap);
+	else
+		camera.SetTileMap(minigame);
 
 }
 
@@ -159,20 +173,6 @@ void Scene3Chicken::Update(const double& deltaTime) {
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
-	if (player.transform.position.y < 1){
-
-		/*	tileMap.LoadFile("TileMap//Map2.csv");
-		tileMap.SetTileSize(1.0f);
-		for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-		if (tileMap.map[row][col] == 99) {
-		player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-		}
-		}
-		}
-		Level = 2;*/
-		SceneManager::GetInstance().chgCurrEnumScene(COW);
-	}
 	Scene3D::Update(deltaTime);
 }
 
@@ -180,10 +180,15 @@ void Scene3Chicken::Render() {
 
 	Scene3D::Render();
 	SetToCameraView(&camera);
-	RenderTileMap();
-	RenderBackground();
-	RenderPlayer();
-	RenderText();
+	if (SceneManager::GetInstance().getSubScene() == true)
+		RenderSub();
+	else
+	{
+		RenderTileMap();
+		RenderBackground();
+		RenderPlayer();
+		RenderText();
+	}
 
 }
 
@@ -225,9 +230,9 @@ void Scene3Chicken::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 10:
+			case 30:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Translate(0, 0.1f, -1);
+				modelStack.Translate(-0.5f, 0.1f, -1);
 				modelStack.Scale(2, 1.8f, 2);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_CHICKEN]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
@@ -278,8 +283,6 @@ void Scene3Chicken::RenderBackground()
 	float backgroundScaleX = camWidth * 2.0f;
 	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
 
-
-
 	for (int i = 0; i < 5; ++i)
 	{
 		modelStack.PushMatrix();
@@ -297,6 +300,84 @@ void Scene3Chicken::RenderBackground()
 		RenderMesh(meshList[GEO_BACKGROUND_3], false);
 		modelStack.PopMatrix();
 	}
+
+	//modelStack.PushMatrix();
+	//modelStack.Translate(16.5f, 11, -5);
+	//modelStack.Scale(85, 85, 85);
+	//RenderMesh(meshList[GEO_BACKGROUND_4]);
+	//modelStack.PopMatrix();
+
 }
 
 
+void Scene3Chicken::RenderSub()
+{
+	float cameraAspectRatio = static_cast<float>(camera.aspectRatio.x) / static_cast<float>(camera.aspectRatio.y);
+	float cameraWidth = cameraAspectRatio * camera.GetOrthoSize();
+
+	int startCol = minigame.GetTileX(camera.transform.position.x - cameraWidth);
+	int endCol = minigame.GetTileX(camera.transform.position.x + cameraWidth) + 1;
+
+	int startRow = minigame.GetTileX(camera.transform.position.y - camera.GetOrthoSize());
+	int endRow = minigame.GetTileX(camera.transform.position.y + camera.GetOrthoSize()) + 1;
+
+	for (int row = Math::Max(0, startRow); row < Math::Min(endRow, minigame.GetNumRows()); ++row) {
+		for (int col = Math::Max(0, startCol); col < Math::Min(endCol, minigame.GetNumColumns()); ++col) {
+			modelStack.PushMatrix();
+			modelStack.Translate(col * minigame.GetTileSize(), row * minigame.GetTileSize(), -1);
+			modelStack.Scale(minigame.GetTileSize(), minigame.GetTileSize(), minigame.GetTileSize());
+			switch (minigame.map[row][col]) {
+			case 1:
+				RenderMesh(meshList[GEO_DIRT]);
+				break;
+			case 2:
+				RenderMesh(meshList[GEO_GRASS]);
+				break;
+			case 4:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				modelStack.Translate(5, 0, 0);
+				RenderMesh(meshList[GEO_FENCE]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 9:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 30:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				modelStack.Translate(4.5f, 0.1f, -1);
+				modelStack.Scale(2, 1.8f, 2);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_CHICKEN]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 14:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				modelStack.Translate(0, 0.6, 0);
+				modelStack.Scale(3, 3, 3);
+				RenderMesh(meshList[GEO_BACKGROUND_1]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			}
+			modelStack.PopMatrix();
+		}
+	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.1f, player.transform.position.z);
+	//modelStack.Rotate(player.transform.rotation.z, 0, 0, 1);
+	if (player.getInvert())
+		modelStack.Scale(-player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
+	else
+		modelStack.Scale(player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
+	if (player.playerState == Player::WALKING)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false, player.getInvert());
+	else if (player.playerState == Player::IDLE)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
+	modelStack.PopMatrix();
+}
+
+void Scene3Chicken::UpdateSub(const double& deltaTime)
+{
+	
+}

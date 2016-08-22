@@ -375,9 +375,47 @@ int Player::CheckPortal() {
 bool Player::CheckTrigger() {
 	int tileX = tileMap->GetTileX(transform.position.x);
 	int tileY = tileMap->GetTileY(transform.position.y);
-	if (tileMap->map[tileY][tileX] == TILE_CHICKEN || 
-		tileMap->map[tileY][tileX] == TILE_COW     ||
-		tileMap->map[tileY][tileX] == TILE_TRIGGER) {
+	switch (SceneManager::GetInstance().getSubScene()) {
+	case(SUB_NONE) :
+	case(ZOOMED_IN) : {
+		if (tileMap->map[tileY][tileX] == TILE_CHICKEN ||
+			tileMap->map[tileY][tileX] == TILE_COW ||
+			tileMap->map[tileY][tileX] == TILE_TRIGGER) {
+			return true;
+		}
+		else
+			return false;
+		break;
+	}
+	case(TOP_DOWN) : {
+		if (tileMap->map[tileY][tileX] == 74)
+			return true;
+		break;
+	}
+	default:
+		return false;
+		break;
+	}
+}
+
+bool Player::CheckCollect() {
+	int tileX = tileMap->GetTileX(transform.position.x);
+	int tileY = tileMap->GetTileY(transform.position.y);
+//	if (tileMap->map[tileY][tileX] == TILE_APPLE)
+//		return true;
+	return false;
+}
+
+bool Player::CheckVegetation()
+{
+	int tileX = tileMap->GetTileX(transform.position.x);
+	int tileY = tileMap->GetTileY(transform.position.y);
+	if (tileMap->map[tileY][tileX] == TILE_CABBAGE ||
+		tileMap->map[tileY][tileX] == TILE_CARROT ||
+		tileMap->map[tileY][tileX] == TILE_POTATO ||
+		tileMap->map[tileY][tileX] == TILE_WHEAT ||
+		tileMap->map[tileY][tileX] == TILE_CORN)
+	{
 		return true;
 	}
 	return false;

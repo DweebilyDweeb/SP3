@@ -77,16 +77,13 @@ void Scene5Dragon::InitMeshes() {
     meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
 
     meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
-    meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//dragon.tga");
+    meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//house.tga");
 
     meshList[GEO_BACKGROUND_2] = MeshBuilder::GenerateQuad("Background2", Color(1, 1, 1), 0.7);
     meshList[GEO_BACKGROUND_2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//mountains.tga");
 
     meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
     meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
-
-    meshList[GEO_FLY] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
-    meshList[GEO_FLY]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//flying_nimbus.tga");
 
 }
 
@@ -140,6 +137,9 @@ void Scene5Dragon::InitPlayer() {
             }
         }
     }
+
+
+
 }
 
 void Scene5Dragon::InitCamera() {
@@ -161,8 +161,20 @@ void Scene5Dragon::Update(const double& deltaTime) {
 
     player.Update(deltaTime);
     camera.Update(deltaTime);
-  
-	Scene3D::Update(deltaTime);
+    //if (player.transform.position.y < 1){
+
+    //    tileMap.LoadFile("TileMap//Scene5Dragon.csv");
+    //    tileMap.SetTileSize(1.0f);
+    //    for (int row = 0; row < tileMap.GetNumRows(); ++row) {
+    //        for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
+    //            if (tileMap.map[row][col] == 99) {
+    //                player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+    //            }
+    //        }
+    //    }
+    //    Level = 2;
+    //}
+
 }
 
 void Scene5Dragon::Render() {
@@ -206,8 +218,7 @@ void Scene5Dragon::RenderTileMap() {
                 break;
             case 7:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                modelStack.Scale(2, 1, 1);
-                RenderMesh(meshList[GEO_FLY]);
+                RenderMesh(meshList[GEO_GRASS]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
             case 9:
@@ -215,12 +226,6 @@ void Scene5Dragon::RenderTileMap() {
                 RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
-			case 88:
-				dragonPos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), 20);
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderMesh(meshList[GEO_GRASS]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				break;
             }
             modelStack.PopMatrix();
         }
@@ -260,13 +265,13 @@ void Scene5Dragon::RenderBackground()
     float backgroundScaleX = camWidth * 2.0f;
     float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
 
-    glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-    modelStack.PushMatrix();
-    modelStack.Translate(dragonPos.x, dragonPos.y + 5, dragonPos.z);
-    modelStack.Scale(20, 15, 1);
-    RenderMesh(meshList[GEO_BACKGROUND_1], false);
-    modelStack.PopMatrix();
-    glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+    //glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+    //modelStack.PushMatrix();
+    //modelStack.Translate(housePos.x, housePos.y + 2, housePos.z);
+    //modelStack.Scale(10, 10, 1);
+    //RenderMesh(meshList[GEO_BACKGROUND_1], false);
+    //modelStack.PopMatrix();
+    //glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
     for (int i = 0; i < 5; ++i)
     {
