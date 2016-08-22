@@ -228,6 +228,7 @@ protected:
 	Mesh* vitaminsBar;
 	Mesh* healthUiBackground;
 	Mesh* statUiBackground;
+	Mesh* barBackground;
 
 	bool showStats;
 

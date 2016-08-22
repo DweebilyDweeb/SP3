@@ -18,6 +18,8 @@ PlayerSS::PlayerSS() {
 	collidables.push_back(TILE_CENTRE);
     portal.push_back(TILE_PORTAL);
     portal.push_back(TILE_PORTAL2);
+    bounce.push_back(TILE_PLATFORM);
+
 }
 
 PlayerSS::~PlayerSS() {
@@ -205,6 +207,13 @@ void PlayerSS::Update(const double& deltaTime) {
 				SceneManager::GetInstance().isSubScene();
 			}
 		}
+		/************************************************************************/
+	}
+
+	if (CheckVegetation())
+	{
+		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
+			tileMap->map[tileY][tileX] = 0;
 	}
 
 	switch (SceneManager::GetInstance().getSubScene()) {

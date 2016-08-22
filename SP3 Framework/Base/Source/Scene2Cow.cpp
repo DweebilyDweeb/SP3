@@ -54,9 +54,6 @@ void Scene2Cow::Init() {
 	tileMap.LoadFile("TileMap//Scene2Cow.csv");
 	tileMap.SetTileSize(1.0f);
 
-	tileSubMap.LoadFile("TileMap//Scene2Sub.csv");
-	tileSubMap.SetTileSize(1.0f);
-
 	InitPlayer();
 	InitCamera();
 }

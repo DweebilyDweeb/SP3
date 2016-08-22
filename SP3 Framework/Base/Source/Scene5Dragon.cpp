@@ -85,6 +85,9 @@ void Scene5Dragon::InitMeshes() {
     meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
     meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
 
+    meshList[GEO_FLY] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+    meshList[GEO_FLY]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//flying_nimbus.tga");
+
 }
 
 void Scene5Dragon::InitSpriteAnimations() {
@@ -203,7 +206,8 @@ void Scene5Dragon::RenderTileMap() {
                 break;
             case 7:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                RenderMesh(meshList[GEO_GRASS]);
+                modelStack.Scale(2, 1, 1);
+                RenderMesh(meshList[GEO_FLY]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
             case 9:

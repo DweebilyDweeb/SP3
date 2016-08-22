@@ -7,6 +7,7 @@
 #include "TileMap.h"
 #include "Camera2D.h"
 #include "PlayerSS.h"
+#include "FishObject.h"
 
 class Scene4FishingPond : public Scene3D {
 
@@ -19,9 +20,11 @@ private:
 		GEO_BACKGROUND_1,
 		GEO_BACKGROUND_2,
 		GEO_BACKGROUND_3,
-
+		
 		//Others
 		GEO_PLAYER,
+
+		GEO_TROUT,
 
 		NUM_GEOMETRY,
 	};
@@ -55,8 +58,11 @@ private:
 
 	float drop;
 	int Level;
-
+	int maxFish;
+	int fishCount;
 	Vector3 fishingRodPos;
+
+	std::vector<FishObject *> m_foList;
 
 public:
 	//Constructor(s) & Destructor
@@ -66,11 +72,16 @@ public:
 	//Virtual Function(s)
 	virtual void Init();
 	virtual void Update(const double& deltaTime);
-	 virtual void UpdateSub(const double& deltaTime){};
+	virtual void UpdateSub(const double& deltaTime){};
 	virtual void Render();
 	virtual void RenderSub(){};
 	virtual void Exit();
 
+	void RenderFO(FishObject *fo);
+	void spawningOfFish(const double& deltaTime);
+	void displacementOfFish(const double& deltaTime);
+
+	FishObject* FetchFO();
 };
 
 #endif
