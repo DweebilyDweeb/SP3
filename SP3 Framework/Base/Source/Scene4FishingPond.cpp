@@ -260,7 +260,7 @@ void Scene4FishingPond::RenderTileMap() {
 
 
 void Scene4FishingPond::RenderPlayer() {
-
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
 	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.1f, player.transform.position.z);
 	//modelStack.Rotate(player.transform.rotation.z, 0, 0, 1);
@@ -276,7 +276,7 @@ void Scene4FishingPond::RenderPlayer() {
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
 	modelStack.PopMatrix();
 	//cout << player.transform.position<<endl;
-
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 }
 
 void Scene4FishingPond::RenderText() {
@@ -370,7 +370,7 @@ void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 		fo->scale.Set(1, 1, 1);
 		fo->mass = 5;
 		fo->pos.Set(Math::RandFloatMinMax(18, 24), 4, -1.1);
-		fo->vel.Set(Math::RandFloatMinMax(-10, 10), Math::RandFloatMinMax(100, 150), 0);
+		fo->vel.Set(Math::RandFloatMinMax(-1, 1), Math::RandFloatMinMax(5, 10), 0);
 
 		fishCount += 1;
 	}
@@ -384,7 +384,7 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 		{
 			Vector3 acceleration, gravity;
 			gravity.Set(0, 1, 0);
-			acceleration = (gravity * 5) * (1 / fo->mass);
+			acceleration = (gravity * Math::RandFloatMinMax(1, 15)) * (1 / fo->mass);
 			fo->vel -= acceleration * (float)deltaTime;
 			if (fo->vel.LengthSquared() > 25)
 			{
