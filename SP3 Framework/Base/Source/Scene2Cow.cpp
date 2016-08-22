@@ -110,7 +110,7 @@ void Scene2Cow::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PORTAL]->animation->Set(0, 3, 0, 1.f, true);
 
 	spriteAnimationList[SPRITE_COW] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 12);
-	spriteAnimationList[SPRITE_COW]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//cow.tga");
+	spriteAnimationList[SPRITE_COW]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//cow2.tga");
 	spriteAnimationList[SPRITE_COW]->animation = new Animation();
 }
 

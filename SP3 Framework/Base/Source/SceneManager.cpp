@@ -106,9 +106,9 @@ SUBSCENE_TYPE SceneManager::getSubScene() const
 	return subScene;
 }
 
-void SceneManager::isSubScene()
+void SceneManager::isSubScene(bool mode)
 {
-	subSceneMode = !subSceneMode;
+	subSceneMode = mode;
 }
 
 bool SceneManager::getIsSubScene() const

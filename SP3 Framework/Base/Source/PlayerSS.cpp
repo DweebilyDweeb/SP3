@@ -200,14 +200,16 @@ void PlayerSS::Update(const double& deltaTime) {
 	}
 
 	velocity.x *= 0.95f * (1.0f - deltaTime);
-	//
 	if (CheckTrigger()) {
-		if (!SceneManager::GetInstance().getIsSubScene()) {
+		{
 			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]) {
-				SceneManager::GetInstance().isSubScene();
+				SceneManager::GetInstance().isSubScene(true);
 			}
 		}
-		/************************************************************************/
+	} 
+	else {
+			if (SceneManager::GetInstance().getIsSubScene())
+				SceneManager::GetInstance().isSubScene(false);
 	}
 
 	if (CheckVegetation())
@@ -218,12 +220,10 @@ void PlayerSS::Update(const double& deltaTime) {
 
 	switch (SceneManager::GetInstance().getSubScene()) {
 	case(ZOOMED_IN) : {
-						  if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES] ||
-							  !CheckTrigger()) {
+						  if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
 							  //if(InputManager::GetInstance().GetInputInfo().keyDown[INPUT_QUIT])
-							  SceneManager::GetInstance().setSubScene(SUB_NONE);
 							  if (SceneManager::GetInstance().getIsSubScene()) {
-								  SceneManager::GetInstance().isSubScene();
+								  SceneManager::GetInstance().isSubScene(false);
 							  }
 						  }
 						  break;
@@ -233,7 +233,7 @@ void PlayerSS::Update(const double& deltaTime) {
 							 //if(InputManager::GetInstance().GetInputInfo().keyDown[INPUT_QUIT])
 							 SceneManager::GetInstance().setSubScene(SUB_NONE);
 							 if (SceneManager::GetInstance().getIsSubScene()) {
-								 SceneManager::GetInstance().isSubScene();
+								 SceneManager::GetInstance().isSubScene(false);
 							 }
 						 }
 						 break;

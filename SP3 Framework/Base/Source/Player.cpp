@@ -376,19 +376,25 @@ bool Player::CheckTrigger() {
 	int tileX = tileMap->GetTileX(transform.position.x);
 	int tileY = tileMap->GetTileY(transform.position.y);
 	switch (SceneManager::GetInstance().getSubScene()) {
-	case(SUB_NONE) : {
-						 if (tileMap->map[tileY][tileX] == TILE_CHICKEN ||
-							 tileMap->map[tileY][tileX] == TILE_COW ||
-							 tileMap->map[tileY][tileX] == TILE_TRIGGER) {
-							 return true;
-						 }
-						 break;
+	case(SUB_NONE) :
+	case(ZOOMED_IN) : {
+		if (tileMap->map[tileY][tileX] == TILE_CHICKEN ||
+			tileMap->map[tileY][tileX] == TILE_COW ||
+			tileMap->map[tileY][tileX] == TILE_TRIGGER) {
+			return true;
+		}
+		else
+			return false;
+		break;
 	}
 	case(TOP_DOWN) : {
-						 if (tileMap->map[tileY][tileX] == 74)
-							 return true;
-						 break;
+		if (tileMap->map[tileY][tileX] == 74)
+			return true;
+		break;
 	}
+	default:
+		return false;
+		break;
 	}
 }
 
