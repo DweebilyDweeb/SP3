@@ -20,7 +20,7 @@ PlayerSS::PlayerSS() {
     portal.push_back(TILE_PORTAL);
     portal.push_back(TILE_PORTAL2);
     bounce.push_back(TILE_PLATFORM);
-
+	accumTime = 0.5f;
 }
 
 PlayerSS::~PlayerSS() {
@@ -30,6 +30,7 @@ void PlayerSS::Update(const double& deltaTime) {
 
 	//Assume our player is always the same size as 1 tile.
 	Player::Update(deltaTime);
+	accumTime += deltaTime;
 
 	maxSpeed = tileMap->GetTileSize() * 20;
 	transform.scale.Set(tileMap->GetTileSize(), tileMap->GetTileSize(), 1);
@@ -204,41 +205,57 @@ void PlayerSS::Update(const double& deltaTime) {
 	if (CheckTrigger()) {
 		{
 			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]) {
-				SceneManager::GetInstance().isSubScene(true);
+				
+				switch (SceneManager::GetInstance().getCurrSceneEnum())
+				{
+				case FISH:
+				{
+					if (accumTime > 0.5f)
+					{
+						if (SceneManager::GetInstance().getIsChgScene() == false)
+							SceneManager::GetInstance().isChgScene(true);
+						else if (SceneManager::GetInstance().getIsChgScene() == true)
+							SceneManager::GetInstance().isChgScene(false);
+						accumTime = 0.f;
+					}
+					break;
+				}
+				case APPLE:
+				{
+					if (SceneManager::GetInstance().getIsChgScene() == false)
+						SceneManager::GetInstance().isChgScene(true);
+					break;
+				}
+				default:
+					if (SceneManager::GetInstance().getIsChgScene() == false)
+						SceneManager::GetInstance().isChgScene(true);
+					break;
+
+				}
 			}
 		}
 	} 
-	else {
-			if (SceneManager::GetInstance().getIsSubScene())
-				SceneManager::GetInstance().isSubScene(false);
-	}
-
+			
 	if (CheckVegetation())
 	{
 		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
 			tileMap->map[tileY][tileX] = 0;
 	}
 
-	switch (SceneManager::GetInstance().getSubScene()) {
-	case(ZOOMED_IN) : {
-						  if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
+	switch (SceneManager::GetInstance().getChgScene()) {
+	case(CHG_APPLE) : {
+						  if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES] || !CheckTrigger()) {
 							  //if(InputManager::GetInstance().GetInputInfo().keyDown[INPUT_QUIT])
-							  if (SceneManager::GetInstance().getIsSubScene()) {
-								  SceneManager::GetInstance().isSubScene(false);
+							  if (SceneManager::GetInstance().getIsChgScene()) {
+								  SceneManager::GetInstance().isChgScene(false);
 							  }
 						  }
 						  break;
 	}
-	case(TOP_DOWN) : {
-						 if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
-							 //if(InputManager::GetInstance().GetInputInfo().keyDown[INPUT_QUIT])
-							 SceneManager::GetInstance().setSubScene(SUB_NONE);
-							 if (SceneManager::GetInstance().getIsSubScene()) {
-								 SceneManager::GetInstance().isSubScene(false);
-							 }
-						 }
-						 break;
-	}
+
+					  switch (SceneManager::GetInstance().getSubScene()) {
+						 
+					  }
 	}
 }
 	//
