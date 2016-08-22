@@ -159,9 +159,9 @@ void Scene2Cow::Update(const double& deltaTime) {
 
 	Scene3D::Update(deltaTime);
 
-	if (SceneManager::GetInstance().getIsSubScene()) {
+	/*if (SceneManager::GetInstance().getIsSubScene()) {
 		SceneManager::GetInstance().setSubScene(TOP_DOWN);
-	}
+	}*/
 }
 
 void Scene2Cow::Render() {

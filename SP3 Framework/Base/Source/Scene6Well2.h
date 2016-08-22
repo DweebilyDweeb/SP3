@@ -1,5 +1,5 @@
-#ifndef SCENE_6_WELL_H
-#define SCENE_6_WELL_H
+#ifndef SCENE_6_WELL_2_H
+#define SCENE_6_WELL_2_H
 
 #include "Scene3D.h"
 #include "Mesh.h"
@@ -9,7 +9,7 @@
 #include "PlayerSS.h"
 #include "BucketObject.h"
 
-class Scene6Well : public Scene3D {
+class Scene6Well2 : public Scene3D {
 
 private:
     enum GEOMETRY_TYPE {
@@ -21,9 +21,6 @@ private:
         GEO_BACKGROUND_2,
         GEO_BACKGROUND_3,
         GEO_BACKGROUND_4,
-        GEO_WELL,
-        GEO_WELL2,
-        GEO_BUCKET,
         //Others
         GEO_PLAYER,
 
@@ -61,26 +58,20 @@ private:
     int Level;
 
     Vector3 wellPos;
-    Vector3 bucketPos;
-
-    std::vector<BucketObject *> m_boList;
 
 public:
     //Constructor(s) & Destructor
-    Scene6Well();
-    virtual ~Scene6Well();
+    Scene6Well2();
+    virtual ~Scene6Well2();
 
     //Virtual Function(s)
     virtual void Init();
     virtual void Update(const double& deltaTime);
-	virtual void UpdateSub(const double& deltaTime){};
-	virtual void Render();
-	virtual void RenderSub(){};
-	virtual void Exit();
+    virtual void UpdateSub(const double& deltaTime){};
+    virtual void Render();
+    virtual void RenderSub(){};
+    virtual void Exit();
 
-    void RenderBO(BucketObject *fo);
-
-    BucketObject* FetchBO();
 };
 
 #endif

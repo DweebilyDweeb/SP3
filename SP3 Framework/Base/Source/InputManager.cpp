@@ -98,6 +98,23 @@ void InputManager::Update() {
 		inputInfo.keyReleased[INPUT_INTERACT] = 1;
 		inputInfo.keyValue[INPUT_INTERACT] = 1.0f;
 	}
+    if (keyboard.IsKeyPressed('A')){
+        inputInfo.keyDown[INPUT_WELL] = 1;
+        inputInfo.keyValue[INPUT_WELL] = 1.0f;
+    }
+    if (keyboard.IsKeyReleased('A')){
+        inputInfo.keyReleased[INPUT_WELL] = 1;
+        inputInfo.keyValue[INPUT_WELL] = 1.0f;
+    }
+
+    if (keyboard.IsKeyPressed('D')){
+        inputInfo.keyDown[INPUT_WELL2] = 1;
+        inputInfo.keyValue[INPUT_WELL2] = 1.0f;
+    }
+    if (keyboard.IsKeyReleased('D')){
+        inputInfo.keyReleased[INPUT_WELL2] = 1;
+        inputInfo.keyValue[INPUT_WELL2] = 1.0f;
+    }
 
 	/********************************************************************************************************************/
 	//Do not touch anything below unless you know what you're doing.

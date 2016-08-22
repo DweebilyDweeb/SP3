@@ -687,6 +687,7 @@ void Scene3D::RenderAttributeUI()
 		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 7.2, 5, 0.5);
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
+
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
 	else

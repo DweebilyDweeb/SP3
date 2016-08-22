@@ -67,6 +67,8 @@ void Scene4FishingPond::Init() {
 	Level = 1;
 	maxFish = 6;
 	fishCount = 0;
+	accumTime = 0.5f;
+	onElectricity = false;
 }
 
 void Scene4FishingPond::InitMeshes() {
@@ -84,6 +86,9 @@ void Scene4FishingPond::InitMeshes() {
 	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
 
+	meshList[GEO_GENERATOR] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_GENERATOR]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//generator.tga");
+
 	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
 	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//fishing_rod.tga");
 
@@ -94,7 +99,10 @@ void Scene4FishingPond::InitMeshes() {
 	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
 
 	meshList[GEO_TROUT] = MeshBuilder::GenerateQuad("trout", Color(1, 1, 1), 0.4);
-	meshList[GEO_TROUT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//fish2.tga");
+	meshList[GEO_TROUT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//fish3.tga");
+
+	meshList[GEO_SHARK] = MeshBuilder::GenerateQuad("shark", Color(1, 1, 1), 0.4);
+	meshList[GEO_SHARK]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//shark.tga");
 
 }
 
@@ -129,7 +137,10 @@ void Scene4FishingPond::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_WATER]->animation = new Animation();
 	spriteAnimationList[SPRITE_WATER]->animation->Set(0, 31, 0, 5.f, true);
 
-
+	spriteAnimationList[SPRITE_ELECTRICITY] = MeshBuilder::GenerateSpriteAnimation("electricity", 5, 5);
+	spriteAnimationList[SPRITE_ELECTRICITY]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//electric.tga");
+	spriteAnimationList[SPRITE_ELECTRICITY]->animation = new Animation();
+	spriteAnimationList[SPRITE_ELECTRICITY]->animation->Set(0, 24, 0, 1.f, true);
 
 
 }
@@ -180,6 +191,12 @@ void Scene4FishingPond::Update(const double& deltaTime) {
 
 	spawningOfFish(deltaTime);
 	displacementOfFish(deltaTime);
+
+	if (SceneManager::GetInstance().getIsChgScene()) {
+		onElectricity = true;
+	}
+	else
+		onElectricity = false;
 
 	Scene3D::Update(deltaTime);
 }
@@ -249,7 +266,17 @@ void Scene4FishingPond::RenderTileMap() {
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
 			case 8:
-				fishingRodPos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -20);
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				RenderMesh(meshList[GEO_GENERATOR]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 23:
+				if (onElectricity == true)
+				{
+					glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+					RenderSpriteAnimation(spriteAnimationList[SPRITE_ELECTRICITY]);
+					glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				}
 				break;
 			}
 			modelStack.PopMatrix();
@@ -260,7 +287,7 @@ void Scene4FishingPond::RenderTileMap() {
 
 
 void Scene4FishingPond::RenderPlayer() {
-
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
 	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.1f, player.transform.position.z);
 	//modelStack.Rotate(player.transform.rotation.z, 0, 0, 1);
@@ -276,7 +303,7 @@ void Scene4FishingPond::RenderPlayer() {
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
 	modelStack.PopMatrix();
 	//cout << player.transform.position<<endl;
-
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 }
 
 void Scene4FishingPond::RenderText() {
@@ -291,13 +318,13 @@ void Scene4FishingPond::RenderBackground()
 	float backgroundScaleX = camWidth * 2.0f;
 	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
 
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	/*glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
 	modelStack.Translate(fishingRodPos.x + 1.f, fishingRodPos.y + 0.5f, fishingRodPos.z);
 	modelStack.Scale(2, 2, 1);
 	RenderMesh(meshList[GEO_BACKGROUND_1], false);
 	modelStack.PopMatrix();
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);*/
 
 	for (int i = 0; i < 5; ++i)
 	{
@@ -349,28 +376,56 @@ void Scene4FishingPond::RenderFO(FishObject *fo)
 	case FishObject::FT_TROUT:
 		modelStack.PushMatrix();
 		modelStack.Translate(fo->pos.x, fo->pos.y, fo->pos.z);
-		modelStack.Rotate(fo->rotation - 225, 0, 0, 1);
-		modelStack.Scale(fo->scale.x, fo->scale.y, fo->scale.z);
+		modelStack.Rotate(fo->rotation - 90, 0, 0, 1);
+		if (fo->invert)
+			modelStack.Scale(-fo->scale.x, fo->scale.y, fo->scale.z);
+		else
+			modelStack.Scale(fo->scale.x, fo->scale.y, fo->scale.z);
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-		RenderMesh(meshList[GEO_TROUT], false);
+		RenderMesh(meshList[GEO_TROUT], false, fo->invert);
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		modelStack.PopMatrix();
 		break;
-	
+	case FishObject::FT_SHARK:
+		modelStack.PushMatrix();
+		modelStack.Translate(fo->pos.x, fo->pos.y, fo->pos.z);
+		modelStack.Rotate(fo->rotation - 90, 0, 0, 1);
+		if (fo->invert)
+			modelStack.Scale(-fo->scale.x, fo->scale.y, fo->scale.z);
+		else
+			modelStack.Scale(fo->scale.x, fo->scale.y, fo->scale.z);
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		RenderMesh(meshList[GEO_SHARK], false, fo->invert);
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		modelStack.PopMatrix();
+		break;
 	}
 }
 
 void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 {
-	if (fishCount < maxFish)
+	if (fishCount < maxFish && onElectricity)
 	{
+		int randNo = Math::RandFloatMinMax(1, 10);
 		FishObject * fo = FetchFO();
 		fo->active = true;
-		fo->type = FishObject::FT_TROUT;
-		fo->scale.Set(1, 1, 1);
-		fo->mass = 5;
-		fo->pos.Set(Math::RandFloatMinMax(18, 24), 4, -1.1);
-		fo->vel.Set(Math::RandFloatMinMax(-10, 10), Math::RandFloatMinMax(100, 150), 0);
+		if (randNo < 9)
+		{
+			fo->type = FishObject::FT_TROUT;
+			fo->scale.Set(1, 1, 1);
+			fo->mass = 5;
+			fo->pos.Set(Math::RandFloatMinMax(18, 24), 4, -1.1);
+			fo->vel.Set(Math::RandFloatMinMax(-1, 1), Math::RandFloatMinMax(5, 10), 0);
+		}
+		else
+		{
+			fo->type = FishObject::FT_SHARK;
+			fo->scale.Set(4, 4, 4);
+			fo->mass = 5;
+			fo->pos.Set(Math::RandFloatMinMax(18, 24), 4, -1.1);
+			fo->vel.Set(Math::RandFloatMinMax(-1, 1), Math::RandFloatMinMax(2, 5), 0);
+		}
+		
 
 		fishCount += 1;
 	}
@@ -384,7 +439,7 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 		{
 			Vector3 acceleration, gravity;
 			gravity.Set(0, 1, 0);
-			acceleration = (gravity * 5) * (1 / fo->mass);
+			acceleration = (gravity * Math::RandFloatMinMax(1, 15)) * (1 / fo->mass);
 			fo->vel -= acceleration * (float)deltaTime;
 			if (fo->vel.LengthSquared() > 25)
 			{
@@ -398,15 +453,36 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 				fishCount -= 1;
 				fo->active = false;
 			}
-			if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
+			if (fo->type == FishObject::FT_TROUT)
 			{
-				//item in inventory increase herre
-				fishCount -= 1;
-				fo->active = false;
+				if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
+				{
+					//item in inventory increase herre
+					fishCount -= 1;
+					fo->active = false;
+				}
+			}
+			if (fo->type == FishObject::FT_SHARK)
+			{
+				if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
+				{
+					//kills player leads him to death screen
+					fishCount -= 1;
+					fo->active = false;
+				}
+			}
+			if (fo->vel.x > 0)
+			{
+				fo->invert = true;
+			}
+			else
+			{
+				fo->invert = false;
 			}
 			fo->rotation = Math::RadianToDegree(atan2(fo->vel.y, fo->vel.x));
+			fo->pos += (float)deltaTime * fo->vel;
 		}
 
-		fo->pos += (float)deltaTime * fo->vel;
+		
 	}
 }

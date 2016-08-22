@@ -19,7 +19,6 @@ private:
         GEO_BACKGROUND_1,
         GEO_BACKGROUND_2,
         GEO_BACKGROUND_3,
-        GEO_FLY,
 
         //Others
         GEO_PLAYER,
@@ -56,7 +55,7 @@ private:
     float drop;
     int Level;
 
-    Vector3 dragonPos;
+    Vector3 housePos;
 
 public:
     //Constructor(s) & Destructor
@@ -66,11 +65,10 @@ public:
     //Virtual Function(s)
     virtual void Init();
     virtual void Update(const double& deltaTime);
-	 virtual void UpdateSub(const double& deltaTime){};
-	virtual void Render();
-	virtual void RenderSub(){};
-	virtual void Exit();
-
+    virtual void Render();
+    virtual void Exit();
+    virtual void UpdateSub(const double& deltaTime) {};
+    virtual void RenderSub() {};
 };
 
 #endif

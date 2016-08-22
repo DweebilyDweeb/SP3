@@ -8,6 +8,7 @@ struct FishObject
 	enum FISH_TYPE
 	{
 		FT_TROUT,
+		FT_SHARK,
 		FT_TOTAL
 	};
 
@@ -17,6 +18,7 @@ struct FishObject
 	Vector3 scale;
 	Vector3 dir;
 	bool active;
+	bool invert;
 	float rotation;
 	float mass;
 	float timeAlive;
