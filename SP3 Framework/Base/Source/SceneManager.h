@@ -22,11 +22,23 @@ enum SCENE_TYPE
 
 enum SUBSCENE_TYPE
 {
+	//for those scenes that doesn't need a new scene don't put here
 	SUB_NONE,
-	TOP_DOWN,
-	ZOOMED_IN,
+	SUB_COW,
+	SUB_CHICKEN,
+	SUB_WELL,
 	TOTAL_SUBSCENES
 };
+
+enum CHANGESCENE_TYPE
+{
+	CHG_NONE,
+	CHG_HOME,
+	CHG_FISH,
+	CHG_APPLE,
+	TOTAL_CHGSCENES
+};
+
 class SceneManager : public Singleton<SceneManager>	
 {
 	friend class Singleton<SceneManager>;
@@ -40,11 +52,14 @@ public:
 	void setPrevScene(SCENE_TYPE prev);
 	SCENE_TYPE getPrevScene() const;
 
-	void setSubScene(SUBSCENE_TYPE type);
-	SUBSCENE_TYPE getSubScene() const;
+	void setSubScene(SUBSCENE_TYPE type){};
+	SUBSCENE_TYPE getSubScene() const { return subType; };
 
-	void isSubScene(bool mode);
-	bool getIsSubScene() const;
+	void setChgScene(CHANGESCENE_TYPE type);
+	CHANGESCENE_TYPE getChgScene() const;
+
+	void isChgScene(bool mode);
+	bool getIsChgScene() const;
 
 	void Init();
 	void Update(double dt);
@@ -56,13 +71,15 @@ private:
 	SceneManager();
 	SCENE_TYPE sceneType;
 	SCENE_TYPE prevScene;
-	SUBSCENE_TYPE subScene;
+	SUBSCENE_TYPE subType;
+	CHANGESCENE_TYPE chgScene;
 	Scene3D* sceneList[TOTAL_SCENES];
-	
+	Scene3D* subList[TOTAL_SUBSCENES];
+
     bool Home;
     bool World;
     bool Dragon;
-	bool subSceneMode;
+	bool chgSceneMode;
 };
 
 #endif //SCENE_MANAGER_H
