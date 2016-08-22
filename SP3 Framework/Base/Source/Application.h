@@ -2,6 +2,7 @@
 #define APPLICATION_H
 
 #include "timer.h"
+#include "Time.h"
 
 #include "Sound.h"
 
@@ -18,6 +19,7 @@ public:
 	static Family* mother;
 	static Family* son;
 	static Family* daughter;
+	static Time* clock;
 	int GetWindowWidth();
 	int GetWindowHeight();
 

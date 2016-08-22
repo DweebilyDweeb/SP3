@@ -290,6 +290,8 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 
 void Scene3D::Update(const double& deltaTime) {
 	UpdateAttributeUI(deltaTime);
+	Application::clock->UpdateTime(deltaTime);
+	cout << Application::clock->getTime();
 }
 
 //Things that need to be updated every frame.
@@ -642,6 +644,10 @@ void Scene3D::InitAttributeUI()
 	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
     statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//stats2.tga");
 	barBackground = MeshBuilder::GenerateQuad("barBackground", Color(0.5, 0.5, 0.5), 1);
+	bigClock = MeshBuilder::GenerateQuad("Clock", Color(1, 1, 1));
+	bigClock->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWOHands.tga");
+	clockHandH = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
+	clockHandH->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
 
 	Application::mother->Init();
@@ -754,7 +760,13 @@ void Scene3D::RenderAttributeUI()
         glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
 
-	
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	RenderMeshIn2D(bigClock, 5, 5, 12, 8, 0, 0, 0, 0, 0, 0);
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	RenderMeshIn2D(clockHandH, 2, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, Application::clock->getRotation());
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 }
 
 bool Scene3D::getDistXY(Vector3 one, Vector3 two, float dist)

@@ -27,6 +27,7 @@
 #include "Scene9Wheat.h"
 
 GLFWwindow* m_window;
+Time* Application::clock = new Time(0, 0, 1, true);
 Family* Application::mother = new Mother();
 Family* Application::son = new Son();
 Family* Application::daughter = new Daughter();
@@ -187,6 +188,7 @@ void Application::Exit() {
     delete mother;
     delete son;
     delete daughter;
+	delete clock;
     //Sound Engine
     DeleteEngine();
     //Close OpenGL window and terminate GLFW

@@ -11,7 +11,6 @@
 #include "Son.h"
 #include "Daughter.h"
 
-
 const unsigned int MAX_LIGHTS = 8;
 
 class Scene3D : public Scene {
@@ -229,6 +228,8 @@ protected:
 	Mesh* healthUiBackground;
 	Mesh* statUiBackground;
 	Mesh* barBackground;
+	Mesh* bigClock;
+	Mesh* clockHandH;
 
 	bool showStats;
 
