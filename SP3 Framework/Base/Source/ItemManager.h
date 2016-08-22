@@ -130,4 +130,128 @@ private:
 	Attributes attri;
 };
 
+class Cabbage : public Item
+{
+public:
+	Cabbage(int vnum = 1)
+	{
+		setName("Cabbage");
+		setNum(vnum);
+		attri.setAttributes(0, 0, 0, 0, 1);
+	}
+	virtual ~Cabbage(){};
+	virtual Attributes getAttributes() {
+		return attri;
+	}
+	virtual void setPosition(const Vector3& pos) {
+		position = pos;
+	}
+
+	virtual Vector3 getPosition() {
+		return position;
+	}
+
+private:
+	Attributes attri;
+};
+
+class Carrot : public Item
+{
+public:
+	Carrot(int vnum = 1)
+	{
+		setName("Carrot");
+		setNum(vnum);
+		attri.setAttributes(0, 0, 0, 0, 1);
+	}
+	virtual ~Carrot(){};
+	virtual Attributes getAttributes() {
+		return attri;
+	}
+	virtual void setPosition(const Vector3& pos) {
+		position = pos;
+	}
+
+	virtual Vector3 getPosition() {
+		return position;
+	}
+
+private:
+	Attributes attri;
+};
+
+class Potato : public Item
+{
+public:
+	Potato(int vnum = 1)
+	{
+		setName("Potato");
+		setNum(vnum);
+		attri.setAttributes(0, 0, 0, 0, 1);
+	}
+	virtual ~Potato(){};
+	virtual Attributes getAttributes() {
+		return attri;
+	}
+	virtual void setPosition(const Vector3& pos) {
+		position = pos;
+	}
+
+	virtual Vector3 getPosition() {
+		return position;
+	}
+
+private:
+	Attributes attri;
+};
+
+class Wheat : public Item
+{
+public:
+	Wheat(int vnum = 1)
+	{
+		setName("Wheat");
+		setNum(vnum);
+		attri.setAttributes(0, 0, 0, 0, 1);
+	}
+	virtual ~Wheat(){};
+	virtual Attributes getAttributes() {
+		return attri;
+	}
+	virtual void setPosition(const Vector3& pos) {
+		position = pos;
+	}
+
+	virtual Vector3 getPosition() {
+		return position;
+	}
+
+private:
+	Attributes attri;
+};
+
+class Corn : public Item
+{
+public:
+	Corn(int vnum = 1)
+	{
+		setName("Wheat");
+		setNum(vnum);
+		attri.setAttributes(0, 0, 0, 0, 1);
+	}
+	virtual ~Corn(){};
+	virtual Attributes getAttributes() {
+		return attri;
+	}
+	virtual void setPosition(const Vector3& pos) {
+		position = pos;
+	}
+
+	virtual Vector3 getPosition() {
+		return position;
+	}
+
+private:
+	Attributes attri;
+};
 #endif

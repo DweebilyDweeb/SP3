@@ -24,4 +24,23 @@ struct ChickenObject : public GameObject
 	ChickenObject();
 	~ChickenObject();
 
+	void setChickenStates(CHICKEN_STATES state);
+	void setPos(Vector3 position);
+	void setVel(Vector3 velocity);
+	void setScale(Vector3 scale);
+	void setDir(Vector3 dir);
+	void setActive(bool activity);
+	void setRotation(float rotate);
+	void setMass(float heavy);
+	void setTimeAlive(float time);
+
+	CHICKEN_STATES getChickenStates();
+	Vector3 getPos();
+	Vector3 getVel();
+	Vector3 getScale();
+	Vector3 getDir();
+	bool getActive();
+	float getRotation();
+	float getMass();
+	float getTimeAlive();
 };

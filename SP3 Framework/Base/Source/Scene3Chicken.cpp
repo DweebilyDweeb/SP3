@@ -154,11 +154,7 @@ void Scene3Chicken::InitPlayer() {
 void Scene3Chicken::InitCamera() {
 
 	camera.SetPlayer(player);
-
-	if (SceneManager::GetInstance().getSubScene() == false)
-		camera.SetTileMap(tileMap);
-	else
-		camera.SetTileMap(minigame);
+	camera.SetTileMap(tileMap);
 
 }
 
@@ -180,15 +176,10 @@ void Scene3Chicken::Render() {
 
 	Scene3D::Render();
 	SetToCameraView(&camera);
-	if (SceneManager::GetInstance().getSubScene() == true)
-		RenderSub();
-	else
-	{
-		RenderTileMap();
-		RenderBackground();
-		RenderPlayer();
-		RenderText();
-	}
+	RenderTileMap();
+	RenderBackground();
+	RenderPlayer();
+	RenderText();
 
 }
 

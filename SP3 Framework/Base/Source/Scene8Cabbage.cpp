@@ -226,13 +226,13 @@ void Scene8Cabbage::RenderTileMap() {
 				break;
 			case 16:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Translate(0, -0.5f, 1);
+				modelStack.Translate(0, -0.5f, -1);
 				RenderMesh(meshList[GEO_CARROT]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 17:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Translate(0, -0.2f, 1);
+				modelStack.Translate(0, -0.2f, -1);
 				RenderMesh(meshList[GEO_POTATO]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
