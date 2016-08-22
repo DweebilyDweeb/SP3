@@ -14,6 +14,7 @@ PlayerSS::PlayerSS() {
     spin = 0.0f;
 	collidables.push_back(TILE_DIRT);
 	collidables.push_back(TILE_GRASS);
+    collidables.push_back(TILE_WELL);
     portal.push_back(TILE_PORTAL);
     portal.push_back(TILE_PORTAL2);
     bounce.push_back(TILE_PLATFORM);
@@ -207,8 +208,13 @@ void PlayerSS::Update(const double& deltaTime) {
 
 		if (CheckTrigger())
 		{
-			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
-				SceneManager::GetInstance().setSubScene();
+            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]){
+                SceneManager::GetInstance().setSubScene();
+                if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_WELL])
+                {
+                    
+                }
+            }
 		}
 		/************************************************************************/
 	}

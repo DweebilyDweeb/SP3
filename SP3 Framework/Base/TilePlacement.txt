@@ -8,7 +8,9 @@
 7 - Platform
 8 - Trigger
 9 - Right Portal
-
+10 - Invisible Collision
+11 - Well
+12 - Well2
 
 30 - Chicken
 31 - Cow

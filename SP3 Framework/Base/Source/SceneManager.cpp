@@ -5,6 +5,7 @@
 #include "Scene4FishingPond.h"
 #include "Scene5Dragon.h"
 #include "Scene6Well.h"
+#include "Scene6Well2.h"
 #include "Scene7Apple.h"
 #include "Scene8Cabbage.h"
 #include "Scene9Wheat.h"
@@ -33,7 +34,7 @@ void SceneManager::Init()
     sceneList[WHEAT] = new Scene9Wheat;
 
     setPrevScene(WHEAT);
-    sceneType = HOME;
+    sceneType = WELL;
 
     if (sceneType == HOME)
     {
@@ -56,16 +57,16 @@ void SceneManager::Init()
     }
     if (Home == true)
     {
-        PlayHome();
+        //PlayHome();
     }
 
     if (World == true)
     {
-        PlayWorld();
+        //PlayWorld();
     }
     if (Dragon == true)
     {
-        PlayDragon();
+        //PlayDragon();
     }
 
     for (int i = 0; i < TOTAL_SCENES; ++i)
