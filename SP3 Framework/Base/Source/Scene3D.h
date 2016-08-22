@@ -229,6 +229,7 @@ protected:
 	Mesh* healthUiBackground;
 	Mesh* statUiBackground;
 	Mesh* barBackground;
+	Mesh* inventoryBar;
 
 	bool showStats;
 

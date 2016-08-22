@@ -43,7 +43,7 @@ public:
 	void setSubScene(SUBSCENE_TYPE type);
 	SUBSCENE_TYPE getSubScene() const;
 
-	void isSubScene();
+	void isSubScene(bool mode);
 	bool getIsSubScene() const;
 
 	void Init();

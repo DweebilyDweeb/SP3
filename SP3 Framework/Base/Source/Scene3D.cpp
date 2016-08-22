@@ -44,6 +44,7 @@ void Scene3D::Exit() {
 	delete healthUiBackground;
 	delete statUiBackground;
 	delete barBackground;
+	delete inventoryBar;
 }
 
 void Scene3D::DeleteShaders() {
@@ -642,6 +643,8 @@ void Scene3D::InitAttributeUI()
 	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
     statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//stats2.tga");
 	barBackground = MeshBuilder::GenerateQuad("barBackground", Color(0.5, 0.5, 0.5), 1);
+	inventoryBar = MeshBuilder::GenerateQuad("inventory", Color(0, 0, 0), 1);
+	inventoryBar->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//inventory.tga");
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
 
 	Application::mother->Init();
@@ -683,14 +686,8 @@ void Scene3D::RenderAttributeUI()
 		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 7.2, 5, 0.5);
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
-		
-		float temp = 11.f;
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "INVENTORY", Color(1, 0, 0), 1, 6, temp);
-		for (map<string, Item*>::iterator it = ItemManager::GetInstance().itemMap.begin(); it != ItemManager::GetInstance().itemMap.end(); ++it) {
-			ostringstream ss;
-			ss << it->first << " x" << it->second->getNum();
-			RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 0, 0), 1, 6, temp-=2);
-		}
+
+		RenderMeshIn2D(inventoryBar, 30, 5, 0, -10);
 
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
@@ -700,16 +697,6 @@ void Scene3D::RenderAttributeUI()
 		RenderTextOnScreen(fontList[FONT_CONSOLAS], "STATS", Color(1, 0, 0), 1, -2, 11);
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-		if (Application::mother->getProtein() > 0)
-			RenderMeshIn2D(proteinBar, Application::mother->getProtein() * 0.05f, 0.5, -10, 6, 5, 0.5);
-		if (Application::mother->getCarbohydrates() > 0)
-			RenderMeshIn2D(carbohydratesBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -10, 4, 5, 0.5);
-		if (Application::mother->getHydration() > 0)
-			RenderMeshIn2D(hydrationBar, Application::mother->getHydration() * 0.05f, 0.5, -10, 2, 5, 0.5);
-		if (Application::mother->getFats() > 0)
-			RenderMeshIn2D(fatsBar, Application::mother->getFats() * 0.05f, 0.5, -10, 0, 5, 0.5);
-		if (Application::mother->getVitamins() > 0)
-			RenderMeshIn2D(vitaminsBar, Application::mother->getVitamins() * 0.05f, 0.5, -10, -2, 5, 0.5);
 
 		if (Application::son->getProtein() > 0)
 			RenderMeshIn2D(proteinBar, Application::son->getCarbohydrates() * 0.05f, 0.5, -5.5, -0.3, 5, 0.5);
