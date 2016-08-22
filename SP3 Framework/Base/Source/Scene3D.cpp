@@ -700,16 +700,6 @@ void Scene3D::RenderAttributeUI()
 		RenderTextOnScreen(fontList[FONT_CONSOLAS], "STATS", Color(1, 0, 0), 1, -2, 11);
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-		if (Application::mother->getProtein() > 0)
-			RenderMeshIn2D(proteinBar, Application::mother->getProtein() * 0.05f, 0.5, -10, 6, 5, 0.5);
-		if (Application::mother->getCarbohydrates() > 0)
-			RenderMeshIn2D(carbohydratesBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -10, 4, 5, 0.5);
-		if (Application::mother->getHydration() > 0)
-			RenderMeshIn2D(hydrationBar, Application::mother->getHydration() * 0.05f, 0.5, -10, 2, 5, 0.5);
-		if (Application::mother->getFats() > 0)
-			RenderMeshIn2D(fatsBar, Application::mother->getFats() * 0.05f, 0.5, -10, 0, 5, 0.5);
-		if (Application::mother->getVitamins() > 0)
-			RenderMeshIn2D(vitaminsBar, Application::mother->getVitamins() * 0.05f, 0.5, -10, -2, 5, 0.5);
 
 		if (Application::son->getProtein() > 0)
 			RenderMeshIn2D(proteinBar, Application::son->getCarbohydrates() * 0.05f, 0.5, -5.5, -0.3, 5, 0.5);
