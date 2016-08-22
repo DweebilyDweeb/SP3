@@ -65,7 +65,7 @@ void Scene4FishingPond::Init() {
 
 	drop = 0.0f;
 	Level = 1;
-	maxFish = 3;
+	maxFish = 6;
 	fishCount = 0;
 }
 
@@ -238,16 +238,16 @@ void Scene4FishingPond::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-            case 9:
-                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
-                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                break;
 			case 5:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_WATER]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
+			case 9:
+                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
+                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
 			case 8:
 				fishingRodPos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -20);
 				break;
@@ -395,6 +395,12 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 			}
 			if (fo->pos.y < 4)
 			{
+				fishCount -= 1;
+				fo->active = false;
+			}
+			if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
+			{
+				//item in inventory increase herre
 				fishCount -= 1;
 				fo->active = false;
 			}
