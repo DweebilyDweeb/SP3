@@ -44,7 +44,6 @@ void Scene3D::Exit() {
 	delete healthUiBackground;
 	delete statUiBackground;
 	delete barBackground;
-	delete inventoryBar;
 }
 
 void Scene3D::DeleteShaders() {
@@ -643,8 +642,6 @@ void Scene3D::InitAttributeUI()
 	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
     statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//stats2.tga");
 	barBackground = MeshBuilder::GenerateQuad("barBackground", Color(0.5, 0.5, 0.5), 1);
-	inventoryBar = MeshBuilder::GenerateQuad("inventory", Color(0, 0, 0), 1);
-	inventoryBar->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//inventory.tga");
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
 
 	Application::mother->Init();
@@ -686,8 +683,14 @@ void Scene3D::RenderAttributeUI()
 		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 7.2, 5, 0.5);
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
-
-		RenderMeshIn2D(inventoryBar, 30, 5, 0, -10);
+		
+		float temp = 11.f;
+		RenderTextOnScreen(fontList[FONT_CONSOLAS], "INVENTORY", Color(1, 0, 0), 1, 6, temp);
+		for (map<string, Item*>::iterator it = ItemManager::GetInstance().itemMap.begin(); it != ItemManager::GetInstance().itemMap.end(); ++it) {
+			ostringstream ss;
+			ss << it->first << " x" << it->second->getNum();
+			RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 0, 0), 1, 6, temp-=2);
+		}
 
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
