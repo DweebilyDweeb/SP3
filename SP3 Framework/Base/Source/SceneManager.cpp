@@ -36,38 +36,7 @@ void SceneManager::Init()
     setPrevScene(WHEAT);
     sceneType = HOME;
 
-    if (sceneType == HOME)
-    {
-        Home = true;
-        World = false;
-        Dragon = false;
-    }
-    if (sceneType == COW || sceneType == CHICKEN || sceneType == FISH || sceneType == WELL || sceneType == APPLE || sceneType == CABBAGE || sceneType == WHEAT)
-    {
-        Home = false;
-        World = true;
-        Dragon = false;
-        
-    }
-    if (sceneType == DRAGON)
-    {
-        Home = false;
-        World = false;
-        Dragon = true;
-    }
-    if (Home == true)
-    {
-        PlayHome();
-    }
-
-    if (World == true)
-    {
-        //PlayWorld();
-    }
-    if (Dragon == true)
-    {
-        //PlayDragon();
-    }
+  
 
     for (int i = 0; i < TOTAL_SCENES; ++i)
     {
@@ -123,6 +92,45 @@ void SceneManager::Update(double dt)
 
 	if (subScene != SUB_NONE)
 		sceneList[sceneType]->UpdateSub(dt);
+
+    if (sceneType == HOME)
+    {
+        Home = true;
+        World = false;
+        Dragon = false;
+    }
+    if (sceneType == COW || sceneType == CHICKEN || sceneType == FISH || sceneType == WELL || sceneType == APPLE || sceneType == CABBAGE || sceneType == WHEAT)
+    {
+        Home = false;
+        World = true;
+        Dragon = false;
+
+    }
+    if (sceneType == DRAGON)
+    {
+        Home = false;
+        World = false;
+        Dragon = true;
+    }
+    if (Home == true)
+    {
+        PlayHome();
+        StopWorld();
+        StopDragon();
+    }
+
+    if (World == true)
+    {
+        PlayWorld();
+        StopHome();
+        StopDragon();
+    }
+    if (Dragon == true)
+    {
+        PlayDragon();
+        StopHome();
+        StopWorld();
+    }
 }
 
 void SceneManager::Render()

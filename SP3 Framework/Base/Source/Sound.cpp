@@ -21,6 +21,12 @@ void PlayHome()
     engine->play2D("Audio/BGM/Home.mp3", true);
 }
 
+void StopHome()
+{
+    if (engine->isCurrentlyPlaying("Audio/BGM/Home.mp3"))
+    engine->removeSoundSource("Audio/BGM/Home.mp3");
+}
+
 void PlayWorld()
 {
     if (engine->isCurrentlyPlaying("Audio/BGM/World.mp3"))
@@ -28,6 +34,11 @@ void PlayWorld()
     engine->play2D("Audio/BGM/World.mp3", true);
 }
 
+void StopWorld()
+{
+    if (engine->isCurrentlyPlaying("Audio/BGM/World.mp3"))
+        engine->removeSoundSource("Audio/BGM/World.mp3");
+}
 
 void PlayDragon()
 {
@@ -36,6 +47,11 @@ void PlayDragon()
     engine->play2D("Audio/BGM/Dragon.mp3", true);
 }
 
+void StopDragon()
+{
+    if (engine->isCurrentlyPlaying("Audio/BGM/Dragon.mp3"))
+        engine->removeSoundSource("Audio/BGM/Dragon.mp3");
+}
 void Play5()
 {
     if (engine->isCurrentlyPlaying("Audio/Reload.wav"))
