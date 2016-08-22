@@ -1,11 +1,11 @@
 #include "Attributes.h"
 
 Attributes::Attributes()
-	: Protein(50)
-	, Carbohydrates(50)
-	, Fats(50)
-	, Vitamins(50)
-	, Hydration(50)
+	: Protein(0)
+	, Carbohydrates(0)
+	, Fats(0)
+	, Vitamins(0)
+	, Hydration(0)
 {
 
 }
@@ -35,6 +35,11 @@ float Attributes::getHydration()
 	return Hydration;
 }
 
+Attributes Attributes::getAttributes()
+{
+	return *this;
+}
+
 float Attributes::getHealth()
 {
 	return Health;
@@ -59,6 +64,15 @@ void Attributes::setVitamins(float value)
 void Attributes::setHydration(float value)
 {
 	Hydration = value;
+}
+
+void Attributes::setAttributes(float p, float c, float f, float v, float h)
+{
+	setProtein(p);
+	setCarbohydrates(c);
+	setFats(f);
+	setVitamins(v);
+	setHydration(h);
 }
 
 void Attributes::addProtein(float value)
@@ -132,22 +146,22 @@ Attributes operator- (const Attributes& lhs, const Attributes& rhs)
 
 Attributes Attributes::operator+= (const Attributes& other)
 {
-	this->Carbohydrates + other.Carbohydrates;
-	this->Fats + other.Fats;
-	this->Hydration + other.Hydration;
-	this->Protein + other.Protein;
-	this->Vitamins + other.Vitamins;
+	this->Carbohydrates += other.Carbohydrates;
+	this->Fats += other.Fats;
+	this->Hydration += other.Hydration;
+	this->Protein += other.Protein;
+	this->Vitamins += other.Vitamins;
 
 	return *this;
 }
 
 Attributes Attributes::operator-= (const Attributes& other)
 {
-	this->Carbohydrates - other.Carbohydrates;
-	this->Fats - other.Fats;
-	this->Hydration - other.Hydration;
-	this->Protein - other.Protein;   
-	this->Vitamins - other.Vitamins;
+	this->Carbohydrates -= other.Carbohydrates;
+	this->Fats -= other.Fats;
+	this->Hydration -= other.Hydration;
+	this->Protein -= other.Protein;   
+	this->Vitamins -= other.Vitamins;
 
 	return *this;
 }

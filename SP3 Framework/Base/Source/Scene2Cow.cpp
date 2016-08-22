@@ -53,6 +53,10 @@ void Scene2Cow::Init() {
 
 	tileMap.LoadFile("TileMap//Scene2Cow.csv");
 	tileMap.SetTileSize(1.0f);
+
+	tileSubMap.LoadFile("TileMap//Scene2Sub.csv");
+	tileSubMap.SetTileSize(1.0f);
+
 	InitPlayer();
 	InitCamera();
 }
@@ -62,10 +66,6 @@ void Scene2Cow::InitMeshes() {
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		meshList[i] = nullptr;
 	}
-	//meshList[GEO_PLAYER] = MeshBuilder::Generate2DTile("Player", Color(1, 1, 1), 1);
-
-	//meshList[GEO_TILE_BRICK] = MeshBuilder::Generate2DTile("Tile Brick", Color(1, 1, 1), 1);
-
 	meshList[GEO_DIRT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
 
@@ -112,7 +112,7 @@ void Scene2Cow::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PORTAL]->animation = new Animation();
 	spriteAnimationList[SPRITE_PORTAL]->animation->Set(0, 3, 0, 1.f, true);
 
-	spriteAnimationList[SPRITE_COW] = MeshBuilder::GenerateSpriteAnimation("Player", 4, 12);
+	spriteAnimationList[SPRITE_COW] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 12);
 	spriteAnimationList[SPRITE_COW]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//cow.tga");
 	spriteAnimationList[SPRITE_COW]->animation = new Animation();
 }
@@ -156,11 +156,15 @@ void Scene2Cow::Update(const double& deltaTime) {
 		spriteAnimationList[i]->Update(deltaTime);
 		spriteAnimationList[i]->animation->animActive = true;
 	}
-
+	
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
 
 	Scene3D::Update(deltaTime);
+
+	if (SceneManager::GetInstance().getIsSubScene()) {
+		SceneManager::GetInstance().setSubScene(TOP_DOWN);
+	}
 }
 
 void Scene2Cow::Render() {
@@ -171,7 +175,6 @@ void Scene2Cow::Render() {
 	RenderBackground();
 	RenderPlayer();
 	RenderText();
-
 }
 
 void Scene2Cow::RenderTileMap() {
@@ -215,7 +218,6 @@ void Scene2Cow::RenderTileMap() {
 			case 11:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				modelStack.PushMatrix();
-				modelStack.Translate(0, -0.2f, 0);
 				modelStack.Scale(1.5, 1.5, 1);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_COW]);
 				modelStack.PopMatrix();
@@ -279,5 +281,4 @@ void Scene2Cow::RenderBackground()
 		modelStack.PopMatrix();
 	}
 }
-
 

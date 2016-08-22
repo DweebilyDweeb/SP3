@@ -19,8 +19,8 @@ void SceneManager::Init()
     Home = true;
     World = false;
     Dragon = false;
-	subScene = false;
-
+	subScene = SUB_NONE;
+	subSceneMode = false;
 
     sceneList[HOME] = new Scene1House;
     sceneList[COW] = new Scene2Cow;
@@ -96,24 +96,40 @@ SCENE_TYPE SceneManager::getPrevScene() const
 	return prevScene;
 }
 
-void SceneManager::setSubScene()
+void SceneManager::setSubScene(SUBSCENE_TYPE type)
 {
-	subScene = !subScene;
+	subScene = type;
 }
 
-bool SceneManager::getSubScene() const
+SUBSCENE_TYPE SceneManager::getSubScene() const
 {
 	return subScene;
+}
+
+void SceneManager::isSubScene()
+{
+	subSceneMode = !subSceneMode;
+}
+
+bool SceneManager::getIsSubScene() const
+{
+	return subSceneMode;
 }
 
 void SceneManager::Update(double dt)
 {
 	sceneList[sceneType]->Update(dt);
+
+	if (subScene != SUB_NONE)
+		sceneList[sceneType]->UpdateSub(dt);
 }
 
 void SceneManager::Render()
 {
 	sceneList[sceneType]->Render();
+
+	if (subScene != SUB_NONE)
+		sceneList[sceneType]->RenderSub();
 }
 
 void SceneManager::Exit()

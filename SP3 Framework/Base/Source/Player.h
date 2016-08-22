@@ -13,11 +13,8 @@ protected:
 	Vector3 velocity;
 	vector<TILE_TYPE> collidables;
 	vector<TILE_TYPE> collectibles;
-    vector<TILE_TYPE> spikes;
-    vector<TILE_TYPE> bounce;
     vector<TILE_TYPE> portal;
-    vector<TILE_TYPE> flag;
-    vector<TILE_TYPE> pole;
+
 
 	bool CheckIfInsideTileMap();
 	bool CheckCollisionLeft();
@@ -27,6 +24,7 @@ protected:
 	
     int CheckPortal();
 	bool CheckTrigger();
+	bool CheckCollect();
 
 	TileMap* tileMap;
 

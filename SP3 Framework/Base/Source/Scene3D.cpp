@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "LoadTGA.h"
 #include "InputManager.h"
+#include "ItemManager.h"
 //#include "Application.h"
 
 //Constructor(s) & Destructor
@@ -681,13 +682,21 @@ void Scene3D::RenderAttributeUI()
 
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
+		
+		float temp = 11.f;
+		RenderTextOnScreen(fontList[FONT_CONSOLAS], "INVENTORY", Color(1, 0, 0), 1, 6, temp);
+		for (map<string, Item*>::iterator it = ItemManager::GetInstance().itemMap.begin(); it != ItemManager::GetInstance().itemMap.end(); ++it) {
+			ostringstream ss;
+			ss << it->first << " x" << it->second->getNum();
+			RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 0, 0), 1, 6, temp-=2);
+		}
+
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
 	else
 	{
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderTextOnScreen(fontList[FONT_CONSOLAS], "STATS", Color(1, 0, 0), 1, -2, 11);
-		
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 		if (Application::mother->getProtein() > 0)

@@ -295,11 +295,28 @@ int Player::CheckPortal() {
 bool Player::CheckTrigger() {
 	int tileX = tileMap->GetTileX(transform.position.x);
 	int tileY = tileMap->GetTileY(transform.position.y);
-	if (tileMap->map[tileY][tileX] == TILE_CHICKEN || 
-		tileMap->map[tileY][tileX] == TILE_COW     ||
-		tileMap->map[tileY][tileX] == TILE_TRIGGER) {
-		return true;
+	switch (SceneManager::GetInstance().getSubScene()) {
+	case(SUB_NONE) : {
+						 if (tileMap->map[tileY][tileX] == TILE_CHICKEN ||
+							 tileMap->map[tileY][tileX] == TILE_COW ||
+							 tileMap->map[tileY][tileX] == TILE_TRIGGER) {
+							 return true;
+						 }
+						 break;
 	}
+	case(TOP_DOWN) : {
+						 if (tileMap->map[tileY][tileX] == 74)
+							 return true;
+						 break;
+	}
+	}
+}
+
+bool Player::CheckCollect() {
+	int tileX = tileMap->GetTileX(transform.position.x);
+	int tileY = tileMap->GetTileY(transform.position.y);
+//	if (tileMap->map[tileY][tileX] == TILE_APPLE)
+//		return true;
 	return false;
 }
 
