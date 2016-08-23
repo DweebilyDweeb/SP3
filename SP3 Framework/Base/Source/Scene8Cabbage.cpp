@@ -78,9 +78,6 @@ void Scene8Cabbage::InitMeshes() {
 	meshList[GEO_CABBAGE] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_CABBAGE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//cabbage.tga");
 
-	meshList[GEO_CARROT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_CARROT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//carrot.tga");
-
 	meshList[GEO_POTATO] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_POTATO]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//potato.tga");
 
@@ -222,12 +219,6 @@ void Scene8Cabbage::RenderTileMap() {
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				modelStack.Rotate(-40, 0, 0, 1);
 				RenderMesh(meshList[GEO_CABBAGE]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				break;
-			case 16:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Translate(0, -0.5f, -1);
-				RenderMesh(meshList[GEO_CARROT]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 17:
