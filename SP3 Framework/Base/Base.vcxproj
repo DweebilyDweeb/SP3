@@ -22,6 +22,7 @@
     <ClCompile Include="Source\Controller_Keyboard.cpp" />
     <ClCompile Include="Source\Controller_Mouse.cpp" />
     <ClCompile Include="Source\Daughter.cpp" />
+    <ClCompile Include="Source\DeathScreen.cpp" />
     <ClCompile Include="Source\FishObject.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="Source\LoadHmap.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
+    <ClCompile Include="Source\LoseScreen.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
@@ -71,6 +73,7 @@
     <ClInclude Include="Source\Controller_Keyboard.h" />
     <ClInclude Include="Source\Controller_Mouse.h" />
     <ClInclude Include="Source\Daughter.h" />
+    <ClInclude Include="Source\DeathScreen.h" />
     <ClInclude Include="Source\Family.h" />
     <ClInclude Include="Source\FishObject.h" />
     <ClInclude Include="Source\GameObject.h" />
@@ -81,6 +84,7 @@
     <ClInclude Include="Source\LoadHmap.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
+    <ClInclude Include="Source\LoseScreen.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
