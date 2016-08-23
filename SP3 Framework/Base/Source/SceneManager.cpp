@@ -24,9 +24,14 @@ void SceneManager::Init()
     Dragon = false;
 	chgScene = CHG_NONE;
 	chgSceneMode = false;
+<<<<<<< HEAD
 
     sceneList[LOSE] = new LoseScreen;
     sceneList[DEAD] = new DeathScreen;
+=======
+	sceneList[LOSE] = new LoseScreen;
+	sceneList[DEAD] = new DeathScreen;
+>>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
     sceneList[HOME] = new Scene1House;
     sceneList[COW] = new Scene2Cow;
     sceneList[CHICKEN] = new Scene3Chicken;
@@ -41,7 +46,7 @@ void SceneManager::Init()
 	sceneList[SUB_WELL] = new Scene6Well2;
 
     setPrevScene(WHEAT);
-    sceneType = HOME;
+	sceneType = HOME;
 
     if (sceneType == HOME)
     {

@@ -8,8 +8,13 @@
 
 enum SCENE_TYPE
 {
+<<<<<<< HEAD
     LOSE,
     DEAD,
+=======
+	LOSE,
+	DEAD,
+>>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 	HOME,
     COW,
     CHICKEN,

@@ -68,6 +68,7 @@ void Scene4FishingPond::Init() {
 	maxFish = 6;
 	fishCount = 0;
 	accumTime = 0.5f;
+<<<<<<< HEAD
     player.onElectricity = false;
     for (std::vector<FishObject *>::iterator it = m_foList.begin(); it != m_foList.end(); ++it)
     {
@@ -77,6 +78,17 @@ void Scene4FishingPond::Init() {
             fo->active = false;
         }
     }
+=======
+	player.onElectricity = false;
+	for (std::vector<FishObject *>::iterator it = m_foList.begin(); it != m_foList.end(); ++it)
+	{
+		FishObject *fo = (FishObject *)*it;
+		if (fo->active)
+		{
+			fo->active = false;
+		}
+	}
+>>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 }
 
 void Scene4FishingPond::InitMeshes() {
@@ -201,10 +213,24 @@ void Scene4FishingPond::Update(const double& deltaTime) {
 	displacementOfFish(deltaTime);
 
 	if (SceneManager::GetInstance().getIsChgScene()) {
+<<<<<<< HEAD
         player.onElectricity = true;
 	}
 	else
         player.onElectricity = false;
+=======
+		player.onElectricity = true;
+	}
+	else
+		player.onElectricity = false;
+
+	if (player.transform.GetPosition().y < 2)
+	{
+		SceneManager::GetInstance().chgCurrEnumScene(DEAD);
+
+		player.setVelocity(Vector3(0, 0, 0));
+	}
+>>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 
     if (player.transform.GetPosition().y < 2)
     {
@@ -285,7 +311,11 @@ void Scene4FishingPond::RenderTileMap() {
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 23:
+<<<<<<< HEAD
                 if (player.onElectricity == true)
+=======
+				if (player.onElectricity == true)
+>>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 				{
 					glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 					RenderSpriteAnimation(spriteAnimationList[SPRITE_ELECTRICITY]);
@@ -418,7 +448,11 @@ void Scene4FishingPond::RenderFO(FishObject *fo)
 
 void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 {
+<<<<<<< HEAD
     if (fishCount < maxFish && player.onElectricity)
+=======
+	if (fishCount < maxFish && player.onElectricity)
+>>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 	{
 		int randNo = Math::RandFloatMinMax(1, 10);
 		FishObject * fo = FetchFO();
@@ -476,6 +510,7 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 					fo->active = false;
 				}
 			}
+<<<<<<< HEAD
             if (fo->type == FishObject::FT_SHARK)
             {
                 if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
@@ -488,6 +523,20 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
                     player.setVelocity(Vector3(0, 0, 0));
                 }
             }
+=======
+			if (fo->type == FishObject::FT_SHARK)
+			{
+				if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
+				{
+					//kills player leads him to death screen
+					fishCount -= 1;
+					fo->active = false;
+					SceneManager::GetInstance().chgCurrEnumScene(DEAD);
+					
+					player.setVelocity(Vector3(0,0,0));
+				}
+			}
+>>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 			if (fo->vel.x > 0)
 			{
 				fo->invert = true;

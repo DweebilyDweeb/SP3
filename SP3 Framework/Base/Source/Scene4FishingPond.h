@@ -61,7 +61,11 @@ private:
 
 	float drop;
 	float accumTime;
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 	int Level;
 	int maxFish;
 	int fishCount;

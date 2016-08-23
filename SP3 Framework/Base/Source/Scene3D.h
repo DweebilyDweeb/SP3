@@ -293,8 +293,13 @@ public:
 	void UpdateInventoryUI(const double& deltaTime);
 	void RenderInventoryUI();
 
+<<<<<<< HEAD
     void UpdateDeath(const double& deltaTime);
     void RenderDeath();
+=======
+	void UpdateDeath(const double& deltaTime);
+	void RenderDeath();
+>>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 };
 
 #endif
