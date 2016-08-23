@@ -61,7 +61,7 @@ private:
 
 	float drop;
 	float accumTime;
-	bool onElectricity;
+	
 	int Level;
 	int maxFish;
 	int fishCount;

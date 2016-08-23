@@ -4,9 +4,9 @@
 #define statDropRateSlow 0.1f
 #define statDropRateFast 0.3f
 #define maxStat 100.f
-#define statAboveAverage 80.f
-#define statBelowAverage 30.f
-#define statAverage 60.f
+#define statAboveAverage 100.f
+#define statBelowAverage 65.f
+#define statAverage 70.f
 
 class Attributes
 {
@@ -43,6 +43,7 @@ public:
 	void minusHydration(const float&  value, double dt);
 
 	void calculateHealth();
+	void boundStats();
 
 	friend Attributes operator+ (const Attributes&, const Attributes&);
 	friend Attributes operator- (const Attributes&, const Attributes&);

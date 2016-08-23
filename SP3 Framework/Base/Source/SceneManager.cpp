@@ -9,6 +9,8 @@
 #include "Scene7Apple.h"
 #include "Scene8Cabbage.h"
 #include "Scene9Wheat.h"
+#include "DeathScreen.h"
+#include "LoseScreen.h"
 #include "Sound.h"
 
 SceneManager::~SceneManager() 
@@ -22,7 +24,8 @@ void SceneManager::Init()
     Dragon = false;
 	chgScene = CHG_NONE;
 	chgSceneMode = false;
-
+	sceneList[LOSE] = new LoseScreen;
+	sceneList[DEAD] = new DeathScreen;
     sceneList[HOME] = new Scene1House;
     sceneList[COW] = new Scene2Cow;
     sceneList[CHICKEN] = new Scene3Chicken;
@@ -36,7 +39,7 @@ void SceneManager::Init()
 	//subList[SUB_WELL] = new <CPP_NAME>
 
     setPrevScene(WHEAT);
-    sceneType = HOME;
+	sceneType = HOME;
 
     if (sceneType == HOME)
     {

@@ -430,6 +430,7 @@ void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	RenderAttributeUI();
 	RenderInventoryUI();
+	
 }
 void Scene3D::RenderSub() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -648,6 +649,7 @@ void Scene3D::InitAttributeUI()
 	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
     statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//stats2.tga");
 	barBackground = MeshBuilder::GenerateQuad("barBackground", Color(0.5, 0.5, 0.5), 1);
+	barBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//border.tga");
 	bigClock = MeshBuilder::GenerateQuad("Clock", Color(1, 1, 1));
 	bigClock->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWOHands.tga");
 	clockHandH = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
@@ -666,6 +668,11 @@ void Scene3D::UpdateAttributeUI(const double& deltaTime)
 	Application::son->Update(deltaTime);
 	Application::daughter->Update(deltaTime);
 
+	Application::mother->boundStats();
+	Application::son->boundStats();
+	Application::daughter->boundStats();
+	
+
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
 		showStats = true;
 	}
@@ -682,6 +689,7 @@ void Scene3D::RenderAttributeUI()
 {
 	if (!showStats)
 	{
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		if (Application::mother->getHealth() > 0)
 			RenderMeshIn2D(healthBar, Application::mother->getHealth() / 20000, 0.5, -14.4, 10.2, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 10.2, 5, 0.5);
@@ -691,7 +699,7 @@ void Scene3D::RenderAttributeUI()
 		if (Application::daughter->getHealth() > 0)
 			RenderMeshIn2D(healthBar, Application::daughter->getHealth() / 20000, 0.5, -14.4, 7.2, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 7.2, 5, 0.5);
-		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
 
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
@@ -700,7 +708,7 @@ void Scene3D::RenderAttributeUI()
 	{
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderTextOnScreen(fontList[FONT_CONSOLAS], "STATS", Color(1, 0, 0), 1, -2, 11);
-		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		
 
 
 		if (Application::son->getProtein() > 0)
@@ -751,7 +759,7 @@ void Scene3D::RenderAttributeUI()
 			RenderMeshIn2D(hydrationBar, Application::daughter->getHydration() * 0.05f, 0.5, 5, -9.25, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, 5, -9.25, 5, 0.5);
 		
-        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+       
 		RenderMeshIn2D(statUiBackground, 30, 30);
         glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
@@ -846,4 +854,14 @@ void Scene3D::setZoomValues(float zoomAmount, float zoomOffsetX, float zoomOffse
 	this->zoomAmount = zoomAmount;
 	this->zoomOffsetX = zoomOffsetX;
 	this->zoomOffsetY = zoomOffsetY;
+}
+
+void Scene3D::UpdateDeath(const double& deltaTime)
+{
+
+}
+void Scene3D::RenderDeath()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
 }

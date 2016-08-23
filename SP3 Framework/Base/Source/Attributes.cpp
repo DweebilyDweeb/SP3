@@ -1,4 +1,5 @@
 #include "Attributes.h"
+#include "SceneManager.h"
 
 Attributes::Attributes()
 	: Protein(0)
@@ -164,4 +165,30 @@ Attributes Attributes::operator-= (const Attributes& other)
 	this->Vitamins -= other.Vitamins;
 
 	return *this;
+}
+
+void Attributes::boundStats()
+{
+	if (Carbohydrates > maxStat)
+		Carbohydrates = maxStat;
+	if (Fats > maxStat)
+		Fats = maxStat;
+	if (Hydration > maxStat)
+		Hydration = maxStat;
+	if (Protein > maxStat)
+		Protein = maxStat;
+	if (Vitamins > maxStat)
+		Vitamins = maxStat;
+
+	if (Carbohydrates < 0
+		|| Fats < 0
+		|| Hydration < 0
+		|| Protein < 0
+		|| Vitamins < 0)
+	{
+
+		SceneManager::GetInstance().chgCurrEnumScene(LOSE);
+
+		//player.setVelocity(Vector3(0, 0, 0));
+	}
 }

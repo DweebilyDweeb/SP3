@@ -27,6 +27,7 @@ protected:
 	bool CheckTrigger();
 	bool CheckCollect();
 	bool CheckVegetation();
+	bool CheckElectric();
 
 	TileMap* tileMap;
 
@@ -46,6 +47,9 @@ public:
 	float GetHotspotCentre();
     int score;
     int Level;
+	bool onElectricity;
+	void setVelocity(Vector3 vel);
+	Vector3 getVelocity();
 
 	enum PLAYER_STATE
 	{

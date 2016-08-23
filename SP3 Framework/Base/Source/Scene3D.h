@@ -294,7 +294,8 @@ public:
 	void UpdateInventoryUI(const double& deltaTime);
 	void RenderInventoryUI();
 
-	
+	void UpdateDeath(const double& deltaTime);
+	void RenderDeath();
 };
 
 #endif

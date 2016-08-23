@@ -63,16 +63,40 @@ void PlayerSS::Update(const double& deltaTime) {
 	int tileX = tileMap->GetTileX(transform.position.x);
 	int tileY = tileMap->GetTileY(transform.position.y);
 
+	if (CheckElectric() && onElectricity)
+	{
+		SceneManager::GetInstance().chgCurrEnumScene(DEAD);
+		velocity.x = 0;
+		velocity.y = 0;
+	}
+
 	switch (CheckPortal())
 	{
 	case TILE_PORTAL:
 	{
 						switch (SceneManager::GetInstance().getCurrSceneEnum())
 						{
-						case (0) :
+						case (HOME) :
 							SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(TOTAL_SCENES - 1));
 							velocity.x = 0;
 							velocity.y = 0;
+							break;
+						case(DEAD) :
+							SceneManager::GetInstance().chgCurrEnumScene(HOME);
+							//SceneManager::GetInstance().setPrevScene(COW);
+							SceneManager::GetInstance().setPrevScene(WHEAT);
+							velocity.x = 0;
+							velocity.y = 0;
+							//insert game reset here
+							break;
+						case(LOSE) :
+							//temp
+							SceneManager::GetInstance().chgCurrEnumScene(HOME);
+							//SceneManager::GetInstance().setPrevScene(COW);
+							SceneManager::GetInstance().setPrevScene(WHEAT);
+							velocity.x = 0;
+							velocity.y = 0;
+							//insert game restart here
 							break;
 						default:
 							SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() - 1));
@@ -90,6 +114,12 @@ void PlayerSS::Update(const double& deltaTime) {
 							 SceneManager::GetInstance().chgCurrEnumScene(HOME);
 							 velocity.x = 0;
 							 velocity.y = 0;
+							 break;
+						 case(DEAD) :
+							//return to main menu
+							 break;
+						 case(LOSE) :
+							 //return to main menu
 							 break;
 						 default:
 							 SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() + 1));
