@@ -34,15 +34,15 @@ void Time::UpdateTime(const double& deltaTime)
 {
 	if (active)
 	{
-		minute += 4.5 * deltaTime;
-		rotation = -hour * 30;
+		minute += 1.8 * deltaTime;
+		rotation = float(-hour * 30);
 		if (minute > 60)
 		{
 			hour++;
 			minute = 0;
 		}
 
-		if (hour > 9)
+		if (hour >= 9)
 		{
 			hour = minute = 0;
 			day++;
@@ -78,6 +78,12 @@ bool Time::getActive()
 Time Time::getTime()
 {
 	return Time(hour, minute, day, active);
+}
+
+void Time::setTime(int h, double min)
+{
+	hour = h;
+	minute = min;
 }
 
 std::ostream & operator<<(std::ostream& os, Time& time)
