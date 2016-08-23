@@ -158,11 +158,7 @@ void DeathScreen::Update(const double& deltaTime) {
 void DeathScreen::Render() {
 	SetToCameraView(&camera);
 	//Scene3D::Render();
-<<<<<<< HEAD
     RenderDeath();
-=======
-	RenderDeath();
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 
 	RenderTileMap();
 	RenderBackground();
@@ -233,7 +229,6 @@ void DeathScreen::RenderPlayer() {
 }
 
 void DeathScreen::RenderText() {
-<<<<<<< HEAD
     RenderTextOnScreen(fontList[FONT_CONSOLAS], "DEAD", Color(1, 0, 0), 4, -8, 5);
 
     if (player.transform.position.x < housePos.x + 5)
@@ -241,15 +236,6 @@ void DeathScreen::RenderText() {
     else
         RenderTextOnScreen(fontList[FONT_CONSOLAS], "Are you sure you want to abandon your family?", Color(1, 0, 0), 0.65, -16, 0);
 	
-=======
-
-	RenderTextOnScreen(fontList[FONT_CONSOLAS], "DEAD", Color(1,0,0), 4, -8, 5);
-
-	if (player.transform.position.x < housePos.x + 5)
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "Enter the portal on the left to respawn", Color(1, 0, 0), 0.8, -16, 0);
-	else
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "Are you sure you want to abandon your family?", Color(1, 0, 0), 0.65, -16, 0);
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 }
 void DeathScreen::RenderBackground()
 {

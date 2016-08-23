@@ -24,19 +24,12 @@ protected:
     bool CheckCollisionDown();
 
     int CheckPortal();
-<<<<<<< HEAD
     bool CheckTrigger();
     bool CheckCollect();
     bool CheckVegetation();
     bool CheckElectric();
 
     TileMap* tileMap;
-=======
-	bool CheckTrigger();
-	bool CheckCollect();
-	bool CheckVegetation();
-	bool CheckElectric();
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 
     float hotspotOffset;
 
@@ -54,15 +47,9 @@ public:
     float GetHotspotCentre();
     int score;
     int Level;
-<<<<<<< HEAD
     bool onElectricity;
     void setVelocity(Vector3 vel);
     Vector3 getVelocity();
-=======
-	bool onElectricity;
-	void setVelocity(Vector3 vel);
-	Vector3 getVelocity();
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 
     enum PLAYER_STATE
     {

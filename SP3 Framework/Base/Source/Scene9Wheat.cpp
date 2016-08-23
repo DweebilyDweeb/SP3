@@ -65,6 +65,9 @@ void Scene9Wheat::InitMeshes() {
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		meshList[i] = nullptr;
 	}
+	//meshList[GEO_PLAYER] = MeshBuilder::Generate2DTile("Player", Color(1, 1, 1), 1);
+
+	//meshList[GEO_TILE_BRICK] = MeshBuilder::Generate2DTile("Tile Brick", Color(1, 1, 1), 1);
 
 	meshList[GEO_DIRT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
@@ -72,8 +75,8 @@ void Scene9Wheat::InitMeshes() {
 	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
 
-	meshList[GEO_CARROT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_CARROT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//carrot.tga");
+	meshList[GEO_WHEAT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_WHEAT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//wheat.tga");
 
 	meshList[GEO_CORN] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_CORN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//corn.tga");
@@ -212,10 +215,9 @@ void Scene9Wheat::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 16:
+			case 18:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Translate(0, -0.5f, -1);
-				RenderMesh(meshList[GEO_CARROT]);
+				RenderMesh(meshList[GEO_WHEAT]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 19:

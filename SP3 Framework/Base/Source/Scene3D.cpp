@@ -430,11 +430,7 @@ void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	RenderAttributeUI();
 	RenderInventoryUI();
-<<<<<<< HEAD
     PauseMenu();
-=======
-	
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 }
 void Scene3D::RenderSub() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -652,21 +648,12 @@ void Scene3D::InitAttributeUI()
 	healthUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health2.tga");
 	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
     statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//stats2.tga");
-<<<<<<< HEAD
     barBackground = MeshBuilder::GenerateQuad("barBackground", Color(0.5, 0.5, 0.5), 1);
     barBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//border.tga");
     bigClock = MeshBuilder::GenerateQuad("Clock", Color(1, 1, 1));
     bigClock->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWOHands.tga");
     clockHandH = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
     clockHandH->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
-=======
-	barBackground = MeshBuilder::GenerateQuad("barBackground", Color(0.5, 0.5, 0.5), 1);
-	barBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//border.tga");
-	bigClock = MeshBuilder::GenerateQuad("Clock", Color(1, 1, 1));
-	bigClock->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWOHands.tga");
-	clockHandH = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
-	clockHandH->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
     pause = MeshBuilder::GenerateQuad("Pause", Color(1, 1, 1));
     pause->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//pause.tga");
@@ -682,17 +669,10 @@ void Scene3D::UpdateAttributeUI(const double& deltaTime)
 	Application::son->Update(deltaTime);
 	Application::daughter->Update(deltaTime);
 
-<<<<<<< HEAD
     Application::mother->boundStats();
     Application::son->boundStats();
     Application::daughter->boundStats();
 
-=======
-	Application::mother->boundStats();
-	Application::son->boundStats();
-	Application::daughter->boundStats();
-	
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
 		showStats = true;
@@ -710,11 +690,7 @@ void Scene3D::RenderAttributeUI()
 {
 	if (!showStats)
 	{
-<<<<<<< HEAD
         glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-=======
-		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 		if (Application::mother->getHealth() > 0)
 			RenderMeshIn2D(healthBar, Application::mother->getHealth() / 20000, 0.5, -14.4, 10.2, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 10.2, 5, 0.5);
@@ -784,11 +760,7 @@ void Scene3D::RenderAttributeUI()
 			RenderMeshIn2D(hydrationBar, Application::daughter->getHydration() * 0.05f, 0.5, 5, -9.25, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, 5, -9.25, 5, 0.5);
 		
-<<<<<<< HEAD
 
-=======
-       
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 		RenderMeshIn2D(statUiBackground, 30, 30);
         glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
@@ -933,10 +905,6 @@ void Scene3D::UpdateDeath(const double& deltaTime)
 }
 void Scene3D::RenderDeath()
 {
-<<<<<<< HEAD
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-=======
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 
 }

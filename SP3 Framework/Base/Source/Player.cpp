@@ -414,24 +414,15 @@ float Player::GetHotspotCentre() {
 
 void Player::setVelocity(Vector3 vel)
 {
-<<<<<<< HEAD
     velocity = vel;
 }
 Vector3 Player::getVelocity()
 {
     return velocity;
-=======
-	velocity = vel;
-}
-Vector3 Player::getVelocity()
-{
-	return velocity;
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 }
 
 bool Player::CheckElectric()
 {
-<<<<<<< HEAD
     int tileX = tileMap->GetTileX(transform.position.x);
     int tileY = tileMap->GetTileY(transform.position.y);
     if (tileMap->map[tileY][tileX] == TILE_ELECTRIC)
@@ -439,13 +430,4 @@ bool Player::CheckElectric()
         return true;
     }
     return false;
-=======
-	int tileX = tileMap->GetTileX(transform.position.x);
-	int tileY = tileMap->GetTileY(transform.position.y);
-	if (tileMap->map[tileY][tileX] == TILE_ELECTRIC)
-	{
-		return true;
-	}
-	return false;
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 }

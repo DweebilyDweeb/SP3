@@ -11,7 +11,6 @@
 class Attributes
 {
 public:
-<<<<<<< HEAD
     Attributes();
     ~Attributes();
 
@@ -50,46 +49,6 @@ public:
     friend Attributes operator- (const Attributes&, const Attributes&);
     Attributes operator+= (const Attributes& other);
     Attributes operator-= (const Attributes& other);
-=======
-	Attributes();
-	~Attributes();
-
-	float getProtein();
-	float getCarbohydrates();
-	float getFats();
-	float getVitamins();
-	float getHydration();
-	float getHealth();
-	Attributes getAttributes();
-
-	void setProtein(float value);
-	void setCarbohydrates(float value);
-	void setFats(float value);
-	void setVitamins(float value);
-	void setHydration(float value);
-	void setAttributes(float p, float c, float f, float v, float h);
-
-
-	void addProtein(float value);
-	void addCarbohydrates(float value);
-	void addFats(float value);
-	void addVitamins(float value);
-	void addHydration(float value);
-
-	void minusProtein(const float& value, double dt);
-	void minusCarbohydrates(const float& value, double dt);
-	void minusFats(const float& value, double dt);
-	void minusVitamins(const float&  value, double dt);
-	void minusHydration(const float&  value, double dt);
-
-	void calculateHealth();
-	void boundStats();
-
-	friend Attributes operator+ (const Attributes&, const Attributes&);
-	friend Attributes operator- (const Attributes&, const Attributes&);
-	Attributes operator+= (const Attributes& other);
-	Attributes operator-= (const Attributes& other);
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 
 protected:
     float Protein;

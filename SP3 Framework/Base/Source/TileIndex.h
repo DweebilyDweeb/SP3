@@ -27,12 +27,7 @@ enum TILE_TYPE {
 	TILE_DAUGHTER = 20,
 	TILE_MOTHER,
 	TILE_SON,
-<<<<<<< HEAD
     TILE_ELECTRIC,
-=======
-	TILE_ELECTRIC,
-
->>>>>>> e6672cdb6cba78f9c86d717302693dbda0d6f869
 
     TILE_CENTRE = 88,
 
