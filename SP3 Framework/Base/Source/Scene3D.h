@@ -229,11 +229,10 @@ protected:
 	Mesh* healthUiBackground;
 	Mesh* statUiBackground;
 	Mesh* barBackground;
-	Mesh* bigClock;
-	Mesh* clockHandH;
+    Mesh* bigClock;
+    Mesh* clockHandH;
 	Mesh* inventoryBar;
-	Mesh* apple_item;
-
+    Mesh* pause;
 	bool showStats;
 
 	float zoomAmount;
@@ -264,7 +263,7 @@ public:
 	virtual	void UpdateLights();
 	virtual void UpdateLightAttributes(unsigned int n);
 	virtual void UseShader(SHADER_TYPE shaderType);
-
+    virtual void PauseMenu();
 	//Rendering
 	virtual void SetToCameraView(Camera* camera, float zoom = 0.f);
 	virtual void Render();
@@ -278,7 +277,7 @@ public:
 	virtual void RenderSpriteAnimation(SpriteAnimation* sa, bool enableLight = false, bool invert = false);
 	//virtual void RenderMeshWithOutline(Mesh* mesh, bool enableLight, SHADER_TYPE shaderType = DEFAULT);
 	virtual void RenderText(Mesh* mesh, std::string text, Color color);
-	virtual void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	virtual void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, float z = 0);
 
 	bool getDistXY(Vector3 one, Vector3 two, float dist);
 	bool getDistX(Vector3 one, Vector3 two, float dist);
@@ -294,7 +293,8 @@ public:
 	void UpdateInventoryUI(const double& deltaTime);
 	void RenderInventoryUI();
 
-	
+    void UpdateDeath(const double& deltaTime);
+    void RenderDeath();
 };
 
 #endif

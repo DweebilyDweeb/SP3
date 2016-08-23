@@ -21,9 +21,7 @@ private:
         GEO_BACKGROUND_2,
         GEO_BACKGROUND_3,
         GEO_BACKGROUND_4,
-        GEO_WELL,
-        GEO_WELL2,
-        GEO_BUCKET,
+ 
         //Others
         GEO_PLAYER,
 
@@ -63,7 +61,7 @@ private:
     Vector3 wellPos;
     Vector3 bucketPos;
 
-    std::vector<BucketObject *> m_boList;
+   
 
 public:
     //Constructor(s) & Destructor
@@ -78,9 +76,6 @@ public:
 	virtual void RenderSub(){};
 	virtual void Exit();
 
-    void RenderBO(BucketObject *fo);
-
-    BucketObject* FetchBO();
 };
 
 #endif

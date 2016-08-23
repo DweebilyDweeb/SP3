@@ -10,52 +10,56 @@
 class Player : public GameObject {
 
 protected:
-	Vector3 velocity;
-	vector<TILE_TYPE> collidables;
-	vector<TILE_TYPE> collectibles;
-	vector<TILE_TYPE> portal;
-	vector<TILE_TYPE> bounce;
+    Vector3 velocity;
+    vector<TILE_TYPE> collidables;
+    vector<TILE_TYPE> collectibles;
+    vector<TILE_TYPE> portal;
+    vector<TILE_TYPE> bounce;
 
 
-	bool CheckIfInsideTileMap();
-	bool CheckCollisionLeft();
-	bool CheckCollisionRight();
-	bool CheckCollisionUp();
-	bool CheckCollisionDown();
-	
+    bool CheckIfInsideTileMap();
+    bool CheckCollisionLeft();
+    bool CheckCollisionRight();
+    bool CheckCollisionUp();
+    bool CheckCollisionDown();
+
     int CheckPortal();
-	bool CheckTrigger();
-	bool CheckCollect();
-	bool CheckVegetation();
+    bool CheckTrigger();
+    bool CheckCollect();
+    bool CheckVegetation();
+    bool CheckElectric();
 
-	TileMap* tileMap;
+    TileMap* tileMap;
 
-	float hotspotOffset;
+    float hotspotOffset;
 
-	
+
 
 public:
-	Player();
-	virtual ~Player();
+    Player();
+    virtual ~Player();
 
-	virtual void Update(const double& deltaTime);
-	void SetTileMap(TileMap& tileMap);
-	void RemoveTileMap();
+    virtual void Update(const double& deltaTime);
+    void SetTileMap(TileMap& tileMap);
+    void RemoveTileMap();
 
-	void SetHotspotOffset(float hotspotOffset = 1.0f);
-	float GetHotspotCentre();
+    void SetHotspotOffset(float hotspotOffset = 1.0f);
+    float GetHotspotCentre();
     int score;
     int Level;
+    bool onElectricity;
+    void setVelocity(Vector3 vel);
+    Vector3 getVelocity();
 
-	enum PLAYER_STATE
-	{
-		WALKING,
-		IDLE,
-		JUMPING,
-		TOTAL
-	};
+    enum PLAYER_STATE
+    {
+        WALKING,
+        IDLE,
+        JUMPING,
+        TOTAL
+    };
 
-	PLAYER_STATE playerState = IDLE;
+    PLAYER_STATE playerState = IDLE;
 };
 
 #endif

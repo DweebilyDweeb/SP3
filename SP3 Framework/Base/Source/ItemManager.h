@@ -36,21 +36,6 @@ protected:
 	int num;
 };
 
-class ItemManager : public Singleton<ItemManager>
-{
-	friend class Singleton<ItemManager>;
-
-public:
-	~ItemManager(){
-	};
-
-	void addItem(Item* item);
-	Item* removeItem(string vname, int val);
-	
-	map<string, Item*>itemMap;
-private:
-	ItemManager() {};
-};
 
 class Inventory : public Singleton<Inventory>
 {
@@ -101,6 +86,37 @@ public:
 		return position;
 	}
 
+	virtual void Update(const double& deltaTime){};
+
+private:
+	Attributes attri;
+};
+
+
+class Meat : public Item
+{
+public:
+	Meat(int vnum = 1) {
+		setName("Meat");
+		setNum(vnum);
+		attri.setAttributes(8, 2, 2, 2, 2);
+	};
+
+	virtual ~Meat() {};
+	virtual Attributes getAttributes() {
+		return attri;
+	}
+
+	virtual void setPosition(const Vector3& pos) {
+		position = pos;
+	}
+
+	virtual Vector3 getPosition() {
+		return position;
+	}
+
+	virtual void Update(const double& deltaTime){};
+
 private:
 	Attributes attri;
 };
@@ -125,6 +141,35 @@ public:
 	virtual Vector3 getPosition() {
 		return position;
 	}
+
+	virtual void Update(const double& deltaTime){};
+
+private:
+	Attributes attri;
+};
+
+class Water : public Item
+{
+public:
+	Water(int vnum = 1) {
+		setName("Water");
+		setNum(vnum);
+		attri.setAttributes(8, 2, 2, 2, 2);
+	};
+
+	virtual ~Water() {};
+	virtual Attributes getAttributes() {
+		return attri;
+	}
+	virtual void setPosition(const Vector3& pos) {
+		position = pos;
+	}
+
+	virtual Vector3 getPosition() {
+		return position;
+	}
+
+	virtual void Update(const double& deltaTime){};
 
 private:
 	Attributes attri;
@@ -153,7 +198,36 @@ public:
 
 	virtual void Update(const double& deltaTime) {
 		position.y += (float)GRAVITY * deltaTime;
+	};
+
+private:
+	Attributes attri;
+};
+
+
+class Fish : public Item
+{
+public:
+	Fish(int vnum = 1) {
+		setName("Fish");
+		setNum(vnum);
+		attri.setAttributes(8, 2, 2, 2, 2);
+	};
+
+	virtual ~Fish() {};
+	virtual Attributes getAttributes() {
+		return attri;
 	}
+	virtual void setPosition(const Vector3& pos) {
+		position = pos;
+	}
+
+	virtual Vector3 getPosition() {
+		return position;
+	}
+
+	virtual void Update(const double& deltaTime) {};
+
 private:
 	Attributes attri;
 };
@@ -161,13 +235,13 @@ private:
 class Cabbage : public Item
 {
 public:
-	Cabbage(int vnum = 1)
-	{
+	Cabbage(int vnum = 1) {
 		setName("Cabbage");
 		setNum(vnum);
-		attri.setAttributes(0, 0, 0, 0, 1);
-	}
-	virtual ~Cabbage(){};
+		attri.setAttributes(8, 2, 2, 2, 2);
+	};
+
+	virtual ~Cabbage() {};
 	virtual Attributes getAttributes() {
 		return attri;
 	}
@@ -179,30 +253,7 @@ public:
 		return position;
 	}
 
-private:
-	Attributes attri;
-};
-
-class Carrot : public Item
-{
-public:
-	Carrot(int vnum = 1)
-	{
-		setName("Carrot");
-		setNum(vnum);
-		attri.setAttributes(0, 0, 0, 0, 1);
-	}
-	virtual ~Carrot(){};
-	virtual Attributes getAttributes() {
-		return attri;
-	}
-	virtual void setPosition(const Vector3& pos) {
-		position = pos;
-	}
-
-	virtual Vector3 getPosition() {
-		return position;
-	}
+	virtual void Update(const double& deltaTime) {};
 
 private:
 	Attributes attri;
@@ -211,13 +262,13 @@ private:
 class Potato : public Item
 {
 public:
-	Potato(int vnum = 1)
-	{
+	Potato(int vnum = 1) {
 		setName("Potato");
 		setNum(vnum);
-		attri.setAttributes(0, 0, 0, 0, 1);
-	}
-	virtual ~Potato(){};
+		attri.setAttributes(8, 2, 2, 2, 2);
+	};
+
+	virtual ~Potato() {};
 	virtual Attributes getAttributes() {
 		return attri;
 	}
@@ -229,30 +280,7 @@ public:
 		return position;
 	}
 
-private:
-	Attributes attri;
-};
-
-class Wheat : public Item
-{
-public:
-	Wheat(int vnum = 1)
-	{
-		setName("Wheat");
-		setNum(vnum);
-		attri.setAttributes(0, 0, 0, 0, 1);
-	}
-	virtual ~Wheat(){};
-	virtual Attributes getAttributes() {
-		return attri;
-	}
-	virtual void setPosition(const Vector3& pos) {
-		position = pos;
-	}
-
-	virtual Vector3 getPosition() {
-		return position;
-	}
+	virtual void Update(const double& deltaTime) {};
 
 private:
 	Attributes attri;
@@ -261,13 +289,13 @@ private:
 class Corn : public Item
 {
 public:
-	Corn(int vnum = 1)
-	{
-		setName("Wheat");
+	Corn(int vnum = 1) {
+		setName("Corn");
 		setNum(vnum);
-		attri.setAttributes(0, 0, 0, 0, 1);
-	}
-	virtual ~Corn(){};
+		attri.setAttributes(8, 2, 2, 2, 2);
+	};
+
+	virtual ~Corn() {};
 	virtual Attributes getAttributes() {
 		return attri;
 	}
@@ -279,7 +307,64 @@ public:
 		return position;
 	}
 
+	virtual void Update(const double& deltaTime) {};
+
 private:
 	Attributes attri;
 };
+
+class Carrot : public Item
+{
+public:
+	Carrot(int vnum = 1) {
+		setName("Carrot");
+		setNum(vnum);
+		attri.setAttributes(8, 2, 2, 2, 2);
+	};
+
+	virtual ~Carrot() {};
+	virtual Attributes getAttributes() {
+		return attri;
+	}
+	virtual void setPosition(const Vector3& pos) {
+		position = pos;
+	}
+
+	virtual Vector3 getPosition() {
+		return position;
+	}
+
+	virtual void Update(const double& deltaTime) {};
+
+private:
+	Attributes attri;
+};
+
+class ItemManager : public Singleton<ItemManager>
+{
+	friend class Singleton<ItemManager>;
+
+public:
+	~ItemManager(){
+	};
+
+	void addItem(Item* item);
+	Item* removeItem(string vname, int val);
+
+	map<string, Item*>itemMap;
+private:
+	ItemManager() {
+		addItem(new Milk(10));
+		addItem(new Meat(10));
+		addItem(new Egg(10));
+		addItem(new Water(10));
+		addItem(new Apple(98));
+		addItem(new Fish(10));
+		addItem(new Cabbage(10));
+		addItem(new Potato(10));
+		addItem(new Corn(10));
+		addItem(new Carrot(10));
+	};
+};
+
 #endif

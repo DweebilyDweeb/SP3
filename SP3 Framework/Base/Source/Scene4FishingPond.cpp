@@ -68,7 +68,15 @@ void Scene4FishingPond::Init() {
 	maxFish = 6;
 	fishCount = 0;
 	accumTime = 0.5f;
-	onElectricity = false;
+    player.onElectricity = false;
+    for (std::vector<FishObject *>::iterator it = m_foList.begin(); it != m_foList.end(); ++it)
+    {
+        FishObject *fo = (FishObject *)*it;
+        if (fo->active)
+        {
+            fo->active = false;
+        }
+    }
 }
 
 void Scene4FishingPond::InitMeshes() {
@@ -102,7 +110,7 @@ void Scene4FishingPond::InitMeshes() {
 	meshList[GEO_TROUT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//fish3.tga");
 
 	meshList[GEO_SHARK] = MeshBuilder::GenerateQuad("shark", Color(1, 1, 1), 0.4);
-	meshList[GEO_SHARK]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//shark.tga");
+	meshList[GEO_SHARK]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//shark2.tga");
 
 }
 
@@ -193,11 +201,17 @@ void Scene4FishingPond::Update(const double& deltaTime) {
 	displacementOfFish(deltaTime);
 
 	if (SceneManager::GetInstance().getIsChgScene()) {
-		onElectricity = true;
+        player.onElectricity = true;
 	}
 	else
-		onElectricity = false;
+        player.onElectricity = false;
 
+    if (player.transform.GetPosition().y < 2)
+    {
+        SceneManager::GetInstance().chgCurrEnumScene(DEAD);
+
+        player.setVelocity(Vector3(0, 0, 0));
+    }
 	Scene3D::Update(deltaTime);
 }
 
@@ -271,7 +285,7 @@ void Scene4FishingPond::RenderTileMap() {
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 23:
-				if (onElectricity == true)
+                if (player.onElectricity == true)
 				{
 					glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 					RenderSpriteAnimation(spriteAnimationList[SPRITE_ELECTRICITY]);
@@ -404,7 +418,7 @@ void Scene4FishingPond::RenderFO(FishObject *fo)
 
 void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 {
-	if (fishCount < maxFish && onElectricity)
+    if (fishCount < maxFish && player.onElectricity)
 	{
 		int randNo = Math::RandFloatMinMax(1, 10);
 		FishObject * fo = FetchFO();
@@ -462,15 +476,18 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 					fo->active = false;
 				}
 			}
-			if (fo->type == FishObject::FT_SHARK)
-			{
-				if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
-				{
-					//kills player leads him to death screen
-					fishCount -= 1;
-					fo->active = false;
-				}
-			}
+            if (fo->type == FishObject::FT_SHARK)
+            {
+                if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
+                {
+                    //kills player leads him to death screen
+                    fishCount -= 1;
+                    fo->active = false;
+                    SceneManager::GetInstance().chgCurrEnumScene(DEAD);
+
+                    player.setVelocity(Vector3(0, 0, 0));
+                }
+            }
 			if (fo->vel.x > 0)
 			{
 				fo->invert = true;

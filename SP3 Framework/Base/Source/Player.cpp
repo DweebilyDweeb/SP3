@@ -411,3 +411,23 @@ float Player::GetHotspotCentre() {
 	return this->hotspotOffset;
 
 }
+
+void Player::setVelocity(Vector3 vel)
+{
+    velocity = vel;
+}
+Vector3 Player::getVelocity()
+{
+    return velocity;
+}
+
+bool Player::CheckElectric()
+{
+    int tileX = tileMap->GetTileX(transform.position.x);
+    int tileY = tileMap->GetTileY(transform.position.y);
+    if (tileMap->map[tileY][tileX] == TILE_ELECTRIC)
+    {
+        return true;
+    }
+    return false;
+}

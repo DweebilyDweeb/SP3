@@ -7,6 +7,7 @@
 #include "LoadTGA.h"
 #include "InputManager.h"
 #include "ItemManager.h"
+#include "SceneManager.h"
 //#include "Application.h"
 
 //Constructor(s) & Destructor
@@ -46,7 +47,6 @@ void Scene3D::Exit() {
 	delete statUiBackground;
 	delete barBackground;
 	delete inventoryBar;
-	delete apple_item;
 }
 
 void Scene3D::DeleteShaders() {
@@ -293,8 +293,8 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 
 void Scene3D::Update(const double& deltaTime) {
 	UpdateAttributeUI(deltaTime);
-	Application::clock->UpdateTime(deltaTime);
-	cout << Application::clock->getTime();
+    Application::clock->UpdateTime(deltaTime);
+    cout << Application::clock->getTime();
 }
 
 //Things that need to be updated every frame.
@@ -430,6 +430,7 @@ void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	RenderAttributeUI();
 	RenderInventoryUI();
+    PauseMenu();
 }
 void Scene3D::RenderSub() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -601,7 +602,7 @@ void Scene3D::RenderText(Mesh* mesh, std::string text, Color color) {
 
 }
 
-void Scene3D::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y) {
+void Scene3D::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y, float z) {
 
 	if (!mesh || mesh->textureArray[0] <= 0) {
 		return;
@@ -611,7 +612,7 @@ void Scene3D::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 		viewStack.LoadIdentity();
 		modelStack.PushMatrix();
 			modelStack.LoadIdentity();
-			modelStack.Translate(x, y, 0);
+			modelStack.Translate(x, y, z);
 			modelStack.Scale(size, size, size);
 			glUniform1i(shaderParameters[currentShader * U_TOTAL + U_TEXT_ENABLED], 1);
 			glUniform3fv(shaderParameters[currentShader * U_TOTAL + U_TEXT_COLOR], 1, &color.r);
@@ -647,13 +648,15 @@ void Scene3D::InitAttributeUI()
 	healthUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health2.tga");
 	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
     statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//stats2.tga");
-	barBackground = MeshBuilder::GenerateQuad("barBackground", Color(0.5, 0.5, 0.5), 1);
-	bigClock = MeshBuilder::GenerateQuad("Clock", Color(1, 1, 1));
-	bigClock->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWOHands.tga");
-	clockHandH = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
-	clockHandH->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
+    barBackground = MeshBuilder::GenerateQuad("barBackground", Color(0.5, 0.5, 0.5), 1);
+    barBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//border.tga");
+    bigClock = MeshBuilder::GenerateQuad("Clock", Color(1, 1, 1));
+    bigClock->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWOHands.tga");
+    clockHandH = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
+    clockHandH->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
-
+    pause = MeshBuilder::GenerateQuad("Pause", Color(1, 1, 1));
+    pause->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//pause.tga");
 	Application::mother->Init();
 	Application::son->Init();
 	Application::daughter->Init();
@@ -665,6 +668,11 @@ void Scene3D::UpdateAttributeUI(const double& deltaTime)
 	Application::mother->Update(deltaTime);
 	Application::son->Update(deltaTime);
 	Application::daughter->Update(deltaTime);
+
+    Application::mother->boundStats();
+    Application::son->boundStats();
+    Application::daughter->boundStats();
+
 
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
 		showStats = true;
@@ -682,6 +690,7 @@ void Scene3D::RenderAttributeUI()
 {
 	if (!showStats)
 	{
+        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		if (Application::mother->getHealth() > 0)
 			RenderMeshIn2D(healthBar, Application::mother->getHealth() / 20000, 0.5, -14.4, 10.2, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 10.2, 5, 0.5);
@@ -691,7 +700,7 @@ void Scene3D::RenderAttributeUI()
 		if (Application::daughter->getHealth() > 0)
 			RenderMeshIn2D(healthBar, Application::daughter->getHealth() / 20000, 0.5, -14.4, 7.2, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -14.4, 7.2, 5, 0.5);
-		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
 
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
@@ -700,7 +709,7 @@ void Scene3D::RenderAttributeUI()
 	{
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderTextOnScreen(fontList[FONT_CONSOLAS], "STATS", Color(1, 0, 0), 1, -2, 11);
-		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		
 
 
 		if (Application::son->getProtein() > 0)
@@ -751,18 +760,18 @@ void Scene3D::RenderAttributeUI()
 			RenderMeshIn2D(hydrationBar, Application::daughter->getHydration() * 0.05f, 0.5, 5, -9.25, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, 5, -9.25, 5, 0.5);
 		
-        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
 		RenderMeshIn2D(statUiBackground, 30, 30);
         glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
+    glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+    RenderMeshIn2D(bigClock, 5, 5, 12, 8, 0, 0, 0, 0, 0, 0);
+    glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-	RenderMeshIn2D(bigClock, 5, 5, 12, 8, 0, 0, 0, 0, 0, 0);
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-	RenderMeshIn2D(clockHandH, 2, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, Application::clock->getRotation());
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+    glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+    RenderMeshIn2D(clockHandH, 2, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, Application::clock->getRotation());
+    glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	
 }
 
 void Scene3D::InitInventoryUI()
@@ -772,8 +781,7 @@ void Scene3D::InitInventoryUI()
 	Inventory::GetInstance().setPos(Vector3(0, -10, 5));
 	Inventory::GetInstance().setSize(Vector3(30, 5, 0));
 
-	apple_item = MeshBuilder::GenerateQuad("apple_item", Color(0, 0, 0), 1);
-	apple_item->textureArray[0] = LoadTGA("Image//SP3_Texture//Item//item_apple.tga");
+ 
 }
 
 void Scene3D::UpdateInventoryUI(const double& deltaTime)
@@ -783,18 +791,61 @@ void Scene3D::UpdateInventoryUI(const double& deltaTime)
 
 void Scene3D::RenderInventoryUI()
 {
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE); 
-	RenderMeshIn2D(inventoryBar, Inventory::GetInstance().getSize().x, Inventory::GetInstance().getSize().y, Inventory::GetInstance().getPos().x, Inventory::GetInstance().getPos().y);
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	if (!SceneManager::GetInstance().getIsChgScene()) {
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		RenderMeshIn2D(inventoryBar, Inventory::GetInstance().getSize().x, Inventory::GetInstance().getSize().y, Inventory::GetInstance().getPos().x, Inventory::GetInstance().getPos().y);
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		float xCoord = -13.1f;
+		for (map<string, Item*>::iterator it = ItemManager::GetInstance().itemMap.begin();
+			it != ItemManager::GetInstance().itemMap.end();
+			++it) {
 
-	for (map<string, Item*>::iterator it = ItemManager::GetInstance().itemMap.begin(); it != ItemManager::GetInstance().itemMap.end(); ++it) {
-		if (it->first == "Apple") {
+			ostringstream ss;
+			ss << it->second->getNum();
 			glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-			RenderMeshIn2D(apple_item, 2, 2, -1.7, Inventory::GetInstance().getPos().y - 0.6, Inventory::GetInstance().getPos().z + 1);
+			if (it->first == "Milk") {
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord, -12, 5);
+			}
+			if (it->first == "Meat") {
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 3, -12, 5);
+			}
+			if (it->first == "Egg") {
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 6, -12, 5);
+			}
+			if (it->first == "Water") {
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 8.9, -12, 5);
+			}
+			if (it->first == "Apple") {
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 11.8, -12, 5);
+			}
+			if (it->first == "Fish") {
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 14.8, -12, 5);
+			}
+			if (it->first == "Cabbage") {
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 17.6, -12, 5);
+			}
+			if (it->first == "Potato") {
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 20.6, -12, 5);
+			}
+			if (it->first == "Corn") {
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 23.5, -12, 5);
+			}
+			if (it->first == "Carrot") {
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 26.5, -12, 5);
+			}
 			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		}
 	}
 }
+
+void Scene3D::PauseMenu()
+{
+    if (Application::GetInstance().bPaused == true)
+    {
+        RenderMeshIn2D(pause, 34, 25, 0, 0, 10);
+    }
+}
+
 
 bool Scene3D::getDistXY(Vector3 one, Vector3 two, float dist)
 {
@@ -846,4 +897,14 @@ void Scene3D::setZoomValues(float zoomAmount, float zoomOffsetX, float zoomOffse
 	this->zoomAmount = zoomAmount;
 	this->zoomOffsetX = zoomOffsetX;
 	this->zoomOffsetY = zoomOffsetY;
+}
+
+void Scene3D::UpdateDeath(const double& deltaTime)
+{
+
+}
+void Scene3D::RenderDeath()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
 }

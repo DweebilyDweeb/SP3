@@ -52,13 +52,19 @@ void Scene6Well2::Init() {
     EnableFog(false);
 
 
-    tileMap.LoadFile("TileMap//Scene6Well2.csv");
+    tileMap.LoadFile("TileMap//Scene6WellSub.csv");
     tileMap.SetTileSize(1.0f);
     InitPlayer();
     InitCamera();
 
     drop = 0.0f;
     Level = 1;
+
+	BucketObject *bo = FetchBO();
+	bo->type = BucketObject::BT_WATER;
+	bo->scale.Set(2, 2, 1);
+	bo->pos.Set(16.5, 3, 0);
+	bo->vel.SetZero();
 }
 
 void Scene6Well2::InitMeshes() {
@@ -88,6 +94,14 @@ void Scene6Well2::InitMeshes() {
     meshList[GEO_BACKGROUND_4] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
     meshList[GEO_BACKGROUND_4]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//water_well.tga");
 
+	meshList[GEO_WELL] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+	meshList[GEO_WELL]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//well.tga");
+
+	meshList[GEO_WELL2] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+	meshList[GEO_WELL2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//well2.tga");
+
+	meshList[GEO_BUCKET] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+	meshList[GEO_BUCKET]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//water_bucket.tga");
 }
 
 void Scene6Well2::InitSpriteAnimations() {
@@ -120,13 +134,9 @@ void Scene6Well2::InitSpriteAnimations() {
     spriteAnimationList[SPRITE_WATER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//water.tga");
     spriteAnimationList[SPRITE_WATER]->animation = new Animation();
     spriteAnimationList[SPRITE_WATER]->animation->Set(0, 31, 0, 5.f, true);
-
-
-
 }
 
 void Scene6Well2::InitPlayer() {
-
 
     player.SetTileMap(tileMap);
 
@@ -172,7 +182,16 @@ void Scene6Well2::Render() {
     RenderBackground();
     RenderPlayer();
     RenderText();
-
+	for (std::vector<BucketObject *>::iterator it = m_boList.begin(); it != m_boList.end(); ++it)
+	{
+		BucketObject *bo = (BucketObject *)*it;
+		if (bo->active)
+		{
+			glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+			RenderBO(bo);
+			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		}
+	}
 }
 
 void Scene6Well2::RenderTileMap() {
@@ -219,6 +238,18 @@ void Scene6Well2::RenderTileMap() {
                 RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
+
+			case 11:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				RenderMesh(meshList[GEO_WELL]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 12:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				RenderMesh(meshList[GEO_WELL2]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+
             case 88:
                 wellPos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), 20);
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
@@ -274,16 +305,16 @@ void Scene6Well2::RenderBackground()
 
     glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
     modelStack.PushMatrix();
-    modelStack.Translate(wellPos.x, wellPos.y + 2.2f, wellPos.z);
-    modelStack.Scale(7.8, 6.2, 1);
+    modelStack.Translate(wellPos.x - 0.45, wellPos.y + 1.1f, wellPos.z);
+	modelStack.Scale(8.8, 6.2, 1);
     RenderMesh(meshList[GEO_BACKGROUND_1], false);
     modelStack.PopMatrix();
     glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
     glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
     modelStack.PushMatrix();
-    modelStack.Translate(wellPos.x, wellPos.y + 2.2f, -2);
-    modelStack.Scale(7.8, 6.2, 1);
+    modelStack.Translate(wellPos.x - 0.45, wellPos.y + 1.1f, -2);
+	modelStack.Scale(8.8, 6.2, 1);
     RenderMesh(meshList[GEO_BACKGROUND_4], false);
     modelStack.PopMatrix();
     glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
@@ -307,4 +338,40 @@ void Scene6Well2::RenderBackground()
     }
 }
 
+BucketObject* Scene6Well2::FetchBO()
+{
+	for (std::vector<BucketObject *>::iterator it = m_boList.begin(); it != m_boList.end(); ++it)
+	{
+		BucketObject *bo = (BucketObject *)*it;
+		if (!bo->active)
+		{
+			bo->active = true;
+			//m_objectCount;
+			return bo;
+		}
+	}
+	for (unsigned i = 0; i < 1; ++i)
+	{
+		BucketObject *bo = new BucketObject(BucketObject::BT_WATER);
+		m_boList.push_back(bo);
+	}
+	BucketObject *bo = m_boList.back();
+	bo->active = true;
+	//++m_objectCount;
+	return bo;
+}
 
+void Scene6Well2::RenderBO(BucketObject *bo)
+{
+	switch (bo->type)
+	{
+	case BucketObject::BT_WATER:
+		modelStack.PushMatrix();
+		modelStack.Translate(bo->pos.x, bo->pos.y, bo->pos.z);
+		modelStack.Scale(bo->scale.x, bo->scale.y, bo->scale.z);
+		RenderMesh(meshList[GEO_BUCKET], false);
+		modelStack.PopMatrix();
+		break;
+
+	}
+}

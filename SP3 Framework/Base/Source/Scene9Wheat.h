@@ -7,7 +7,6 @@
 #include "TileMap.h"
 #include "Camera2D.h"
 #include "PlayerSS.h"
-#include "ItemManager.h"
 
 class Scene9Wheat : public Scene3D {
 
@@ -48,9 +47,6 @@ private:
 	void InitCamera();
 	void InitPlayer();
 
-	Item* FetchWheats();
-	void RenderWheats(Item* item);
-
 	void RenderTileMap();
 	void RenderPlayer();
 	void RenderBackground();
@@ -72,7 +68,7 @@ public:
 	//Virtual Function(s)
 	virtual void Init();
 	virtual void Update(const double& deltaTime);
-	virtual void UpdateSub(const double& deltaTime){};
+	 virtual void UpdateSub(const double& deltaTime){};
 	virtual void Render();
 	virtual void RenderSub(){};
 	virtual void Exit();

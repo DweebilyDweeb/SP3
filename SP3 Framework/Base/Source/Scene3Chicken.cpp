@@ -154,7 +154,6 @@ void Scene3Chicken::InitPlayer() {
 void Scene3Chicken::InitCamera() {
 
 	camera.SetPlayer(player);
-	camera.SetTileMap(tileMap);
 
 	if (SceneManager::GetInstance().getChgScene() == false)
 		camera.SetTileMap(tileMap);
@@ -181,10 +180,6 @@ void Scene3Chicken::Render() {
 
 	Scene3D::Render();
 	SetToCameraView(&camera);
-	RenderTileMap();
-	RenderBackground();
-	RenderPlayer();
-	RenderText();
 	if (SceneManager::GetInstance().getChgScene() == true)
 		RenderSub();
 	else

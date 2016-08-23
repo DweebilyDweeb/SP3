@@ -3,7 +3,6 @@
 
 #include "timer.h"
 #include "Time.h"
-
 #include "Sound.h"
 
 //Include Scenes
@@ -19,7 +18,7 @@ public:
 	static Family* mother;
 	static Family* son;
 	static Family* daughter;
-	static Time* clock;
+    static Time* clock;
 	int GetWindowWidth();
 	int GetWindowHeight();
 
@@ -27,7 +26,7 @@ public:
 	void Init();
 	void Run();
 	void Exit();
-
+    bool bPaused;
 private:
 	//Constructor(s) & Destructor
 	Application();

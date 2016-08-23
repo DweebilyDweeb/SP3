@@ -9,6 +9,8 @@
 #include "Scene7Apple.h"
 #include "Scene8Cabbage.h"
 #include "Scene9Wheat.h"
+#include "DeathScreen.h"
+#include "LoseScreen.h"
 #include "Sound.h"
 
 SceneManager::~SceneManager() 
@@ -23,6 +25,8 @@ void SceneManager::Init()
 	chgScene = CHG_NONE;
 	chgSceneMode = false;
 
+    sceneList[LOSE] = new LoseScreen;
+    sceneList[DEAD] = new DeathScreen;
     sceneList[HOME] = new Scene1House;
     sceneList[COW] = new Scene2Cow;
     sceneList[CHICKEN] = new Scene3Chicken;
@@ -33,7 +37,8 @@ void SceneManager::Init()
     sceneList[CABBAGE] = new Scene8Cabbage;
     sceneList[WHEAT] = new Scene9Wheat;
 
-	//subList[SUB_WELL] = new <CPP_NAME>
+	//sceneList[SUB_WELL] = new Scene6Well2
+	sceneList[SUB_WELL] = new Scene6Well2;
 
     setPrevScene(WHEAT);
     sceneType = HOME;
@@ -75,6 +80,11 @@ void SceneManager::Init()
     {
         sceneList[i]->Init();
     }
+	
+	for (int i = TOTAL_SCENES + 1; i < TOTAL_FINALSCENES; ++i)
+	{
+		sceneList[i]->Init();
+	}
 	
 }
 
@@ -122,10 +132,8 @@ bool SceneManager::getIsChgScene() const
 
 void SceneManager::Update(double dt)
 {
-	if (subType == SUB_NONE)
-		sceneList[sceneType]->Update(dt);
-	//else
-	//  subList[subType]->Update(dt);	
+	sceneList[sceneType]->Update(dt);
+
 	if (chgScene != CHG_NONE)
 		sceneList[sceneType]->UpdateSub(dt);
 
@@ -171,17 +179,15 @@ void SceneManager::Update(double dt)
 
 void SceneManager::Render()
 {
-	if (subType == SUB_NONE)
-		sceneList[sceneType]->Render();
-	//else
-	//  subList[subType]->Render(dt);	
+	sceneList[sceneType]->Render();
+
 	if (chgScene != CHG_NONE)
 		sceneList[sceneType]->RenderSub();
 }
 
 void SceneManager::Exit()
 {
-	for (int i = 0; i < TOTAL_SCENES; ++i)
+	for (int i = 0; i < TOTAL_FINALSCENES; ++i)
 	{
 		if (sceneList[i])
 		{

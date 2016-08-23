@@ -147,7 +147,7 @@ void Scene1House::InitPlayer() {
 
 			}
 			
-			if (SceneManager::GetInstance().getPrevScene() == COW)
+    if (SceneManager::GetInstance().getPrevScene() == COW || SceneManager::GetInstance().getPrevScene() == DEAD)
 
 			{
 				if (tileMap.map[row][col] == 100) {

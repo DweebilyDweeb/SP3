@@ -67,37 +67,60 @@ void PlayerSS::Update(const double& deltaTime) {
 	{
 	case TILE_PORTAL:
 	{
-						switch (SceneManager::GetInstance().getCurrSceneEnum())
-						{
-						case (0) :
-							SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(TOTAL_SCENES - 1));
-							velocity.x = 0;
-							velocity.y = 0;
-							break;
-						default:
-							SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() - 1));
-							velocity.x = 0;
-							velocity.y = 0;
-							break;
-						}
-						break;
+        switch (SceneManager::GetInstance().getCurrSceneEnum())
+        {
+            case (HOME) :
+                SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(TOTAL_SCENES - 1));
+                velocity.x = 0;
+                velocity.y = 0;
+                break;
+            case(DEAD) :
+                SceneManager::GetInstance().chgCurrEnumScene(HOME);
+                //SceneManager::GetInstance().setPrevScene(COW);
+                SceneManager::GetInstance().setPrevScene(WHEAT);
+                velocity.x = 0;
+                velocity.y = 0;
+                //insert game reset here
+                break;
+            case(LOSE) :
+                //temp
+                SceneManager::GetInstance().chgCurrEnumScene(HOME);
+                //SceneManager::GetInstance().setPrevScene(COW);
+                SceneManager::GetInstance().setPrevScene(WHEAT);
+                velocity.x = 0;
+                velocity.y = 0;
+                //insert game restart here
+                break;
+            default:
+                SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() - 1));
+                velocity.x = 0;
+                velocity.y = 0;
+                break;
+        }
+        break;
 	}
 	case TILE_PORTAL2:
 	{
-						 switch (SceneManager::GetInstance().getCurrSceneEnum())
-						 {
-						 case (TOTAL_SCENES - 1) :
-							 SceneManager::GetInstance().chgCurrEnumScene(HOME);
-							 velocity.x = 0;
-							 velocity.y = 0;
-							 break;
-						 default:
-							 SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() + 1));
-							 velocity.x = 0;
-							 velocity.y = 0;
-							 break;
-						 }
-						 break;
+        switch (SceneManager::GetInstance().getCurrSceneEnum())
+        {
+            case (TOTAL_SCENES - 1) :
+                SceneManager::GetInstance().chgCurrEnumScene(HOME);
+                velocity.x = 0;
+                velocity.y = 0;
+                break;
+            case(DEAD) :
+                //return to main menu
+                break;
+            case(LOSE) :
+                //return to main menu
+                break;
+            default:
+                SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() + 1));
+                velocity.x = 0;
+                velocity.y = 0;
+                break;
+            }
+            break;
 	}
 	}
 
@@ -204,37 +227,47 @@ void PlayerSS::Update(const double& deltaTime) {
 	velocity.x *= 0.95f * (1.0f - deltaTime);
 	if (CheckTrigger()) {
 		{
-			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]) {
-				
-				switch (SceneManager::GetInstance().getCurrSceneEnum())
-				{
-				case FISH:
-				{
-					if (accumTime > 0.5f)
-					{
+			switch (SceneManager::GetInstance().getCurrSceneEnum())
+			{
+			case FISH:
+			{
+				if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]) {
+					if (accumTime > 0.5f) {
 						if (SceneManager::GetInstance().getIsChgScene() == false)
 							SceneManager::GetInstance().isChgScene(true);
 						else if (SceneManager::GetInstance().getIsChgScene() == true)
 							SceneManager::GetInstance().isChgScene(false);
 						accumTime = 0.f;
 					}
-					break;
 				}
-				case APPLE:
-				{
-					if (SceneManager::GetInstance().getIsChgScene() == false)
-						SceneManager::GetInstance().isChgScene(true);
-					break;
-				}
-				default:
-					if (SceneManager::GetInstance().getIsChgScene() == false)
-						SceneManager::GetInstance().isChgScene(true);
-					break;
+				break;
+			}
 
+			case APPLE:
+			{
+				if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]) {
+					if (SceneManager::GetInstance().getIsChgScene() == false)
+						SceneManager::GetInstance().isChgScene(true);
 				}
+				break;
+			}
+
+			case WELL:
+			{
+				if (SceneManager::GetInstance().getIsChgScene() == false)
+					SceneManager::GetInstance().isChgScene(true);
+				SceneManager::GetInstance().chgCurrEnumScene(SUB_WELL);
+				break;
+			}
+
+			default:
+				if (SceneManager::GetInstance().getIsChgScene() == false)
+					SceneManager::GetInstance().isChgScene(true);
+				break;
+
 			}
 		}
-	} 
+	}
 
 	if (CheckVegetation())
 	{
@@ -244,18 +277,14 @@ void PlayerSS::Update(const double& deltaTime) {
 
 	switch (SceneManager::GetInstance().getChgScene()) {
 	case(CHG_APPLE) : {
-						  if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES] || !CheckTrigger()) {
-							  //if(InputManager::GetInstance().GetInputInfo().keyDown[INPUT_QUIT])
-							  if (SceneManager::GetInstance().getIsChgScene()) {
-								  SceneManager::GetInstance().isChgScene(false);
-							  }
-						  }
-						  break;
-	}
+		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES] /*if(InputManager::GetInstance().GetInputInfo().keyDown[INPUT_QUIT])*/ || !CheckTrigger()) {
 
-					  switch (SceneManager::GetInstance().getSubScene()) {
-						 
-					  }
+			if (SceneManager::GetInstance().getIsChgScene()) {
+				SceneManager::GetInstance().isChgScene(false);
+			}
+		}
+		break;
+	}
 	}
 }
 	//

@@ -111,9 +111,18 @@ void InputManager::Update() {
         inputInfo.keyDown[INPUT_WELL2] = 1;
         inputInfo.keyValue[INPUT_WELL2] = 1.0f;
     }
+
     if (keyboard.IsKeyReleased('D')){
         inputInfo.keyReleased[INPUT_WELL2] = 1;
         inputInfo.keyValue[INPUT_WELL2] = 1.0f;
+    }
+    if (keyboard.IsKeyPressed('P')){
+        inputInfo.keyDown[INPUT_PAUSE] = 1;
+        inputInfo.keyValue[INPUT_PAUSE] = 1.0f;
+    }
+    if (keyboard.IsKeyReleased('P')){
+        inputInfo.keyReleased[INPUT_PAUSE] = 1;
+        inputInfo.keyValue[INPUT_PAUSE] = 1.0f;
     }
 
 	/********************************************************************************************************************/

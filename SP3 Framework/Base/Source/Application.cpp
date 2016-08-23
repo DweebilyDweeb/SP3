@@ -141,7 +141,7 @@ void Application::Init() {
     }
 
     quit = false;
-
+    bPaused = false;
     //Sound Engine
     Create();
 
@@ -159,10 +159,16 @@ void Application::Run() {
         SceneManager::GetInstance().Update(elapsedTime);
 
         //Threads
-        if (accumulatedTime[UPDATE_USER_INPUT] >= 0.03) {
+        if (accumulatedTime[UPDATE_USER_INPUT] >= 0.1) {
             InputManager::GetInstance().Update();
             if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_QUIT] == true) {
                 quit = true;
+            }
+            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_PAUSE] == true && bPaused == false) {
+                bPaused = true;
+            }
+            else if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_PAUSE] == true && bPaused == true) {
+                bPaused = false;
             }
             accumulatedTime[UPDATE_USER_INPUT] = 0.0;
         }
@@ -188,7 +194,7 @@ void Application::Exit() {
     delete mother;
     delete son;
     delete daughter;
-	delete clock;
+    delete clock;
     //Sound Engine
     DeleteEngine();
     //Close OpenGL window and terminate GLFW

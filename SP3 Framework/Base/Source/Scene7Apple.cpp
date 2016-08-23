@@ -211,7 +211,6 @@ void Scene7Apple::Render() {
 	SetToCameraView(&camera);
 	Scene3D::Render();
 	Scene3D::setZoomValues(2, 0, -2);
-	//if (SceneManager::GetInstance().getSubScene())
 	if (SceneManager::GetInstance().getIsChgScene())
 		SetToCameraView(&camera, 1);
 	else
@@ -229,7 +228,6 @@ void Scene7Apple::RenderSub() {
 	RenderBasket();
 }
 void Scene7Apple::RenderTileMap() {
-
 	float cameraAspectRatio = static_cast<float>(camera.aspectRatio.x) / static_cast<float>(camera.aspectRatio.y);
 	float cameraWidth = cameraAspectRatio * camera.GetOrthoSize();
 
