@@ -221,11 +221,7 @@ protected:
 	//bars
 
 	Mesh* healthBar;
-	Mesh* proteinBar;
-	Mesh* carbohydratesBar; 
-	Mesh* hydrationBar; 
-	Mesh* fatsBar; 
-	Mesh* vitaminsBar;
+	Mesh* statsBar;
 	Mesh* healthUiBackground;
 	Mesh* statUiBackground;
 	Mesh* barBackground;
@@ -295,6 +291,8 @@ public:
 
     void UpdateDeath(const double& deltaTime);
     void RenderDeath();
+
+	void RenderScene1Title();
 };
 
 #endif

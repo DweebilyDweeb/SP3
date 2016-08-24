@@ -427,9 +427,9 @@ void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 		{
 			fo->type = FishObject::FT_TROUT;
 			fo->scale.Set(1, 1, 1);
-			fo->mass = 5;
+			fo->mass = 1.7;
 			fo->pos.Set(Math::RandFloatMinMax(18, 24), 4, -1.1);
-			fo->vel.Set(Math::RandFloatMinMax(-1, 1), Math::RandFloatMinMax(5, 10), 0);
+			fo->vel.Set(Math::RandFloatMinMax(-1, 1), Math::RandFloatMinMax(8, 10), 0);
 		}
 		else
 		{
@@ -437,7 +437,7 @@ void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 			fo->scale.Set(4, 4, 4);
 			fo->mass = 5;
 			fo->pos.Set(Math::RandFloatMinMax(18, 24), 4, -1.1);
-			fo->vel.Set(Math::RandFloatMinMax(-1, 1), Math::RandFloatMinMax(2, 5), 0);
+			fo->vel.Set(Math::RandFloatMinMax(-0.5, 0.5), Math::RandFloatMinMax(2, 5), 0);
 		}
 		
 
@@ -467,6 +467,15 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 				fishCount -= 1;
 				fo->active = false;
 			}
+			
+			if (fo->vel.x > 0)
+			{
+				fo->invert = true;
+			}
+			else
+			{
+				fo->invert = false;
+			}
 			if (fo->type == FishObject::FT_TROUT)
 			{
 				if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
@@ -476,29 +485,23 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 					fishCount -= 1;
 					fo->active = false;
 				}
+				fo->pos += (float)deltaTime * fo->vel * 2;
 			}
-            if (fo->type == FishObject::FT_SHARK)
-            {
-                if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
-                {
-                    //kills player leads him to death screen
-                    fishCount -= 1;
-                    fo->active = false;
-                    SceneManager::GetInstance().chgCurrEnumScene(DEAD);
+			if (fo->type == FishObject::FT_SHARK)
+			{
+				if (Scene3D::getDistXY(player.transform.position, fo->pos, 0.9))
+				{
+					//kills player leads him to death screen
+					fishCount -= 1;
+					fo->active = false;
+					SceneManager::GetInstance().chgCurrEnumScene(DEAD);
 
-                    player.setVelocity(Vector3(0, 0, 0));
-                }
-            }
-			if (fo->vel.x > 0)
-			{
-				fo->invert = true;
-			}
-			else
-			{
-				fo->invert = false;
+					player.setVelocity(Vector3(0, 0, 0));
+				}
+				fo->pos += (float)deltaTime * fo->vel * 4;
 			}
 			fo->rotation = Math::RadianToDegree(atan2(fo->vel.y, fo->vel.x));
-			fo->pos += (float)deltaTime * fo->vel;
+			
 		}
 
 		
