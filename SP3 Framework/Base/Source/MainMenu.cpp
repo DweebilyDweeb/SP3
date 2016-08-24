@@ -171,7 +171,8 @@ void MainMenu::Update(const double& deltaTime) {
 	if (transitioning)
 	{
 		if (moveCam < 8)
-			moveCam += 1.5  * (float)deltaTime;
+			//moveCam += 2  * (float)deltaTime;
+			moveCam += 8 * (float)deltaTime;
 		else
 		{
 			if (titleScale.x <= 7)

@@ -9,6 +9,7 @@
 #include "GenerateRange.h"
 #include "Collision.h"
 #include "Application.h"
+#include "InputManager.h"
 #include "SceneManager.h"
 
 Scene8Cabbage::Scene8Cabbage() {
@@ -55,9 +56,44 @@ void Scene8Cabbage::Init() {
 	tileMap.SetTileSize(1.0f);
 	InitPlayer();
 	InitCamera();
+	InitSetList();
 
 	drop = 0.0f;
+	interaction = 0.f;
 	Level = 1;
+}
+
+void Scene8Cabbage::InitSetList()
+{
+	for (int row = 0; row < tileMap.GetNumRows(); ++row)
+	{
+		for (int col = 0; col < tileMap.GetNumColumns(); ++col)
+		{
+			switch (tileMap.map[row][col])
+			{
+			case 15:
+			{
+				CabbageObject *cab = new CabbageObject();
+				cab->pos = Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -1);
+				cab->scale = Vector3(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
+				cab->active = true;
+				m_cabbageList.push_back(cab);
+				break;
+			}
+			case 17:
+			{
+				PotatoObject *potat = new PotatoObject();
+				potat->pos = Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize() - 0.2f, -1);
+				potat->scale = Vector3(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
+				potat->active = true;
+				m_potatoList.push_back(potat);
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
 }
 
 void Scene8Cabbage::InitMeshes() {
@@ -65,9 +101,6 @@ void Scene8Cabbage::InitMeshes() {
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		meshList[i] = nullptr;
 	}
-	//meshList[GEO_PLAYER] = MeshBuilder::Generate2DTile("Player", Color(1, 1, 1), 1);
-
-	//meshList[GEO_TILE_BRICK] = MeshBuilder::Generate2DTile("Tile Brick", Color(1, 1, 1), 1);
 
 	meshList[GEO_DIRT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
@@ -110,6 +143,11 @@ void Scene8Cabbage::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation = new Animation();
 	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation->Set(0, 0, 0, 1.f, true);
 
+	spriteAnimationList[SPRITE_PLAYER_INTERACTION] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 2);
+	spriteAnimationList[SPRITE_PLAYER_INTERACTION]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_interaction.tga");
+	spriteAnimationList[SPRITE_PLAYER_INTERACTION]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_INTERACTION]->animation->Set(0, 1, 0, 0.8f, true);
+
 	spriteAnimationList[SPRITE_PORTAL] = MeshBuilder::GenerateSpriteAnimation("portal", 1, 4);
 	spriteAnimationList[SPRITE_PORTAL]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//portal.tga");
 	spriteAnimationList[SPRITE_PORTAL]->animation = new Animation();
@@ -150,6 +188,44 @@ void Scene8Cabbage::InitCamera() {
 
 }
 
+void Scene8Cabbage::UpdateVegetation(const double& deltaTime)
+{
+	for (std::vector<CabbageObject *>::iterator it = m_cabbageList.begin(); it != m_cabbageList.end(); ++it)
+	{
+		CabbageObject *cabbage = (CabbageObject *)*it;
+		if (Scene3D::getDistX(cabbage->pos, player.transform.position, 0.5f) && cabbage->active)
+		{
+			player.playerState = Player::INTERACTION;
+			interaction += (float)deltaTime;
+			if (interaction > 3.f)
+			{
+				cabbage->active = false;
+				ItemManager::GetInstance().addItem(new Cabbage(1));
+				interaction = 0.f;
+				player.playerState = Player::IDLE;
+				return;
+			}
+		}
+	}
+	for (std::vector<PotatoObject *>::iterator it = m_potatoList.begin(); it != m_potatoList.end(); ++it)
+	{
+		PotatoObject *potato = (PotatoObject *)*it;
+		if (Scene3D::getDistX(potato->pos, player.transform.position, 0.5f) && potato->active)
+		{
+			player.playerState = Player::INTERACTION;
+			interaction += (float)deltaTime;
+			if (interaction > 3.f)
+			{
+				potato->active = false;
+				ItemManager::GetInstance().addItem(new Potato(1));
+				interaction = 0.f;
+				player.playerState = Player::IDLE;
+				return;
+			}
+		}
+	}
+}
+
 void Scene8Cabbage::Update(const double& deltaTime) {
 
 
@@ -160,16 +236,28 @@ void Scene8Cabbage::Update(const double& deltaTime) {
 		spriteAnimationList[i]->animation->animActive = true;
 	}
 
-	player.Update(deltaTime);
+	if (player.playerState != Player::INTERACTION)
+		player.Update(deltaTime);
+	else
+		player.setVelocity(Vector3(0, 0, 0));
 	camera.Update(deltaTime);
 
 	Scene3D::Update(deltaTime);
+
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
+		UpdateVegetation(deltaTime);
+	else
+	{
+		player.playerState = Player::IDLE;
+		interaction = 0.f;
+	}
 }
 
 void Scene8Cabbage::Render() {
 
 	Scene3D::Render();
 	SetToCameraView(&camera);
+	RenderLists();
 	RenderTileMap();
 	RenderBackground();
 	RenderPlayer();
@@ -215,25 +303,12 @@ void Scene8Cabbage::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 15:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Rotate(-40, 0, 0, 1);
-				RenderMesh(meshList[GEO_CABBAGE]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				break;
-			case 17:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Translate(0, -0.2f, 1);
-				RenderMesh(meshList[GEO_POTATO]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				break;
 			}
 			modelStack.PopMatrix();
 		}
 	}
 
 }
-
 
 void Scene8Cabbage::RenderPlayer() {
 
@@ -249,7 +324,9 @@ void Scene8Cabbage::RenderPlayer() {
 	else if (player.playerState == Player::IDLE)
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
 	else if (player.playerState == Player::JUMPING)
-		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert()); 
+	else if (player.playerState == Player::INTERACTION)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_INTERACTION], false);
 	modelStack.PopMatrix();
 
 }
@@ -258,6 +335,7 @@ void Scene8Cabbage::RenderText() {
 
 
 }
+
 void Scene8Cabbage::RenderBackground()
 {
 
@@ -265,14 +343,6 @@ void Scene8Cabbage::RenderBackground()
 	float camWidth = xRatio * camera.GetOrthoSize();
 	float backgroundScaleX = camWidth * 2.0f;
 	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
-
-	/*glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-	modelStack.PushMatrix();
-	modelStack.Translate(housePos.x, housePos.y + 2, housePos.z);
-	modelStack.Scale(10, 10, 1);
-	RenderMesh(meshList[GEO_BACKGROUND_1], false);
-	modelStack.PopMatrix();
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);*/
 
 	for (int i = 0; i < 5; ++i)
 	{
@@ -293,4 +363,45 @@ void Scene8Cabbage::RenderBackground()
 	}
 }
 
+void Scene8Cabbage::RenderLists()
+{
+	for (std::vector<CabbageObject *>::iterator it = m_cabbageList.begin(); it != m_cabbageList.end(); ++it)
+	{
+		CabbageObject *cab = (CabbageObject *)*it;
+		if (cab->active)
+		{
+			RenderCabbage(cab);
+		}
+	}
+	for (std::vector<PotatoObject *>::iterator it = m_potatoList.begin(); it != m_potatoList.end(); ++it)
+	{
+		PotatoObject *potat = (PotatoObject *)*it;
+		if (potat->active)
+		{
+			RenderPotato(potat);
+		}
+	}
+}
 
+void Scene8Cabbage::RenderCabbage(CabbageObject* cab)
+{
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PushMatrix();
+	modelStack.Translate(cab->pos.x, cab->pos.y, cab->pos.z);
+	modelStack.Scale(cab->scale.x, cab->scale.y, cab->scale.z);
+	modelStack.Rotate(-40, 0, 0, 1);
+	RenderMesh(meshList[GEO_CABBAGE]);
+	modelStack.PopMatrix();
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+}
+
+void Scene8Cabbage::RenderPotato(PotatoObject* potato)
+{
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PushMatrix();
+	modelStack.Translate(potato->pos.x, potato->pos.y, potato->pos.z);
+	modelStack.Scale(potato->scale.x, potato->scale.y, potato->scale.z);
+	RenderMesh(meshList[GEO_POTATO]);
+	modelStack.PopMatrix();
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+}

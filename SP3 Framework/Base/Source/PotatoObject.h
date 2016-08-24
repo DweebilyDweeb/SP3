@@ -11,8 +11,6 @@ struct PotatoObject
 
 	bool active;
 	bool fullyGrown;
-	Time growing;
-	Time timeToFullyGrow;
 
 	PotatoObject();
 	~PotatoObject();

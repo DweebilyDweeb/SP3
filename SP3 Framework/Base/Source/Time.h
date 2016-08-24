@@ -29,7 +29,7 @@ public:
 	bool getActive();
 	Time getTime();
 	float getRotation();
-
+	bool dayChanged();
 
 	void Init(){};
 	void RenderTime(){};

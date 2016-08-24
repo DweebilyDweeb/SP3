@@ -11,8 +11,6 @@ struct CarrotObject
 
 	bool active;
 	bool fullyGrown;
-	Time growing;
-	Time timeToFullyGrow;
 
 	CarrotObject();
 	~CarrotObject();

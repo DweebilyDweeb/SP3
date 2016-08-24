@@ -11,8 +11,6 @@ struct CornObject
 
 	bool active;
 	bool fullyGrown;
-	Time growing;
-	Time timeToFullyGrow;
 
 	CornObject();
 	~CornObject();

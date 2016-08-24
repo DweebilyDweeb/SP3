@@ -10,9 +10,6 @@ struct CabbageObject
 	Vector3 scale;
 
 	bool active;
-	bool fullyGrown;
-	Time growing;
-	Time timeToFullyGrow;
 
 	CabbageObject();
 	~CabbageObject();

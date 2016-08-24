@@ -8,6 +8,7 @@
 #include "InputManager.h"
 #include "ItemManager.h"
 #include "SceneManager.h"
+
 //#include "Application.h"
 
 //Constructor(s) & Destructor
@@ -293,7 +294,41 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 void Scene3D::Update(const double& deltaTime) {
 	UpdateAttributeUI(deltaTime);
     Application::clock->UpdateTime(deltaTime);
-	cout << Application::clock->getTime();
+	/*if (Application::clock->dayChanged())
+	{
+		for (std::vector<CarrotObject *>::iterator it = m_carrotList.begin(); it != m_carrotList.end(); ++it)
+		{
+			CarrotObject *carrot = (CarrotObject *)*it;
+			if (!carrot->active)
+			{
+				carrot->active = true;
+			}
+		}
+		for (std::vector<CornObject *>::iterator it = m_cornList.begin(); it != m_cornList.end(); ++it)
+		{
+			CornObject *corn = (CornObject *)*it;
+			if (!corn->active)
+			{
+				corn->active = true;
+			}
+		}
+		for (std::vector<CabbageObject *>::iterator it = m_cabbageList.begin(); it != m_cabbageList.end(); ++it)
+		{
+			CabbageObject *cab = (CabbageObject *)*it;
+			if (!cab->active)
+			{
+				cab->active = true;
+			}
+		}
+		for (std::vector<PotatoObject *>::iterator it = m_potatoList.begin(); it != m_potatoList.end(); ++it)
+		{
+			PotatoObject *potat = (PotatoObject *)*it;
+			if (!potat->active)
+			{
+				potat->active = true;
+			}
+		}
+	}*/
 }
 
 //Things that need to be updated every frame.
