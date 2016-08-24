@@ -16,6 +16,7 @@
 #include "SceneManager.h"
 
 //Include Scenes
+#include "MainMenu.h"
 #include "Scene1House.h"
 #include "Scene2Cow.h"
 #include "Scene3Chicken.h"
@@ -153,7 +154,7 @@ void Application::Run() {
 	SceneManager::GetInstance().Init();
    // Play();
     m_timer.startTimer(); //Start timer to calculate how long it takes to render this frame
-    while (glfwWindowShouldClose(m_window) == false && quit == false) {
+    while (glfwWindowShouldClose(m_window) == false && quit == false && MainMenu::endGame == false) {
 
         elapsedTime = m_timer.getElapsedTime();
         SceneManager::GetInstance().Update(elapsedTime);

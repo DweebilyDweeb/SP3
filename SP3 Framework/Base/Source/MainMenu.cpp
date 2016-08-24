@@ -9,7 +9,10 @@
 #include "GenerateRange.h"
 #include "Collision.h"
 #include "Application.h"
+#include "InputManager.h"
 #include "SceneManager.h"
+
+bool MainMenu::endGame = false;
 
 MainMenu::MainMenu() {
 }
@@ -50,15 +53,23 @@ void MainMenu::Init() {
 	InitFog(Color(0.5f, 0.5f, 0.5f), 2, 20.0f, 800.0f, 0.005f);
 	EnableFog(false);
 
-	tileMap.LoadFile("TileMap//Scene1House.csv");
+	tileMap.LoadFile("TileMap//MainMenu.csv");
 	tileMap.SetTileSize(1.0f);
 	InitPlayer();
 	InitCamera();
 
 	drop = 0.0f;
 	Level = 1;
-	moveCam = -7;
+	moveCam = -8.5;
+	Xstop = 29;
 	alpha = 0;
+	titleScale = Vector3(0.05f, 0.05f, 0.05f);
+	movement1 = Vector3(35, 10, 0);
+	movement2 = Vector3(38, 8, 0);
+	movement3 = Vector3(41, 6, 0);
+	scale1 = scale2 = scale3 = Vector3(3, 1, 3);
+	hand = Vector3(26, 10, 0);
+	transitioning = true;
 }
 
 void MainMenu::InitMeshes() {
@@ -74,6 +85,21 @@ void MainMenu::InitMeshes() {
 
 	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
+
+	meshList[GEO_TITLE] = MeshBuilder::GenerateQuad("Title", Color(1, 1, 1), 1);
+	meshList[GEO_TITLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//main_menu.tga");
+
+	meshList[GEO_STARTGAME] = MeshBuilder::GenerateQuad("Start Game", Color(1, 1, 1), 1);
+	meshList[GEO_STARTGAME]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//main_menu1.tga");
+
+	meshList[GEO_OPTION] = MeshBuilder::GenerateQuad("Option", Color(1, 1, 1), 1);
+	meshList[GEO_OPTION]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//main_menu2.tga");
+
+	meshList[GEO_ENDGAME] = MeshBuilder::GenerateQuad("Exit Game", Color(1, 1, 1), 1);
+	meshList[GEO_ENDGAME]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//main_menu3.tga");
+
+	meshList[GEO_HAND] = MeshBuilder::GenerateQuad("Hand", Color(1, 1, 1), 1);
+	meshList[GEO_HAND]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//hand.tga");
 
 	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
 	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//house.tga");
@@ -116,37 +142,11 @@ void MainMenu::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_DAUGHTER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//daughter.tga");
 	spriteAnimationList[SPRITE_DAUGHTER]->animation = new Animation();
 	spriteAnimationList[SPRITE_DAUGHTER]->animation->Set(0, 3, 0, 1.f, true);
-
-
-
 }
 
 void MainMenu::InitPlayer() {
 
 	player.SetTileMap(tileMap);
-
-	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-
-			if (SceneManager::GetInstance().getPrevScene() == WHEAT)
-
-			{
-				if (tileMap.map[row][col] == 99) {
-					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-				}
-
-			}
-
-			if (SceneManager::GetInstance().getPrevScene() == COW)
-
-			{
-				if (tileMap.map[row][col] == 100) {
-					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-				}
-			}
-		}
-	}
-
 
 }
 
@@ -167,17 +167,77 @@ void MainMenu::Update(const double& deltaTime) {
 		spriteAnimationList[i]->animation->animActive = true;
 	}
 
-
-	if (alpha < 1)
-		alpha += 0.1 * (float)deltaTime;
-	else
-		alpha = 0;
-
 	//player.Update(deltaTime);
-	if (moveCam < 10)
-		moveCam += (float)deltaTime;
+	if (transitioning)
+	{
+		if (moveCam < 8)
+			moveCam += 1.5  * (float)deltaTime;
+		else
+		{
+			if (titleScale.x <= 7)
+			{
+				// title scale
+				titleScale.x += 4 * (float)deltaTime;
+				titleScale.y += 4 * (float)deltaTime;
+			}
+			else
+			{
+				// this is all the moving of the options in mm
+				if (movement1.x > Xstop)
+					movement1.x -= 8 * (float)deltaTime;
+				if (movement2.x > Xstop)
+					movement2.x -= 8 * (float)deltaTime;
+				if (movement3.x > Xstop)
+					movement3.x -= 8 * (float)deltaTime;
+				if (movement3.x <= Xstop)
+					transitioning = false;
+			}
+		}
+	}
 	else
-		moveCam = -8;
+	{
+		static float time = 0.f;
+		time += (float)deltaTime;
+		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_MOVE_DOWN] && hand.y > 6 && time > 0.2f) {
+			hand.y -= 2;
+			time = 0;
+		}
+		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_MOVE_UP] && hand.y < 10 && time > 0.2f)
+		{
+			hand.y += 2;
+			time = 0;
+		}
+		if (hand.y == movement1.y)
+		{
+			scale1.x = 3.9;
+			scale1.y = 1.3;
+			scale2.x = scale3.x = 3;
+			scale2.y = scale3.y = 1;                                                                                                                
+			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
+			{
+				player.setVelocity(Vector3(0, 0, 0));
+				SceneManager::GetInstance().chgCurrEnumScene(HOME);
+				SceneManager::GetInstance().setPrevScene(WHEAT);
+			}
+		}
+		else if (hand.y == movement2.y)
+		{
+			scale1.x = scale3.x = 3;
+			scale1.y = scale3.y = 1;
+			scale2.x = 3.9;
+			scale2.y = 1.3;
+		}
+		else if (hand.y == movement3.y)
+		{
+			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
+				endGame = true;
+
+			scale1.x = scale2.x = 3;
+			scale1.y = scale2.y = 1;
+			scale3.x = 3.9;
+			scale3.y = 1.3;
+		}
+	}
 	camera.Update(deltaTime);
 }
 
@@ -267,6 +327,12 @@ void MainMenu::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_SON]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
+			case 110:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				modelStack.Translate(0, -0.1f, 0.1f);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
 			}
 			modelStack.PopMatrix();
 		}
@@ -276,18 +342,12 @@ void MainMenu::RenderTileMap() {
 
 
 void MainMenu::RenderPlayer() {
-
-	modelStack.PushMatrix();
-	modelStack.Translate(player.transform.position.x  + 22, player.transform.position.y - 0.1f, player.transform.position.z);
-	//modelStack.Rotate(player.transform.rotation.z, 0, 0, 1);
-	if (player.playerState == Player::IDLE)
-		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
-
 }
 
 void MainMenu::RenderText() {
 
 }
+
 void MainMenu::RenderBackground()
 {
 
@@ -304,12 +364,48 @@ void MainMenu::RenderBackground()
 	modelStack.PopMatrix();
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-	/*modelStack.PushMatrix();
-	glColor4f(0, 0, 0, alpha);
-	modelStack.Translate(camera.transform.position.x, camera.transform.position.y, 0);
-	modelStack.Scale(100, 100, 1);
-	RenderMesh(meshList[GEO_BLACKFADE], false);
-	modelStack.PopMatrix();*/
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PushMatrix();
+	modelStack.Translate(housePos.x, housePos.y + 8.3, housePos.z);
+	modelStack.Scale(titleScale.x, titleScale.y, titleScale.z);
+	RenderMesh(meshList[GEO_TITLE], false);
+	modelStack.PopMatrix();
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PushMatrix();
+	modelStack.Translate(movement1.x, movement1.y, movement1.z);
+	modelStack.Scale(scale1.x, scale1.y, scale1.z);
+	RenderMesh(meshList[GEO_STARTGAME], false);
+	modelStack.PopMatrix();
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PushMatrix();
+	modelStack.Translate(movement2.x, movement2.y, movement2.z);
+	modelStack.Scale(scale2.x, scale2.y, scale2.z);
+	RenderMesh(meshList[GEO_OPTION], false);
+	modelStack.PopMatrix();
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PushMatrix();
+	modelStack.Translate(movement3.x, movement3.y, movement3.z);
+	modelStack.Scale(scale3.x, scale3.y, scale3.z);
+	RenderMesh(meshList[GEO_ENDGAME], false);
+	modelStack.PopMatrix();
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+	if (!transitioning)
+	{
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		modelStack.PushMatrix();
+		modelStack.Translate(hand.x, hand.y, hand.z);
+		modelStack.Scale(1.5, 0.7, 3);
+		RenderMesh(meshList[GEO_HAND], false);
+		modelStack.PopMatrix();
+		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	}
 
 	for (int i = 0; i < 5; ++i)
 	{

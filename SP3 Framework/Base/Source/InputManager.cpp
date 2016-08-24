@@ -125,6 +125,16 @@ void InputManager::Update() {
         inputInfo.keyValue[INPUT_PAUSE] = 1.0f;
     }
 
+	if (keyboard.IsKeyPressed(VK_RETURN))
+	{
+		inputInfo.keyDown[INPUT_ENTER] = 1;
+		inputInfo.keyValue[INPUT_ENTER] = 1.0f;
+	}
+	if (keyboard.IsKeyReleased(VK_RETURN)){
+		inputInfo.keyReleased[INPUT_ENTER] = 1;
+		inputInfo.keyValue[INPUT_ENTER] = 1.0f;
+	}
+
 	/********************************************************************************************************************/
 	//Do not touch anything below unless you know what you're doing.
 	/********************************************************************************************************************/

@@ -138,7 +138,7 @@ void Scene1House::InitPlayer() {
 	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
 		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
 
-	if (SceneManager::GetInstance().getPrevScene() == WHEAT)
+			if (SceneManager::GetInstance().getPrevScene() == WHEAT || SceneManager::GetInstance().getPrevScene() == MAIN_MENU)
 
 			{
 				if (tileMap.map[row][col] == 99) {

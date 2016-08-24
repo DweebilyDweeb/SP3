@@ -10,6 +10,7 @@ enum SCENE_TYPE
 {
     LOSE,
     DEAD,
+	MAIN_MENU,
 	HOME,
     COW,
     CHICKEN,

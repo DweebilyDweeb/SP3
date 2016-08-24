@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "MainMenu.h"
 #include "Scene1House.h"
 #include "Scene2Cow.h"
 #include "Scene3Chicken.h"
@@ -27,6 +28,7 @@ void SceneManager::Init()
 
     sceneList[LOSE] = new LoseScreen;
     sceneList[DEAD] = new DeathScreen;
+	sceneList[MAIN_MENU] = new MainMenu;
     sceneList[HOME] = new Scene1House;
     sceneList[COW] = new Scene2Cow;
     sceneList[CHICKEN] = new Scene3Chicken;
@@ -41,7 +43,7 @@ void SceneManager::Init()
 	sceneList[SUB_WELL] = new Scene6Well2;
 
     setPrevScene(WHEAT);
-    sceneType = HOME;
+    sceneType = MAIN_MENU;
 
     if (sceneType == HOME)
     {
