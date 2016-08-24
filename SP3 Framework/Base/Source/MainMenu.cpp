@@ -216,6 +216,8 @@ void MainMenu::Update(const double& deltaTime) {
 			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
 			{
 				player.setVelocity(Vector3(0, 0, 0));
+				Application::clock->setTime(0, 0, 1);
+				SceneManager::GetInstance().isChgScene(false);
 				SceneManager::GetInstance().chgCurrEnumScene(HOME);
 				SceneManager::GetInstance().setPrevScene(WHEAT);
 			}
