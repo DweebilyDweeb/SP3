@@ -16,7 +16,12 @@ private:
 		GEO_EMPTY,
 		GEO_DIRT,
 		GEO_GRASS,
+		GEO_TITLE,
+		GEO_STARTGAME,
+		GEO_OPTION,
+		GEO_ENDGAME,
 		GEO_BLACKFADE,
+		GEO_HAND,
 		GEO_BACKGROUND_1,
 		GEO_BACKGROUND_2,
 		GEO_BACKGROUND_3,
@@ -58,19 +63,35 @@ private:
 	int Level;
 	float alpha;
 
+	float Xstop;
+
 	float moveCam;
 
+	bool transitioning;
+
 	Vector3 housePos;
+	Vector3 titleScale;
+	Vector3 movement1;
+	Vector3 movement2;
+	Vector3 movement3;
+	Vector3 scale1;
+	Vector3 scale2;
+	Vector3 scale3;
+	Vector3 hand;
 
 public:
 	//Constructor(s) & Destructor
 	MainMenu();
 	virtual ~MainMenu();
 
+	static bool endGame;
+
 	//Virtual Function(s)
 	virtual void Init();
 	virtual void Update(const double& deltaTime);
 	virtual void Render();
+	virtual void RenderSub(){};
+	virtual void UpdateSub(const double& deltaTime){};
 	virtual void Exit();
 
 };

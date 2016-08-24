@@ -472,6 +472,7 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 				if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
 				{
 					//item in inventory increase herre
+					ItemManager::GetInstance().addItem(new Fish(1));
 					fishCount -= 1;
 					fo->active = false;
 				}
