@@ -86,6 +86,13 @@ void Time::setTime(int h, double min)
     minute = min;
 }
 
+void Time::setTime(int h, double min, int d)
+{
+	hour = h;
+	minute = min;
+	day = d;
+}
+
 std::ostream & operator<<(std::ostream& os, Time& time)
 {
     os.precision(3);

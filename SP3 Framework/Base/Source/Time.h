@@ -19,6 +19,7 @@ public:
 	~Time();
 
 	void setTime(int h, double m);
+	void setTime(int h, double m, int day);
 	void setDay();
 	void setActive(bool activity);
 
