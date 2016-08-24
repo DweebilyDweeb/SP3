@@ -47,6 +47,9 @@ void Scene3D::Exit() {
 	delete statUiBackground;
 	delete barBackground;
 	delete inventoryBar;
+    delete pause;
+    delete bigClock;
+    delete clockHandH;
 }
 
 void Scene3D::DeleteShaders() {

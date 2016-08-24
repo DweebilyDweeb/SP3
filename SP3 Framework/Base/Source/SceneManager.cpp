@@ -66,16 +66,16 @@ void SceneManager::Init()
     }
     if (Home == true)
     {
-        //PlayHome();
+        PlayHome();
     }
 
     if (World == true)
     {
-        //PlayWorld();
+        PlayWorld();
     }
     if (Dragon == true)
     {
-        //PlayDragon();
+        PlayDragon();
     }
 
     for (int i = 0; i < TOTAL_SCENES; ++i)
