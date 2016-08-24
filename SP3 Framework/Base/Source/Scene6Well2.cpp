@@ -305,16 +305,16 @@ void Scene6Well2::RenderBackground()
 
     glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
     modelStack.PushMatrix();
-    modelStack.Translate(wellPos.x - 0.45, wellPos.y + 1.1f, wellPos.z);
-	modelStack.Scale(8.8, 6.2, 1);
+    modelStack.Translate(wellPos.x + 0.55f, wellPos.y + 1.1f, wellPos.z);
+	modelStack.Scale(8.9, 6.2, 1);
     RenderMesh(meshList[GEO_BACKGROUND_1], false);
     modelStack.PopMatrix();
     glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
     glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
     modelStack.PushMatrix();
-    modelStack.Translate(wellPos.x - 0.45, wellPos.y + 1.1f, -2);
-	modelStack.Scale(8.8, 6.2, 1);
+    modelStack.Translate(wellPos.x + 0.55f, wellPos.y + 1.1f, -2);
+	modelStack.Scale(8.9, 6.2, 1);
     RenderMesh(meshList[GEO_BACKGROUND_4], false);
     modelStack.PopMatrix();
     glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
