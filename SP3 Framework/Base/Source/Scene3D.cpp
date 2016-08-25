@@ -8,6 +8,7 @@
 #include "InputManager.h"
 #include "ItemManager.h"
 #include "SceneManager.h"
+
 //#include "Application.h"
 
 //Constructor(s) & Destructor
@@ -38,11 +39,7 @@ void Scene3D::Exit() {
 	delete referenceAxes;
 	delete fontList[FONT_CONSOLAS];
 	delete healthBar;
-	delete proteinBar;
-	delete carbohydratesBar;
-	delete hydrationBar;
-	delete fatsBar;
-	delete vitaminsBar;
+	delete statsBar;
 	delete healthUiBackground;
 	delete statUiBackground;
 	delete barBackground;
@@ -297,7 +294,41 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 void Scene3D::Update(const double& deltaTime) {
 	UpdateAttributeUI(deltaTime);
     Application::clock->UpdateTime(deltaTime);
-    cout << Application::clock->getTime();
+	/*if (Application::clock->dayChanged())
+	{
+		for (std::vector<CarrotObject *>::iterator it = m_carrotList.begin(); it != m_carrotList.end(); ++it)
+		{
+			CarrotObject *carrot = (CarrotObject *)*it;
+			if (!carrot->active)
+			{
+				carrot->active = true;
+			}
+		}
+		for (std::vector<CornObject *>::iterator it = m_cornList.begin(); it != m_cornList.end(); ++it)
+		{
+			CornObject *corn = (CornObject *)*it;
+			if (!corn->active)
+			{
+				corn->active = true;
+			}
+		}
+		for (std::vector<CabbageObject *>::iterator it = m_cabbageList.begin(); it != m_cabbageList.end(); ++it)
+		{
+			CabbageObject *cab = (CabbageObject *)*it;
+			if (!cab->active)
+			{
+				cab->active = true;
+			}
+		}
+		for (std::vector<PotatoObject *>::iterator it = m_potatoList.begin(); it != m_potatoList.end(); ++it)
+		{
+			PotatoObject *potat = (PotatoObject *)*it;
+			if (!potat->active)
+			{
+				potat->active = true;
+			}
+		}
+	}*/
 }
 
 //Things that need to be updated every frame.
@@ -642,11 +673,7 @@ void Scene3D::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 void Scene3D::InitAttributeUI()
 {
 	healthBar = MeshBuilder::GenerateQuad("healthBar", Color(1, 0, 0), 1);
-	proteinBar = MeshBuilder::GenerateQuad("proteinBar", Color(1, 0.7f, 0.7f), 1);
-	carbohydratesBar = MeshBuilder::GenerateQuad("carbohydratesBar", Color(1, 1, 0), 1);
-	hydrationBar = MeshBuilder::GenerateQuad("hydrationBar", Color(0, 1, 1), 1);
-	fatsBar = MeshBuilder::GenerateQuad("fatsBar", Color(1, 0, 1), 1);
-	vitaminsBar = MeshBuilder::GenerateQuad("vitaminsBar", Color(0, 1, 0), 1);
+	statsBar = MeshBuilder::GenerateQuad("statsBar", Color(1, 0.5, 0), 1);
 	healthUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
 	healthUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health2.tga");
 	statUiBackground = MeshBuilder::GenerateQuad("uiBackground", Color(1, 1, 1), 1);
@@ -706,74 +733,70 @@ void Scene3D::RenderAttributeUI()
 		
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
 
+		RenderMeshIn2D(bigClock, 5, 5, 12, 8, 0, 0, 0, 0, 0, 0);
+		RenderMeshIn2D(clockHandH, 2, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, Application::clock->getRotation());
+
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
 	else
 	{
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], "STATS", Color(1, 0, 0), 1, -2, 11);
 		
 
 
 		if (Application::son->getProtein() > 0)
-			RenderMeshIn2D(proteinBar, Application::son->getCarbohydrates() * 0.05f, 0.5, -5.5, -0.3, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::son->getProtein() * 0.05f, 0.5, -5.5, -0.3, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -0.3, 5, 0.5);
 		if (Application::son->getCarbohydrates() > 0)
-			RenderMeshIn2D(carbohydratesBar, Application::son->getCarbohydrates() * 0.05f, 0.5, -5.5, -2.75, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::son->getCarbohydrates() * 0.05f, 0.5, -5.5, -2.75, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -2.75, 5, 0.5);
 		if (Application::son->getFats() > 0)
-			RenderMeshIn2D(fatsBar, Application::son->getFats() * 0.05f, 0.5, -5.5, -5, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::son->getFats() * 0.05f, 0.5, -5.5, -5, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -5, 5, 0.5);
 		if (Application::son->getVitamins() > 0)
-			RenderMeshIn2D(vitaminsBar, Application::son->getVitamins() * 0.05f, 0.5, -5.5, -7.2, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::son->getVitamins() * 0.05f, 0.5, -5.5, -7.2, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -7.2, 5, 0.5);
 		if (Application::son->getHydration() > 0)
-			RenderMeshIn2D(hydrationBar, Application::son->getHydration() * 0.05f, 0.5, -5.5, -9.25, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::son->getHydration() * 0.05f, 0.5, -5.5, -9.25, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -9.25, 5, 0.5);
 
 		if (Application::mother->getProtein() > 0)
-			RenderMeshIn2D(proteinBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -0.25, -0.3, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -0.25, -0.3, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -0.3, 5, 0.5);
 		if (Application::mother->getCarbohydrates() > 0)
-			RenderMeshIn2D(carbohydratesBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -0.25, -2.75, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -0.25, -2.75, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -2.75, 5, 0.5);
 		if (Application::mother->getFats() > 0)
-			RenderMeshIn2D(fatsBar, Application::mother->getFats() * 0.05f, 0.5, -0.25, -5, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::mother->getFats() * 0.05f, 0.5, -0.25, -5, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -5, 5, 0.5);
 		if (Application::mother->getVitamins() > 0)
-			RenderMeshIn2D(vitaminsBar, Application::mother->getVitamins() * 0.05f, 0.5, -0.25, -7.2, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::mother->getVitamins() * 0.05f, 0.5, -0.25, -7.2, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -7.2, 5, 0.5);
 		if (Application::mother->getHydration() > 0)
-			RenderMeshIn2D(hydrationBar, Application::mother->getHydration() * 0.05f, 0.5, -0.25, -9.25, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::mother->getHydration() * 0.05f, 0.5, -0.25, -9.25, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -9.25, 5, 0.5);
 
 		if (Application::daughter->getProtein() > 0)
-			RenderMeshIn2D(proteinBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 5, -0.3, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 5, -0.3, 5, 0.5);
 		RenderMeshIn2D(barBackground,5, 0.5, 5, -0.3, 5, 0.5);
 		if (Application::daughter->getCarbohydrates() > 0)
-			RenderMeshIn2D(carbohydratesBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 5, -2.75, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 5, -2.75, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, 5, -2.75, 5, 0.5);
 		if (Application::daughter->getFats() > 0)
-			RenderMeshIn2D(fatsBar, Application::daughter->getFats() * 0.05f, 0.5, 5, -5, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::daughter->getFats() * 0.05f, 0.5, 5, -5, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, 5, -5, 5, 0.5);
 		if (Application::daughter->getVitamins() > 0)
-			RenderMeshIn2D(vitaminsBar, Application::daughter->getVitamins() * 0.05f, 0.5, 5, -7.2, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::daughter->getVitamins() * 0.05f, 0.5, 5, -7.2, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, 5, -7.2, 5, 0.5);
 		if (Application::daughter->getHydration() > 0)
-			RenderMeshIn2D(hydrationBar, Application::daughter->getHydration() * 0.05f, 0.5, 5, -9.25, 5, 0.5);
+			RenderMeshIn2D(statsBar, Application::daughter->getHydration() * 0.05f, 0.5, 5, -9.25, 5, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, 5, -9.25, 5, 0.5);
 		
 
 		RenderMeshIn2D(statUiBackground, 30, 30);
         glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
-    glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-    RenderMeshIn2D(bigClock, 5, 5, 12, 8, 0, 0, 0, 0, 0, 0);
-    glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-
-    glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-    RenderMeshIn2D(clockHandH, 2, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, Application::clock->getRotation());
-    glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+   
 	
 }
 
@@ -910,4 +933,9 @@ void Scene3D::RenderDeath()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
+}
+
+void Scene3D::RenderScene1Title()
+{
+	
 }

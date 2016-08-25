@@ -171,7 +171,8 @@ void MainMenu::Update(const double& deltaTime) {
 	if (transitioning)
 	{
 		if (moveCam < 8)
-			moveCam += 1.5  * (float)deltaTime;
+			//moveCam += 2  * (float)deltaTime;
+			moveCam += 8 * (float)deltaTime;
 		else
 		{
 			if (titleScale.x <= 7)
@@ -216,6 +217,8 @@ void MainMenu::Update(const double& deltaTime) {
 			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
 			{
 				player.setVelocity(Vector3(0, 0, 0));
+				Application::clock->setTime(0, 0, 1);
+				SceneManager::GetInstance().isChgScene(false);
 				SceneManager::GetInstance().chgCurrEnumScene(HOME);
 				SceneManager::GetInstance().setPrevScene(WHEAT);
                 PlaySelect();

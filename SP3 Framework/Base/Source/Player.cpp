@@ -400,9 +400,8 @@ bool Player::CheckVegetation()
 		tileMap->map[tileY][tileX] == TILE_POTATO ||
 		tileMap->map[tileY][tileX] == TILE_WHEAT ||
 		tileMap->map[tileY][tileX] == TILE_CORN)
-	{
 		return true;
-	}
+
 	return false;
 }
 

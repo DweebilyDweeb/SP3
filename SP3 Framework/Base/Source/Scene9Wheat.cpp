@@ -9,6 +9,7 @@
 #include "GenerateRange.h"
 #include "Collision.h"
 #include "Application.h"
+#include "InputManager.h"
 #include "SceneManager.h"
 
 Scene9Wheat::Scene9Wheat() {
@@ -55,9 +56,46 @@ void Scene9Wheat::Init() {
 	tileMap.SetTileSize(1.0f);
 	InitPlayer();
 	InitCamera();
+	InitSetList();
 
 	drop = 0.0f;
+	interaction = 0.f;
 	Level = 1;
+}
+
+void Scene9Wheat::InitSetList()
+{
+	for (int row = 0; row < tileMap.GetNumRows(); ++row)
+	{
+		for (int col = 0; col < tileMap.GetNumColumns(); ++col)
+		{
+			switch (tileMap.map[row][col])
+			{
+			case 16:
+			{
+				CarrotObject *carrot = new CarrotObject();
+				carrot->pos = Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize() - 0.5f, -1);
+				carrot->scale = Vector3(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
+				carrot->fullyGrown = true;
+				carrot->active = true;
+				m_carrotList.push_back(carrot);
+				break;
+			}
+			case 19:
+			{
+				CornObject *corn = new CornObject();
+				corn->pos = Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -1);
+				corn->scale = Vector3(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
+				corn->fullyGrown = true;
+				corn->active = true;
+				m_cornList.push_back(corn);
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
 }
 
 void Scene9Wheat::InitMeshes() {
@@ -65,9 +103,6 @@ void Scene9Wheat::InitMeshes() {
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		meshList[i] = nullptr;
 	}
-	//meshList[GEO_PLAYER] = MeshBuilder::Generate2DTile("Player", Color(1, 1, 1), 1);
-
-	//meshList[GEO_TILE_BRICK] = MeshBuilder::Generate2DTile("Tile Brick", Color(1, 1, 1), 1);
 
 	meshList[GEO_DIRT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
@@ -75,8 +110,8 @@ void Scene9Wheat::InitMeshes() {
 	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
 
-	meshList[GEO_WHEAT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_WHEAT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//wheat.tga");
+	meshList[GEO_CARROT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_CARROT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//carrot.tga");
 
 	meshList[GEO_CORN] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_CORN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//corn.tga");
@@ -109,6 +144,11 @@ void Scene9Wheat::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PLAYER_JUMP]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_jump.tga");
 	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation = new Animation();
 	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation->Set(0, 0, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_PLAYER_INTERACTION] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 2);
+	spriteAnimationList[SPRITE_PLAYER_INTERACTION]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_interaction.tga");
+	spriteAnimationList[SPRITE_PLAYER_INTERACTION]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_INTERACTION]->animation->Set(0, 1, 0, 0.8f, true);
 
 	spriteAnimationList[SPRITE_PORTAL] = MeshBuilder::GenerateSpriteAnimation("portal", 1, 4);
 	spriteAnimationList[SPRITE_PORTAL]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//portal.tga");
@@ -151,9 +191,8 @@ void Scene9Wheat::InitCamera() {
 
 }
 
-void Scene9Wheat::Update(const double& deltaTime) {
-
-
+void Scene9Wheat::Update(const double& deltaTime) 
+{
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i)
 	{
 
@@ -161,16 +200,123 @@ void Scene9Wheat::Update(const double& deltaTime) {
 		spriteAnimationList[i]->animation->animActive = true;
 	}
 
-	player.Update(deltaTime);
+	if (player.playerState != Player::INTERACTION)
+		player.Update(deltaTime);
+	else
+		player.setVelocity(Vector3(0, 0, 0));
+
 	camera.Update(deltaTime);
 
 	Scene3D::Update(deltaTime);
+
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
+		UpdateVegetation(deltaTime);
+	else
+	{
+		player.playerState = Player::IDLE;
+		interaction = 0.f;
+	}
+
+}
+
+void Scene9Wheat::UpdateVegetation(const double& deltaTime)
+{
+	/*for (int row = 0; row < tileMap.GetNumRows(); ++row)
+	{
+		for (int col = 0; col < tileMap.GetNumColumns(); ++col)
+		{
+			switch (tileMap.map[row][col])
+			{
+			case 16:
+			{
+				for (std::vector<CarrotObject *>::iterator it = m_carrotList.begin(); it != m_carrotList.end(); ++it)
+				{
+					CarrotObject *carrot = (CarrotObject *)*it;
+					if (carrot->pos == Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -1) && carrot->active)
+					{
+						carrot->active = false;
+					}
+				}
+				break;
+			}
+			case 19:
+			{
+				for (std::vector<CornObject *>::iterator it = m_cornList.begin(); it != m_cornList.end(); ++it)
+				{
+					CornObject *corn = (CornObject *)*it;
+					if (corn->pos == Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -1) && corn->active)
+					{
+						corn->active = false;
+					}
+				}
+			}
+			default:
+				break;
+			}
+		}
+	}*/
+	/*int tileX = tileMap.GetTileX(player.transform.position.x);
+	int tileY = tileMap.GetTileY(player.transform.position.y);
+
+	if (tileMap.map[tileY][tileX] == TILE_CARROT)
+	{
+		for (std::vector<CarrotObject *>::iterator it = m_carrotList.begin(); it != m_carrotList.end(); ++it)
+		{
+			CarrotObject *carrot = (CarrotObject *)*it;
+			if (carrot->active && carrot->pos == Vector3(tileY * tileMap.GetTileSize(), tileX * tileMap.GetTileSize(), -1))
+			{
+				
+				carrot->active = false;
+			}
+		}
+	}
+	else if (tileMap.map[tileY][tileX] == TILE_CORN)
+	{
+		std::cout << "LOL" << std::endl;
+	}*/
+
+	for (std::vector<CarrotObject *>::iterator it = m_carrotList.begin(); it != m_carrotList.end(); ++it)
+	{
+		CarrotObject *carrot = (CarrotObject *)*it;
+		if (Scene3D::getDistX(carrot->pos, player.transform.position, 0.5f) && carrot->active)
+		{
+			player.playerState = Player::INTERACTION;
+			interaction += (float)deltaTime;
+			if (interaction > 3.f)
+			{
+				carrot->active = false;
+				ItemManager::GetInstance().addItem(new Carrot(1));
+				interaction = 0.f;
+				player.playerState = Player::IDLE;
+				return;
+			}
+		}
+	}
+	for (std::vector<CornObject *>::iterator it = m_cornList.begin(); it != m_cornList.end(); ++it)
+	{
+		CornObject *corn = (CornObject *)*it;
+		if (Scene3D::getDistX(corn->pos, player.transform.position, 0.5f) && corn->active)
+		{
+
+			player.playerState = Player::INTERACTION;
+			interaction += (float)deltaTime;
+			if (interaction > 3.f)
+			{
+				corn->active = false;
+				ItemManager::GetInstance().addItem(new Corn(1));
+				interaction = 0.f;
+				player.playerState = Player::IDLE;
+				return;
+			}
+		}
+	}
 }
 
 void Scene9Wheat::Render() {
 
 	Scene3D::Render();
 	SetToCameraView(&camera);
+	RenderLists();
 	RenderTileMap();
 	RenderBackground();
 	RenderPlayer();
@@ -215,23 +361,12 @@ void Scene9Wheat::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 18:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderMesh(meshList[GEO_WHEAT]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				break;
-			case 19:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderMesh(meshList[GEO_CORN]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				break;
 			}
 			modelStack.PopMatrix();
 		}
 	}
 
 }
-
 
 void Scene9Wheat::RenderPlayer() {
 
@@ -248,6 +383,8 @@ void Scene9Wheat::RenderPlayer() {
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
 	else if (player.playerState == Player::JUMPING)
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
+	else if (player.playerState == Player::INTERACTION)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_INTERACTION], false);
 	modelStack.PopMatrix();
 
 }
@@ -256,6 +393,7 @@ void Scene9Wheat::RenderText() {
 
 
 }
+
 void Scene9Wheat::RenderBackground()
 {
 
@@ -283,4 +421,44 @@ void Scene9Wheat::RenderBackground()
 	}
 }
 
+void Scene9Wheat::RenderLists()
+{
+	for (std::vector<CarrotObject *>::iterator it = m_carrotList.begin(); it != m_carrotList.end(); ++it)
+	{
+		CarrotObject *carrot = (CarrotObject *)*it;
+		if (carrot->active)
+		{
+			RenderCarrot(carrot);
+		}
+	}
+	for (std::vector<CornObject *>::iterator it = m_cornList.begin(); it != m_cornList.end(); ++it)
+	{
+		CornObject *corn = (CornObject *)*it;
+		if (corn->active)
+		{
+			RenderCorn(corn);
+		}
+	}
+}
 
+void Scene9Wheat::RenderCarrot(CarrotObject * carrot)
+{
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PushMatrix();
+	modelStack.Translate(carrot->pos.x, carrot->pos.y, carrot->pos.z);
+	modelStack.Scale(carrot->scale.x, carrot->scale.y, carrot->scale.z);
+	RenderMesh(meshList[GEO_CARROT]);
+	modelStack.PopMatrix();
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+}
+
+void Scene9Wheat::RenderCorn(CornObject * corn)
+{
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PushMatrix();
+	modelStack.Translate(corn->pos.x, corn->pos.y, corn->pos.z);
+	modelStack.Scale(corn->scale.x, corn->scale.y, corn->scale.z);
+	RenderMesh(meshList[GEO_CORN]);
+	modelStack.PopMatrix();
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+}

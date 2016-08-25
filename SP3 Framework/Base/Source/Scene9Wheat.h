@@ -7,6 +7,8 @@
 #include "TileMap.h"
 #include "Camera2D.h"
 #include "PlayerSS.h"
+#include "CarrotObject.h"
+#include "CornObject.h"
 
 class Scene9Wheat : public Scene3D {
 
@@ -16,7 +18,7 @@ private:
 		GEO_EMPTY,
 		GEO_DIRT,
 		GEO_GRASS,
-		GEO_WHEAT,
+		GEO_CARROT,
 		GEO_CORN,
 		GEO_BACKGROUND_2,
 		GEO_BACKGROUND_3,
@@ -31,6 +33,7 @@ private:
 		SPRITE_PLAYER,
 		SPRITE_PLAYER_IDLE,
 		SPRITE_PLAYER_JUMP,
+		SPRITE_PLAYER_INTERACTION,
 		SPRITE_PORTAL,
 		SPRITE_WATER,
 
@@ -52,10 +55,17 @@ private:
 	void RenderBackground();
 	void RenderText();
 
+	void InitSetList();
+	void RenderLists();
+	void RenderCarrot(CarrotObject *);
+	void RenderCorn(CornObject *);
+
+	void UpdateVegetation(const double& deltaTime);
 	Camera2D camera;
 	PlayerSS player;
 
 	float drop;
+	float interaction;
 	int Level;
 
 	Vector3 housePos;
@@ -72,6 +82,9 @@ public:
 	virtual void Render();
 	virtual void RenderSub(){};
 	virtual void Exit();
+
+	std::vector<CarrotObject *> m_carrotList;
+	std::vector<CornObject *> m_cornList;
 };
 
 #endif

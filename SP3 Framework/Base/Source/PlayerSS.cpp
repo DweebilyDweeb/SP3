@@ -147,6 +147,7 @@ void PlayerSS::Update(const double& deltaTime) {
 	{
 		playerState = IDLE;
 	}
+	
 
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_MOVE_RIGHT]) {
 		playerState = WALKING;
@@ -271,12 +272,6 @@ void PlayerSS::Update(const double& deltaTime) {
 
 			}
 		}
-	}
-
-	if (CheckVegetation())
-	{
-		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
-			tileMap->map[tileY][tileX] = 0;
 	}
 
 	switch (SceneManager::GetInstance().getChgScene()) {

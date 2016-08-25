@@ -1,7 +1,7 @@
 #include "Vector3.h"
 #include "GameObject.h"
 
-struct ChickenObject : public GameObject
+struct ChickenObject
 {
 	enum CHICKEN_STATES
 	{

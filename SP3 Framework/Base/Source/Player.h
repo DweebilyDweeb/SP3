@@ -56,6 +56,7 @@ public:
         WALKING,
         IDLE,
         JUMPING,
+		INTERACTION,
         TOTAL
     };
 

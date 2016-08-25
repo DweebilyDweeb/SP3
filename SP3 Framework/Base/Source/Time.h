@@ -19,6 +19,7 @@ public:
 	~Time();
 
 	void setTime(int h, double m);
+	void setTime(int h, double m, int day);
 	void setDay();
 	void setActive(bool activity);
 
@@ -28,7 +29,7 @@ public:
 	bool getActive();
 	Time getTime();
 	float getRotation();
-
+	bool dayChanged();
 
 	void Init(){};
 	void RenderTime(){};
