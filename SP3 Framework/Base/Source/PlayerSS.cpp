@@ -293,3 +293,8 @@ bool PlayerSS::getInvert()
 {
 	return invert;
 }
+
+bool PlayerSS::getOnGround()
+{
+	return onGround;
+}

@@ -29,7 +29,7 @@ public:
     int Level;
 	virtual void Update(const double& deltaTime);
 
-
+	bool getOnGround();
 	bool getInvert();
 };
 

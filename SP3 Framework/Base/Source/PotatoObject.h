@@ -2,7 +2,6 @@
 #define POTATO_OBJECT_H
 
 #include "Vector3.h"
-#include "Time.h"
 
 struct PotatoObject
 {
@@ -10,7 +9,6 @@ struct PotatoObject
 	Vector3 scale;
 
 	bool active;
-	bool fullyGrown;
 
 	PotatoObject();
 	~PotatoObject();

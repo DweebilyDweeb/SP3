@@ -11,6 +11,10 @@
 #include "Son.h"
 #include "Daughter.h"
 #include "ItemManager.h"
+#include "PotatoObject.h"
+#include "CabbageObject.h"
+#include "CarrotObject.h"
+#include "CornObject.h"
 
 const unsigned int MAX_LIGHTS = 8;
 
@@ -294,6 +298,19 @@ public:
     void RenderDeath();
 
 	void RenderScene1Title();
+	void ResetVegetable();
+
+};
+
+
+struct Vegetable : public Singleton<Vegetable>{
+	
+	std::vector<CabbageObject *> m_cabbageList;
+	std::vector<PotatoObject *> m_potatoList;
+	std::vector<CarrotObject *> m_carrotList;
+	std::vector<CornObject *> m_cornList;
+
+
 };
 
 #endif

@@ -47,6 +47,7 @@ void Time::UpdateTime(const double& deltaTime)
         {
             hour = minute = 0;
             day++;
+			active = false;
         }
     }
 }
@@ -100,6 +101,11 @@ void Time::setTime(int h, double min, int d)
 	hour = h;
 	minute = min;
 	day = d;
+}
+
+void Time::setActive(bool activity)
+{
+	active = activity;
 }
 
 std::ostream & operator<<(std::ostream& os, Time& time)

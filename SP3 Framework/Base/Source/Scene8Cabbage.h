@@ -87,8 +87,7 @@ public:
 	virtual void RenderSub(){};
 	virtual void Exit();
 
-	std::vector<CabbageObject *> m_cabbageList;
-	std::vector<PotatoObject *> m_potatoList;
+
 };
 
 #endif

@@ -83,8 +83,7 @@ public:
 	virtual void RenderSub(){};
 	virtual void Exit();
 
-	std::vector<CarrotObject *> m_carrotList;
-	std::vector<CornObject *> m_cornList;
+
 };
 
 #endif

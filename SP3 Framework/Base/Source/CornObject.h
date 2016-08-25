@@ -2,7 +2,6 @@
 #define CORN_OBJECT_H
 
 #include "Vector3.h"
-#include "Time.h"
 
 struct CornObject
 {
@@ -10,7 +9,6 @@ struct CornObject
 	Vector3 scale;
 
 	bool active;
-	bool fullyGrown;
 
 	CornObject();
 	~CornObject();

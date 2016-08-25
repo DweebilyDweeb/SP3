@@ -76,9 +76,8 @@ void Scene9Wheat::InitSetList()
 				CarrotObject *carrot = new CarrotObject();
 				carrot->pos = Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize() - 0.5f, -1);
 				carrot->scale = Vector3(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
-				carrot->fullyGrown = true;
 				carrot->active = true;
-				m_carrotList.push_back(carrot);
+				Vegetable::GetInstance().m_carrotList.push_back(carrot);
 				break;
 			}
 			case 19:
@@ -86,9 +85,8 @@ void Scene9Wheat::InitSetList()
 				CornObject *corn = new CornObject();
 				corn->pos = Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -1);
 				corn->scale = Vector3(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
-				corn->fullyGrown = true;
 				corn->active = true;
-				m_cornList.push_back(corn);
+				Vegetable::GetInstance().m_cornList.push_back(corn);
 				break;
 			}
 			default:
@@ -213,7 +211,8 @@ void Scene9Wheat::Update(const double& deltaTime)
 		UpdateVegetation(deltaTime);
 	else
 	{
-		player.playerState = Player::IDLE;
+		if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_INTERACT])
+			player.playerState = Player::IDLE;
 		interaction = 0.f;
 	}
 
@@ -275,10 +274,10 @@ void Scene9Wheat::UpdateVegetation(const double& deltaTime)
 		std::cout << "LOL" << std::endl;
 	}*/
 
-	for (std::vector<CarrotObject *>::iterator it = m_carrotList.begin(); it != m_carrotList.end(); ++it)
+	for (std::vector<CarrotObject *>::iterator it = Vegetable::GetInstance().m_carrotList.begin(); it != Vegetable::GetInstance().m_carrotList.end(); ++it)
 	{
 		CarrotObject *carrot = (CarrotObject *)*it;
-		if (Scene3D::getDistX(carrot->pos, player.transform.position, 0.5f) && carrot->active)
+		if (Scene3D::getDistXY(carrot->pos, player.transform.position, 0.9f) && carrot->active && player.getOnGround())
 		{
 			player.playerState = Player::INTERACTION;
 			interaction += (float)deltaTime;
@@ -292,10 +291,11 @@ void Scene9Wheat::UpdateVegetation(const double& deltaTime)
 			}
 		}
 	}
-	for (std::vector<CornObject *>::iterator it = m_cornList.begin(); it != m_cornList.end(); ++it)
+	for (std::vector<CornObject *>::iterator it = Vegetable::GetInstance().m_cornList.begin(); it != Vegetable::GetInstance().m_cornList.end(); ++it)
 	{
 		CornObject *corn = (CornObject *)*it;
-		if (Scene3D::getDistX(corn->pos, player.transform.position, 0.5f) && corn->active)
+	
+		if (Scene3D::getDistX(corn->pos, player.transform.position, 0.5f) && corn->active && player.getOnGround())
 		{
 
 			player.playerState = Player::INTERACTION;
@@ -423,21 +423,17 @@ void Scene9Wheat::RenderBackground()
 
 void Scene9Wheat::RenderLists()
 {
-	for (std::vector<CarrotObject *>::iterator it = m_carrotList.begin(); it != m_carrotList.end(); ++it)
+	for (std::vector<CarrotObject *>::iterator it = Vegetable::GetInstance().m_carrotList.begin(); it != Vegetable::GetInstance().m_carrotList.end(); ++it)
 	{
 		CarrotObject *carrot = (CarrotObject *)*it;
 		if (carrot->active)
-		{
 			RenderCarrot(carrot);
-		}
 	}
-	for (std::vector<CornObject *>::iterator it = m_cornList.begin(); it != m_cornList.end(); ++it)
+	for (std::vector<CornObject *>::iterator it = Vegetable::GetInstance().m_cornList.begin(); it != Vegetable::GetInstance().m_cornList.end(); ++it)
 	{
 		CornObject *corn = (CornObject *)*it;
 		if (corn->active)
-		{
 			RenderCorn(corn);
-		}
 	}
 }
 

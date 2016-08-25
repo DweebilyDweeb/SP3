@@ -77,7 +77,7 @@ void Scene8Cabbage::InitSetList()
 				cab->pos = Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -1);
 				cab->scale = Vector3(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
 				cab->active = true;
-				m_cabbageList.push_back(cab);
+				Vegetable::GetInstance().m_cabbageList.push_back(cab);
 				break;
 			}
 			case 17:
@@ -86,7 +86,7 @@ void Scene8Cabbage::InitSetList()
 				potat->pos = Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize() - 0.2f, -1);
 				potat->scale = Vector3(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
 				potat->active = true;
-				m_potatoList.push_back(potat);
+				Vegetable::GetInstance().m_potatoList.push_back(potat);
 				break;
 			}
 			default:
@@ -190,10 +190,10 @@ void Scene8Cabbage::InitCamera() {
 
 void Scene8Cabbage::UpdateVegetation(const double& deltaTime)
 {
-	for (std::vector<CabbageObject *>::iterator it = m_cabbageList.begin(); it != m_cabbageList.end(); ++it)
+	for (std::vector<CabbageObject *>::iterator it = Vegetable::GetInstance().m_cabbageList.begin(); it != Vegetable::GetInstance().m_cabbageList.end(); ++it)
 	{
 		CabbageObject *cabbage = (CabbageObject *)*it;
-		if (Scene3D::getDistX(cabbage->pos, player.transform.position, 0.5f) && cabbage->active)
+		if (Scene3D::getDistXY(cabbage->pos, player.transform.position, 0.5f) && cabbage->active && player.getOnGround())
 		{
 			player.playerState = Player::INTERACTION;
 			interaction += (float)deltaTime;
@@ -207,10 +207,10 @@ void Scene8Cabbage::UpdateVegetation(const double& deltaTime)
 			}
 		}
 	}
-	for (std::vector<PotatoObject *>::iterator it = m_potatoList.begin(); it != m_potatoList.end(); ++it)
+	for (std::vector<PotatoObject *>::iterator it = Vegetable::GetInstance().m_potatoList.begin(); it != Vegetable::GetInstance().m_potatoList.end(); ++it)
 	{
 		PotatoObject *potato = (PotatoObject *)*it;
-		if (Scene3D::getDistX(potato->pos, player.transform.position, 0.5f) && potato->active)
+		if (Scene3D::getDistXY(potato->pos, player.transform.position, 0.5f) && potato->active && player.getOnGround())
 		{
 			player.playerState = Player::INTERACTION;
 			interaction += (float)deltaTime;
@@ -248,7 +248,8 @@ void Scene8Cabbage::Update(const double& deltaTime) {
 		UpdateVegetation(deltaTime);
 	else
 	{
-		player.playerState = Player::IDLE;
+		if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_INTERACT])
+			player.playerState = Player::IDLE;
 		interaction = 0.f;
 	}
 }
@@ -365,21 +366,17 @@ void Scene8Cabbage::RenderBackground()
 
 void Scene8Cabbage::RenderLists()
 {
-	for (std::vector<CabbageObject *>::iterator it = m_cabbageList.begin(); it != m_cabbageList.end(); ++it)
+	for (std::vector<CabbageObject *>::iterator it = Vegetable::GetInstance().m_cabbageList.begin(); it != Vegetable::GetInstance().m_cabbageList.end(); ++it)
 	{
 		CabbageObject *cab = (CabbageObject *)*it;
 		if (cab->active)
-		{
 			RenderCabbage(cab);
-		}
 	}
-	for (std::vector<PotatoObject *>::iterator it = m_potatoList.begin(); it != m_potatoList.end(); ++it)
+	for (std::vector<PotatoObject *>::iterator it = Vegetable::GetInstance().m_potatoList.begin(); it != Vegetable::GetInstance().m_potatoList.end(); ++it)
 	{
 		PotatoObject *potat = (PotatoObject *)*it;
 		if (potat->active)
-		{
 			RenderPotato(potat);
-		}
 	}
 }
 

@@ -2,7 +2,6 @@
 #define CARROT_OBJECT_H
 
 #include "Vector3.h"
-#include "Time.h"
 
 struct CarrotObject
 {
@@ -10,7 +9,6 @@ struct CarrotObject
 	Vector3 scale;
 
 	bool active;
-	bool fullyGrown;
 
 	CarrotObject();
 	~CarrotObject();
