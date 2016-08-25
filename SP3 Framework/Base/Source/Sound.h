@@ -5,16 +5,23 @@
 using namespace irrklang;
 
 void Create();
-void Play();
+/////////////////////////////////
+void Play(); //Creation of sound engine
+/////////////////////////////////
+    
 void PlayHome();
 void PlayWorld();
 void PlayDragon();
-void Play5();
-void Play6();
-void Play7();
 void StopHome();
 void StopWorld();
 void StopDragon();
-void DeleteEngine();
+/////////////////
+void PlaySelect();
+void PlayCow();
+void PlayBloop();
+void PlayDeath();
+void StopDeath();
+/////////////////
+void DeleteEngine(); // Removal of sound engine
 
 #endif

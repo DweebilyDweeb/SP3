@@ -72,6 +72,7 @@ private:
     bool Home;
     bool World;
     bool Dragon;
+    bool Death;
 	bool chgSceneMode;
 };
 

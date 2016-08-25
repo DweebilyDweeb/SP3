@@ -218,6 +218,7 @@ void MainMenu::Update(const double& deltaTime) {
 				player.setVelocity(Vector3(0, 0, 0));
 				SceneManager::GetInstance().chgCurrEnumScene(HOME);
 				SceneManager::GetInstance().setPrevScene(WHEAT);
+                PlaySelect();
 			}
 		}
 		else if (hand.y == movement2.y)
@@ -227,15 +228,18 @@ void MainMenu::Update(const double& deltaTime) {
 			scale2.x = 3.9;
 			scale2.y = 1.3;
 		}
-		else if (hand.y == movement3.y)
-		{
-			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
-				endGame = true;
+        else if (hand.y == movement3.y)
+        {
+            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
+            {
+                endGame = true;
+        }
 
 			scale1.x = scale2.x = 3;
 			scale1.y = scale2.y = 1;
 			scale3.x = 3.9;
 			scale3.y = 1.3;
+            
 		}
 	}
 	camera.Update(deltaTime);

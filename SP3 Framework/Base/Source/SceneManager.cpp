@@ -23,6 +23,7 @@ void SceneManager::Init()
     Home = true;
     World = false;
     Dragon = false;
+    Death = false;
 	chgScene = CHG_NONE;
 	chgSceneMode = false;
 
@@ -45,39 +46,7 @@ void SceneManager::Init()
     setPrevScene(WHEAT);
     sceneType = MAIN_MENU;
 
-    if (sceneType == HOME)
-    {
-        Home = true;
-        World = false;
-        Dragon = false;
-    }
-    if (sceneType == COW || sceneType == CHICKEN || sceneType == FISH || sceneType == WELL || sceneType == APPLE || sceneType == CABBAGE || sceneType == WHEAT)
-    {
-        Home = false;
-        World = true;
-        Dragon = false;
-        
-    }
-    if (sceneType == DRAGON)
-    {
-        Home = false;
-        World = false;
-        Dragon = true;
-    }
-    if (Home == true)
-    {
-        PlayHome();
-    }
-
-    if (World == true)
-    {
-        PlayWorld();
-    }
-    if (Dragon == true)
-    {
-        PlayDragon();
-    }
-
+   
     for (int i = 0; i < TOTAL_SCENES; ++i)
     {
         sceneList[i]->Init();
@@ -144,12 +113,14 @@ void SceneManager::Update(double dt)
         Home = true;
         World = false;
         Dragon = false;
+        Death = false;
     }
     if (sceneType == COW || sceneType == CHICKEN || sceneType == FISH || sceneType == WELL || sceneType == APPLE || sceneType == CABBAGE || sceneType == WHEAT)
     {
         Home = false;
         World = true;
         Dragon = false;
+        Death = false;
 
     }
     if (sceneType == DRAGON)
@@ -157,12 +128,21 @@ void SceneManager::Update(double dt)
         Home = false;
         World = false;
         Dragon = true;
+        Death = false;
+    }
+    if (sceneType == DEAD)
+    {
+        Home = false;
+        World = false;
+        Dragon = false;
+        Death = true;
     }
     if (Home == true)
     {
         PlayHome();
-        StopWorld();
         StopDragon();
+        StopWorld();
+        StopDeath();
     }
 
     if (World == true)
@@ -170,12 +150,21 @@ void SceneManager::Update(double dt)
         PlayWorld();
         StopHome();
         StopDragon();
+        StopDeath();
     }
     if (Dragon == true)
     {
         PlayDragon();
         StopHome();
         StopWorld();
+        StopDeath();
+    }
+    if (Death == true)
+    {
+        PlayDeath();
+        StopHome();
+        StopWorld();
+        StopDragon();
     }
 }
 

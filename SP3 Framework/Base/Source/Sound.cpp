@@ -24,7 +24,7 @@ void PlayHome()
 void StopHome()
 {
     if (engine->isCurrentlyPlaying("Audio/BGM/Home.mp3"))
-    engine->removeSoundSource("Audio/BGM/Home.mp3");
+        engine->removeSoundSource("Audio/BGM/Home.mp3");
 }
 
 void PlayWorld()
@@ -33,6 +33,45 @@ void PlayWorld()
         return;
     engine->play2D("Audio/BGM/World.mp3", true);
 }
+
+void PlaySelect()
+{
+    if (engine->isCurrentlyPlaying("Audio/Sound_Effects/select.wav"))
+        return;
+    engine->play2D("Audio/Sound_Effects/select.wav", false);
+}
+
+void PlayCow()
+{
+    if (engine->isCurrentlyPlaying("Audio/Sound_Effects/cow.wav"))
+        return;
+    engine->play2D("Audio/Sound_Effects/cow.wav", false);
+}
+
+void PlayBloop()
+{
+    if (engine->isCurrentlyPlaying("Audio/Sound_Effects/bloop.wav"))
+        return;
+    engine->play2D("Audio/Sound_Effects/bloop.wav", false);
+}
+
+void PlayDeath()
+{
+    if (engine->isCurrentlyPlaying("Audio/BGM/Death.mp3"))
+        return;
+    engine->play2D("Audio/BGM/Death.mp3", true);
+}
+
+void StopDeath()
+{
+    if (engine->isCurrentlyPlaying("Audio/BGM/Death.mp3"))
+        engine->removeSoundSource("Audio/BGM/Death.mp3");
+}
+
+
+
+
+
 
 void StopWorld()
 {
@@ -52,26 +91,7 @@ void StopDragon()
     if (engine->isCurrentlyPlaying("Audio/BGM/Dragon.mp3"))
         engine->removeSoundSource("Audio/BGM/Dragon.mp3");
 }
-void Play5()
-{
-    if (engine->isCurrentlyPlaying("Audio/Reload.wav"))
-        return;
-    engine->play2D("Audio/Reload.wav", false);
-}
 
-void Play6()
-{
-    if (engine->isCurrentlyPlaying("Audio/Empty.wav"))
-        return;
-    engine->play2D("Audio/Empty.wav", false);
-}
-
-void Play7()
-{
-    if (engine->isCurrentlyPlaying("Audio/M4.wav"))
-        return;
-    engine->play2D("Audio/M4.wav", false);
-}
 
 
 void DeleteEngine()
