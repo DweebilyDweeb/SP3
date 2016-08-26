@@ -16,7 +16,7 @@ void Mother::Init()
 	setCarbohydrates(statBelowAverage);
 	setFats(statAverage);
 	setHydration(statAverage);
-	setVitamins(stoi(LoadCSV("CSV//data.csv", "statAboveAverage")));
+	setVitamins(statAboveAverage);
 }
 
 void Mother::Update(const double& dt)

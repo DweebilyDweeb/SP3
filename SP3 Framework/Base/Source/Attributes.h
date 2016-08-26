@@ -3,14 +3,14 @@
 
 #include "LoadCSV.h"
 
-using std::stoi;
+using std::stof;
 
-#define statDropRateSlow 0.3f
-#define statDropRateFast 0.6f
-#define maxStat 100.f
-#define statAboveAverage 80.f
-#define statBelowAverage 40.f
-#define statAverage 60.f
+#define statDropRateSlow stof(getDataFromCSV("CSV//data.csv", "statDropRateSlow"))
+#define statDropRateFast stof(getDataFromCSV("CSV//data.csv", "statDropRateFast"))
+#define maxStat stof(getDataFromCSV("CSV//data.csv", "maxStat"))
+#define statAboveAverage stof(getDataFromCSV("CSV//data.csv", "statAboveAverage"))
+#define statBelowAverage stof(getDataFromCSV("CSV//data.csv", "statBelowAverage"))
+#define statAverage stof(getDataFromCSV("CSV//data.csv", "statAverage"))
 
 
 class Attributes

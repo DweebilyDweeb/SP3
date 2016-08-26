@@ -3,7 +3,7 @@
 #include <fstream>
 
 
-string LoadCSV(const char* filepath, string variableName)
+string getDataFromCSV(const char* filepath, string variableName)
 {
 	std::ifstream is(filepath);
 	std::string tempString;
@@ -20,6 +20,7 @@ string LoadCSV(const char* filepath, string variableName)
 				std::getline(is, tempString);
 				stringToReturn = tempString;
 				tempString.clear();
+				break;
 			}
 			else
 			{
