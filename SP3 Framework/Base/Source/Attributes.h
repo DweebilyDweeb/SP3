@@ -1,12 +1,17 @@
 #ifndef ATTRIBUTE_H_
 #define ATTRIBUTE_H_
 
+#include "LoadCSV.h"
+
+using std::stoi;
+
 #define statDropRateSlow 0.3f
 #define statDropRateFast 0.6f
 #define maxStat 100.f
 #define statAboveAverage 80.f
 #define statBelowAverage 40.f
 #define statAverage 60.f
+
 
 class Attributes
 {
