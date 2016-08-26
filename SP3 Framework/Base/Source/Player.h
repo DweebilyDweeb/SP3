@@ -56,10 +56,16 @@ public:
 
     enum PLAYER_STATE
     {
-        WALKING,
-        IDLE,
-        JUMPING,
+		WALKING,
+		IDLE,
+		JUMPING,
 		INTERACTION,
+
+		WALKING_YUP,
+		WALKING_YDOWN,
+		IDLE_YUP,
+		IDLE_YDOWN,
+
         TOTAL
     };
 

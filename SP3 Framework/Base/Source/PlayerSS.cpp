@@ -150,7 +150,7 @@ void PlayerSS::Update(const double& deltaTime) {
 	{
 		playerState = IDLE;
 	}
-	if (onGround)
+	if (onGround && SceneManager::GetInstance().getCurrSceneEnum() != SUB_COW)
 	{
 		playerState = IDLE;
 	}
@@ -170,8 +170,37 @@ void PlayerSS::Update(const double& deltaTime) {
 		counterClock = true;
 	}
 
+	// FOR TOP-DOWN VIEW
+	if (SceneManager::GetInstance().getCurrSceneEnum() == SUB_COW) {
+		// ADD ANY OTHER SCENES NEEDED
+		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_MOVE_UP]) {
+			playerState = WALKING_YUP;
+			acceleration.y += walkAcceleration * tileMap->GetTileSize();
+			rotateClock = true;
+		}
 
-	acceleration.y = gravity * tileMap->GetTileSize();
+		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_MOVE_DOWN]) {
+			playerState = WALKING_YDOWN;
+			acceleration.y -= walkAcceleration * tileMap->GetTileSize();
+			counterClock = true;
+		}
+
+		if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_MOVE_UP]) {
+			playerState = IDLE_YUP;
+			rotateClock = false;
+		}
+		if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_MOVE_DOWN]) {
+			playerState = IDLE_YDOWN;
+			counterClock = false;
+		}
+		onGround = true;
+		velocity.y *= 0.95f * (1.0f - deltaTime);
+	}
+
+	// ADD ANY OTHER TOP-DOWN SCENES TO PREVENT GRAVITY
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_COW)
+		acceleration.y = gravity * tileMap->GetTileSize();
+	
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_JUMP] && onGround) {
 		playerState = JUMPING;
 		acceleration.y += jumpAcceleration * tileMap->GetTileSize();
@@ -204,7 +233,10 @@ void PlayerSS::Update(const double& deltaTime) {
 	if (velocity.y > 0) {
 		if (CheckCollisionUp()) {
 			transform.position.y = tileY * tileMap->GetTileSize() + collisionOffset.y;
-			velocity.y = -velocity.y;
+			if (SceneManager::GetInstance().getCurrSceneEnum() == SUB_COW)
+				velocity.y = 0;
+			else
+				velocity.y = -velocity.y;
 		}
 	}
 	else {
@@ -309,6 +341,7 @@ bool PlayerSS::getInvert()
 {
 	return invert;
 }
+
 
 bool PlayerSS::getOnGround()
 {
