@@ -9,6 +9,7 @@
 #include "GenerateRange.h"
 #include "Collision.h"
 #include "Application.h"
+#include "InputManager.h"
 #include "SceneManager.h"
 
 Scene1House::Scene1House() {
@@ -57,6 +58,7 @@ void Scene1House::Init() {
 	InitCamera();
 
 	drop = 0.0f;
+	accumTime = 0.0f;
 	Level = 1;
 }
 
@@ -181,6 +183,24 @@ void Scene1House::Update(const double& deltaTime) {
 	camera.Update(deltaTime);
 
 	Scene3D::Update(deltaTime);
+	accumTime += deltaTime;
+	if (accumTime > 0.2f)
+	{
+		if (player.CheckDaughter() && InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
+		{
+			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Apple", 1));
+			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Fish", 1));
+			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Meat", 1));
+			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Milk", 1));
+			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Egg", 1));
+			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Water", 1));
+			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Cabbage", 1));
+			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Potato", 1));
+			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Corn", 1));
+			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Carrot", 1));
+			accumTime = 0.0f;
+		}
+	}
 }
 
 void Scene1House::Render() {

@@ -56,6 +56,7 @@ private:
 	PlayerSS player;
 
 	float drop;
+	float accumTime;
 	int Level;
 
 	Vector3 housePos;

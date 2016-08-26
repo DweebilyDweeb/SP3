@@ -44,6 +44,9 @@ public:
     void RemoveTileMap();
 
     void SetHotspotOffset(float hotspotOffset = 1.0f);
+	bool CheckMother();
+	bool CheckDaughter();
+	bool CheckSon();
     float GetHotspotCentre();
     int score;
     int Level;

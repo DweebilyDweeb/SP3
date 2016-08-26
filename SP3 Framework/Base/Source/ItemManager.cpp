@@ -37,23 +37,22 @@ void ItemManager::addItem(Item* item) {
 	}
 }
 
-Item* ItemManager::removeItem(string vname, int val)
+Attributes ItemManager::removeItem(string vname, int val)
 {
 	map<string, Item*>::iterator mit;
 	mit = itemMap.find(vname);
-
-	Item* temp;
-	temp = nullptr;
+	Attributes temp;
 
 	if (mit != itemMap.end()) {
-		temp->setName(vname);
 		if ((*mit).second->getNum() - val < 0) {
-			temp->setNum((*mit).second->getNum());
+			int tempNo = (*mit).second->getNum();
+			(*mit).second->setNum(0);
+			temp = (*mit).second->getAttributes() * tempNo;
 		}
-		else
-			temp->setNum(val);
-
-		(*mit).second->setNum((*mit).second->getNum() - val);
+		else {
+			(*mit).second->setNum((*mit).second->getNum() - val);
+			temp = (*mit).second->getAttributes() * val;
+		}
 	}
 	return temp;
 }

@@ -430,3 +430,34 @@ bool Player::CheckElectric()
     }
     return false;
 }
+
+bool Player::CheckMother()
+{
+	int tileX = tileMap->GetTileX(transform.position.x);
+	int tileY = tileMap->GetTileY(transform.position.y);
+	if (tileMap->map[tileY][tileX] == TILE_MOTHER)
+	{
+		return true;
+	}
+	return false;
+}
+bool Player::CheckDaughter()
+{
+	int tileX = tileMap->GetTileX(transform.position.x);
+	int tileY = tileMap->GetTileY(transform.position.y);
+	if (tileMap->map[tileY][tileX] == TILE_DAUGHTER)
+	{
+		return true;
+	}
+	return false;
+}
+bool Player::CheckSon()
+{
+	int tileX = tileMap->GetTileX(transform.position.x);
+	int tileY = tileMap->GetTileY(transform.position.y);
+	if (tileMap->map[tileY][tileX] == TILE_SON)
+	{
+		return true;
+	}
+	return false;
+}
