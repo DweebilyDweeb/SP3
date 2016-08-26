@@ -7,6 +7,7 @@
 #include "TileMap.h"
 #include "Camera2D.h"
 #include "PlayerSS.h"
+#include "CowObject.h"
 
 class Scene2Cow2 : public Scene3D {
 
@@ -48,9 +49,12 @@ private:
 
 	void RenderTileMap();
 	void RenderPlayer();
+	void RenderCows(Cow*);
 
 	Camera2D camera;
 	PlayerSS player;
+
+	vector<Cow*>m_cowList;
 
 public:
 	//Constructor(s) & Destructor
@@ -62,7 +66,7 @@ public:
 	virtual void Update(const double& deltaTime);
 	virtual void UpdateSub(const double& deltaTime){};
 	virtual void Render();
-	virtual void RenderSub(){};
+	virtual void RenderSub();
 	virtual void Exit();
 
 };

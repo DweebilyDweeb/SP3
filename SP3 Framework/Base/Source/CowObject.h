@@ -2,34 +2,32 @@
 #define COW_OBJECT_H
 
 #include "Vector3.h"
-
-class Cow_state {
-
-public:
-	virtual void Update(const double& deltaTime) = 0;
-
-protected:
-	Cow_state();
-};
-
-class Idle_State : public Cow_state {
-
-public:
-	Idle_State();
-	virtual void Update(const double& deltaTime);
-};
+#include "Mesh.h"
+#include "SpriteAnimation.h"
 
 class Cow {
 
 public:
-	Cow(Cow_state *);
-	void re_State();
-	void change_state(Cow_state *);
+	Cow(/*Cow_state *, */SpriteAnimation*);
+	//void setCurrState(Cow_state *, SpriteAnimation*);
+	void setPosition(const Vector3& pos) {
+		this->pos = pos;
+	}
+
+	Vector3 getPosition() const {
+		return pos;
+	}
 
 private:
 	Vector3 pos;
+	Vector3 vel;
 	Vector3 scale;
-	Cow_state* state;
+
+	SpriteAnimation* sanim;
+	//Cow_state* state;
+
+	bool invert;
+	bool active;
 };
 
 

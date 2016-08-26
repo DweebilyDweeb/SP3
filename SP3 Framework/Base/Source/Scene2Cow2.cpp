@@ -122,6 +122,11 @@ void Scene2Cow2::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_COW] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 12);
 	spriteAnimationList[SPRITE_COW]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//cow2.tga");
 	spriteAnimationList[SPRITE_COW]->animation = new Animation();
+
+	for (size_t i = 0; i < 9; ++i) {
+		Cow* cow = new Cow(spriteAnimationList[SPRITE_COW]);
+		m_cowList.push_back(cow);
+	}
 }
 
 void Scene2Cow2::InitPlayer() {
@@ -248,3 +253,18 @@ void Scene2Cow2::RenderPlayer() {
 	}
 }
 
+void Scene2Cow2::RenderCows(Cow* cow) {
+	modelStack.PushMatrix();
+	modelStack.Translate(cow->getPosition().x, cow->getPosition().y, cow->getPosition().z);
+	modelStack.Scale(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	RenderMesh(spriteAnimationList[SPRITE_COW], false);
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.PopMatrix();
+}
+
+void Scene2Cow2::RenderSub() {
+	for (vector<Cow*>::iterator vt = m_cowList.begin(); vt != m_cowList.end(); ++vt) {
+		RenderCows(*vt);
+	}
+}
