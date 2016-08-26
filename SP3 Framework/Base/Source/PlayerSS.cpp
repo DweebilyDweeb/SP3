@@ -63,6 +63,13 @@ void PlayerSS::Update(const double& deltaTime) {
 	int tileX = tileMap->GetTileX(transform.position.x);
 	int tileY = tileMap->GetTileY(transform.position.y);
 
+	if (CheckElectric() && onElectricity)
+	{
+		SceneManager::GetInstance().chgCurrEnumScene(DEAD);
+
+		velocity.Set(0, 0, 0);
+	}
+
 	switch (CheckPortal())
 	{
 	case TILE_PORTAL:
