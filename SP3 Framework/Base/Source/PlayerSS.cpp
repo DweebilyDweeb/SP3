@@ -198,18 +198,20 @@ void PlayerSS::Update(const double& deltaTime) {
 	}
 
 	// ADD ANY OTHER TOP-DOWN SCENES TO PREVENT GRAVITY
-	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_COW)
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_COW) {
 		acceleration.y = gravity * tileMap->GetTileSize();
-	
-	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_JUMP] && onGround) {
-		playerState = JUMPING;
-		acceleration.y += jumpAcceleration * tileMap->GetTileSize();
-		onGround = false;
+
+		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_JUMP] && onGround) {
+			playerState = JUMPING;
+			acceleration.y += jumpAcceleration * tileMap->GetTileSize();
+			onGround = false;
+		}
+		if (!onGround)
+		{
+			playerState = JUMPING;
+		}
 	}
-	if (!onGround)
-	{
-		playerState = JUMPING;
-	}
+
 	if (rotateClock == true)
 	{
 		spin -= 1000 * float(deltaTime);
