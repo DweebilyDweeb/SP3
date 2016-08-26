@@ -17,6 +17,8 @@ struct FishObject
 	Vector3 vel;
 	Vector3 scale;
 	Vector3 dir;
+	Vector3 normal;
+	Vector3 normal2;
 	bool active;
 	bool invert;
 	float rotation;
