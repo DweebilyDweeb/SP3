@@ -182,7 +182,7 @@ void Scene1House::Update(const double& deltaTime) {
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
 
-	Scene3D::Update(deltaTime);
+	
 	accumTime += deltaTime;
 	if (accumTime > 0.2f)
 	{
@@ -200,7 +200,38 @@ void Scene1House::Update(const double& deltaTime) {
 			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Carrot", 1));
 			accumTime = 0.0f;
 		}
+		else if (player.CheckMother() && InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
+		{
+			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Apple", 1));
+			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Fish", 1));
+			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Meat", 1));
+			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Milk", 1));
+			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Egg", 1));
+			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Water", 1));
+			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Cabbage", 1));
+			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Potato", 1));
+			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Corn", 1));
+			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Carrot", 1));
+			accumTime = 0.0f;
+		}
+		else if (player.CheckSon() && InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
+		{
+			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Apple", 1));
+			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Fish", 1));
+			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Meat", 1));
+			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Milk", 1));
+			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Egg", 1));
+			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Water", 1));
+			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Cabbage", 1));
+			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Potato", 1));
+			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Corn", 1));
+			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Carrot", 1));
+			accumTime = 0.0f;
+		}
 	}
+
+
+	Scene3D::Update(deltaTime);
 }
 
 void Scene1House::Render() {

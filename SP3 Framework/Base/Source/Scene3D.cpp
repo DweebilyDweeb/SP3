@@ -665,6 +665,10 @@ void Scene3D::InitAttributeUI()
 }
 void Scene3D::UpdateAttributeUI(const double& deltaTime)
 {
+	Application::mother->boundStats();
+	Application::son->boundStats();
+	Application::daughter->boundStats();
+
 	Application::mother->Update(deltaTime);
 	Application::son->Update(deltaTime);
 	Application::daughter->Update(deltaTime);

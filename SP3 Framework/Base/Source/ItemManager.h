@@ -352,6 +352,7 @@ public:
 	Attributes removeItem(string vname, int val);
 
 	map<string, Item*>itemMap;
+	void resetItem();
 private:
 	ItemManager() {
 		addItem(new Milk(10));
