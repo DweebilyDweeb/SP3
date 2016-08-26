@@ -369,33 +369,25 @@ void MainMenu::RenderBackground()
 	modelStack.Scale(10, 10, 1);
 	RenderMesh(meshList[GEO_BACKGROUND_1], false);
 	modelStack.PopMatrix();
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
 	modelStack.Translate(housePos.x, housePos.y + 8.3, housePos.z);
 	modelStack.Scale(titleScale.x, titleScale.y, titleScale.z);
 	RenderMesh(meshList[GEO_TITLE], false);
 	modelStack.PopMatrix();
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
 	modelStack.Translate(movement1.x, movement1.y, movement1.z);
 	modelStack.Scale(scale1.x, scale1.y, scale1.z);
 	RenderMesh(meshList[GEO_STARTGAME], false);
 	modelStack.PopMatrix();
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
 	modelStack.Translate(movement2.x, movement2.y, movement2.z);
 	modelStack.Scale(scale2.x, scale2.y, scale2.z);
 	RenderMesh(meshList[GEO_OPTION], false);
 	modelStack.PopMatrix();
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PushMatrix();
 	modelStack.Translate(movement3.x, movement3.y, movement3.z);
 	modelStack.Scale(scale3.x, scale3.y, scale3.z);

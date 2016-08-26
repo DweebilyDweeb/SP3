@@ -14,8 +14,6 @@ private:
 	enum GEOMETRY_TYPE {
 		//Tiles
 		GEO_EMPTY,
-		GEO_DIRT,
-		GEO_GRASS,
 		GEO_FENCE,
 		GEO_TOP_GRASS,
 		GEO_BACKGROUND_1,
@@ -33,7 +31,10 @@ private:
 		SPRITE_CHICKEN,
 		SPRITE_PLAYER,
 		SPRITE_PLAYER_IDLE,
-		SPRITE_PLAYER_JUMP,
+		SPRITE_PLAYER_IDLE_UP,
+		SPRITE_PLAYER_IDLE_DOWN,
+		SPRITE_PLAYER_MOVE_UP,
+		SPRITE_PLAYER_MOVE_DOWN,
 		SPRITE_PORTAL,
 		NUM_SPRITE,
 	};
@@ -75,9 +76,9 @@ public:
 	//Virtual Function(s)
 	virtual void Init();
 	virtual void Update(const double& deltaTime);
-	virtual void UpdateSub(const double& deltaTime);
+	virtual void UpdateSub(const double& deltaTime){};
 	virtual void Render();
-	virtual void RenderSub();
+	virtual void RenderSub(){};
 	virtual void Exit();
 
 };
