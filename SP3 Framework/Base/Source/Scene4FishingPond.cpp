@@ -436,7 +436,7 @@ void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 			fo->type = FishObject::FT_SHARK;
 			fo->scale.Set(4, 4, 4);
 			fo->mass = 5;
-			fo->pos.Set(Math::RandFloatMinMax(18, 24), 4, -1.1);
+			fo->pos.Set(Math::RandFloatMinMax(19, 23), 4, -1.1);
 			fo->vel.Set(Math::RandFloatMinMax(-0.5, 0.5), Math::RandFloatMinMax(2, 5), 0);
 		}
 		

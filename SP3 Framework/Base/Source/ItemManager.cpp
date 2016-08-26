@@ -56,4 +56,10 @@ Attributes ItemManager::removeItem(string vname, int val)
 	}
 	return temp;
 }
+void ItemManager::resetItem()
+{
+	for (map<string, Item*>::iterator mit = itemMap.begin(); mit != itemMap.end(); ++mit) {
+		(*mit).second->setNum(0);
+	}
+}
 /***********************************************/
