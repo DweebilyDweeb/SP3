@@ -110,7 +110,7 @@ void Scene4FishingPond::InitMeshes() {
 	meshList[GEO_TROUT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//fish3.tga");
 
 	meshList[GEO_SHARK] = MeshBuilder::GenerateQuad("shark", Color(1, 1, 1), 0.4);
-	meshList[GEO_SHARK]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//shark2.tga");
+	meshList[GEO_SHARK]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//shark3.tga");
 
 }
 
@@ -434,8 +434,9 @@ void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 		else
 		{
 			fo->type = FishObject::FT_SHARK;
-			fo->scale.Set(4, 4, 4);
-			fo->mass = 5;
+			float temp = Math::RandFloatMinMax(4, 10);
+			fo->scale.Set(temp, temp, temp);
+			fo->mass = temp;
 			fo->pos.Set(Math::RandFloatMinMax(19, 23), 4, -1.1);
 			fo->vel.Set(Math::RandFloatMinMax(-0.5, 0.5), Math::RandFloatMinMax(2, 5), 0);
 		}
@@ -476,9 +477,16 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 			{
 				fo->invert = false;
 			}
+			fo->rotation = Math::RadianToDegree(atan2(fo->vel.y, fo->vel.x));
+			Mtx44 rotate;
+			rotate.SetToRotation(fo->rotation, 0, 0, 1);
+			fo->normal = rotate * fo->normal2;
+			fo->rotation = Math::RadianToDegree(atan2(fo->normal.y, fo->normal.x));
+
+
 			if (fo->type == FishObject::FT_TROUT)
 			{
-				if (Scene3D::getDistXY(player.transform.position, fo->pos, 1))
+				if (Scene3D::getDistXY(player.transform.position, fo->pos, tileMap.GetTileSize()))
 				{
 					//item in inventory increase herre
 					ItemManager::GetInstance().addItem(new Fish(1));
@@ -489,7 +497,8 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 			}
 			if (fo->type == FishObject::FT_SHARK)
 			{
-				if (Scene3D::getDistXY(player.transform.position, fo->pos, 0.9))
+				//if (CheckCollision(player, fo, deltaTime))
+				if (Scene3D::getDistXY(player.transform.position, fo->pos, fo->scale.x/4))
 				{
 					//kills player leads him to death screen
 					fishCount -= 1;
@@ -500,7 +509,6 @@ void Scene4FishingPond::displacementOfFish(const double& deltaTime)
 				}
 				fo->pos += (float)deltaTime * fo->vel * 4;
 			}
-			fo->rotation = Math::RadianToDegree(atan2(fo->vel.y, fo->vel.x));
 			
 		}
 
