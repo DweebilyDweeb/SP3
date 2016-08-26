@@ -53,9 +53,6 @@ void Scene3Chicken::Init() {
 
 	tileMap.LoadFile("TileMap//Scene3Chicken.csv");
 	tileMap.SetTileSize(1.0f);
-	
-	minigame.LoadFile("TileMap//Scene3Chicken2.csv");
-	minigame.SetTileSize(1.0f);
 
 	InitPlayer();
 	InitCamera();
@@ -78,9 +75,6 @@ void Scene3Chicken::InitMeshes() {
 
 	meshList[GEO_FENCE] = MeshBuilder::GenerateQuad("Fence", Color(1, 1, 1));
 	meshList[GEO_FENCE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//fence.tga");
-
-	meshList[GEO_TOP_GRASS] = MeshBuilder::GenerateQuad("Game Time", Color(1, 1, 1));
-	meshList[GEO_TOP_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//top_grass.tga");
 
 	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
 	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//chicken_coop.tga");
