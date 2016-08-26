@@ -109,11 +109,6 @@ void Scene2Cow2::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PLAYER_MOVE_DOWN]->animation = new Animation();
 	spriteAnimationList[SPRITE_PLAYER_MOVE_DOWN]->animation->Set(0, 3, 0, 1.f, true);
 
-	spriteAnimationList[SPRITE_PLAYER_JUMP] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 1);
-	spriteAnimationList[SPRITE_PLAYER_JUMP]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_jump.tga");
-	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation = new Animation();
-	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation->Set(0, 0, 0, 1.f, true);
-
 	spriteAnimationList[SPRITE_PORTAL] = MeshBuilder::GenerateSpriteAnimation("portal", 1, 4);
 	spriteAnimationList[SPRITE_PORTAL]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//portal.tga");
 	spriteAnimationList[SPRITE_PORTAL]->animation = new Animation();
@@ -234,9 +229,6 @@ void Scene2Cow2::RenderPlayer() {
 		break;
 	case Player::IDLE:
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
-		break;
-	case Player::JUMPING:
-		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
 		break;
 	case Player::WALKING_YUP:
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_MOVE_UP], false);
