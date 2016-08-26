@@ -1,4 +1,4 @@
-#include "Scene2Cow.h"
+#include "Scene2Cow2.h"
 #include "GL\glew.h"
 #include "shader.hpp"
 #include "Utility.h"
@@ -11,13 +11,13 @@
 #include "Application.h"
 #include "SceneManager.h"
 
-Scene2Cow::Scene2Cow() {
+Scene2Cow2::Scene2Cow2() {
 }
 
-Scene2Cow::~Scene2Cow() {
+Scene2Cow2::~Scene2Cow2() {
 }
 
-void Scene2Cow::Exit() {
+void Scene2Cow2::Exit() {
 
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		if (meshList[i]) {
@@ -34,7 +34,7 @@ void Scene2Cow::Exit() {
 	Scene3D::Exit();
 }
 
-void Scene2Cow::Init() {
+void Scene2Cow2::Init() {
 
 	InitGL();
 
@@ -51,39 +51,29 @@ void Scene2Cow::Init() {
 	EnableFog(false);
 
 
-	tileMap.LoadFile("TileMap//Scene2Cow.csv");
+	tileMap.LoadFile("TileMap//Scene2Cow2.csv");
 	tileMap.SetTileSize(1.0f);
 
 	InitPlayer();
 	InitCamera();
 }
 
-void Scene2Cow::InitMeshes() {
+void Scene2Cow2::InitMeshes() {
 
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		meshList[i] = nullptr;
 	}
-	meshList[GEO_DIRT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
-	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
-
-	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1); 
-	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
+	meshList[GEO_EMPTY] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_EMPTY]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//top_grass.tga");
 
 	meshList[GEO_FENCE] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_FENCE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//fence.tga");
 
-	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
-	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//house.tga");
-
-	meshList[GEO_BACKGROUND_2] = MeshBuilder::GenerateQuad("Background2", Color(1, 1, 1), 0.7);
-	meshList[GEO_BACKGROUND_2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//mountains.tga");
-
-	meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
-	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
-
+	meshList[GEO_FENCE2] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_FENCE2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//fence_side.tga");
 }
 
-void Scene2Cow::InitSpriteAnimations() {
+void Scene2Cow2::InitSpriteAnimations() {
 
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
 		spriteAnimationList[i] = nullptr;
@@ -114,36 +104,27 @@ void Scene2Cow::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_COW]->animation = new Animation();
 }
 
-void Scene2Cow::InitPlayer() {
+void Scene2Cow2::InitPlayer() {
 
 	player.SetTileMap(tileMap);
 
 	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
 		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-			if (SceneManager::GetInstance().getPrevScene() == HOME)
-			{
-				if (tileMap.map[row][col] == 99) {
-					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-				}
-			}
-			if (SceneManager::GetInstance().getPrevScene() == CHICKEN)
-			{
-				if (tileMap.map[row][col] == 100) {
-					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
-				}
+			if (tileMap.map[row][col] == 99) {
+				player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
 			}
 		}
 	}
 }
 
-void Scene2Cow::InitCamera() {
+void Scene2Cow2::InitCamera() {
 
 	camera.SetPlayer(player);
 	camera.SetTileMap(tileMap);
 
 }
 
-void Scene2Cow::Update(const double& deltaTime) {
+void Scene2Cow2::Update(const double& deltaTime) {
 
 	spriteAnimationList[SPRITE_COW]->animation->Set(0, 7, 0, 5, true);
 
@@ -153,28 +134,22 @@ void Scene2Cow::Update(const double& deltaTime) {
 		spriteAnimationList[i]->Update(deltaTime);
 		spriteAnimationList[i]->animation->animActive = true;
 	}
-	
+
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
 
 	Scene3D::Update(deltaTime);
-
-	/*if (SceneManager::GetInstance().getIsSubScene()) {
-		SceneManager::GetInstance().setSubScene(TOP_DOWN);
-	}*/
 }
 
-void Scene2Cow::Render() {
+void Scene2Cow2::Render() {
 
 	Scene3D::Render();
 	SetToCameraView(&camera);
 	RenderTileMap();
-	RenderBackground();
 	RenderPlayer();
-	RenderText();
 }
 
-void Scene2Cow::RenderTileMap() {
+void Scene2Cow2::RenderTileMap() {
 
 	float cameraAspectRatio = static_cast<float>(camera.aspectRatio.x) / static_cast<float>(camera.aspectRatio.y);
 	float cameraWidth = cameraAspectRatio * camera.GetOrthoSize();
@@ -191,44 +166,35 @@ void Scene2Cow::RenderTileMap() {
 			modelStack.Translate(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -1);
 			modelStack.Scale(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
 			switch (tileMap.map[row][col]) {
-			case 1:
-				RenderMesh(meshList[GEO_DIRT]);
-				break;
-			case 2:
-				RenderMesh(meshList[GEO_GRASS]);
-				break;
-			case 3:
+			case 0:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
+				RenderMesh(meshList[GEO_EMPTY]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 1:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				RenderMesh(meshList[GEO_FENCE2]);
+				RenderMesh(meshList[GEO_EMPTY]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 4:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderMesh(meshList[GEO_FENCE]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE); 
-				break;
-            case 9:
-                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
-                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                break;
-			case 31:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.PushMatrix();
-				modelStack.Scale(1.5, 1.5, 1);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_COW]);
-				modelStack.PopMatrix();
+				RenderMesh(meshList[GEO_EMPTY]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
+			case 99:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE); 
+				RenderMesh(meshList[GEO_EMPTY]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 			}
 			modelStack.PopMatrix();
 		}
 	}
-
 }
 
 
-void Scene2Cow::RenderPlayer() {
+void Scene2Cow2::RenderPlayer() {
 
 	modelStack.PushMatrix();
 	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.1f, player.transform.position.z);
@@ -245,37 +211,5 @@ void Scene2Cow::RenderPlayer() {
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
 	modelStack.PopMatrix();
 
-}
-
-void Scene2Cow::RenderText() {
-
-
-}
-
-void Scene2Cow::RenderBackground()
-{
-
-	float xRatio = (static_cast<float>(camera.aspectRatio.x / static_cast<float>(camera.aspectRatio.y)));
-	float camWidth = xRatio * camera.GetOrthoSize();
-	float backgroundScaleX = camWidth * 2.0f;
-	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
-
-	for (int i = 0; i < 5; ++i)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX), camera.transform.position.y, -49);
-		modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
-		RenderMesh(meshList[GEO_BACKGROUND_2], false);
-		modelStack.PopMatrix();
-	}
-
-	for (int i = 0; i < 5; ++i)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX), 8.7, -48);
-		modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
-		RenderMesh(meshList[GEO_BACKGROUND_3], false);
-		modelStack.PopMatrix();
-	}
 }
 

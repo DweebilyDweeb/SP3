@@ -14,8 +14,8 @@ PlayerSS::PlayerSS() {
     spin = 0.0f;
 	collidables.push_back(TILE_DIRT);
 	collidables.push_back(TILE_GRASS);
-
     collidables.push_back(TILE_WELL);
+	collidables.push_back(TILE_FENCE);
 
     portal.push_back(TILE_PORTAL);
     portal.push_back(TILE_PORTAL2);
@@ -272,6 +272,15 @@ void PlayerSS::Update(const double& deltaTime) {
 				break;
 			}
 
+			case COW:
+			{
+				if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]) {
+					if (SceneManager::GetInstance().getIsChgScene() == false)
+						SceneManager::GetInstance().isChgScene(true);
+					SceneManager::GetInstance().chgCurrEnumScene(SUB_COW);
+				}
+				break;
+			}
 			default:
 				if (SceneManager::GetInstance().getIsChgScene() == false)
 					SceneManager::GetInstance().isChgScene(true);
