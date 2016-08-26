@@ -2,6 +2,7 @@
 #include "MainMenu.h"
 #include "Scene1House.h"
 #include "Scene2Cow.h"
+#include "Scene2Cow2.h"
 #include "Scene3Chicken.h"
 #include "Scene4FishingPond.h"
 #include "Scene5Dragon.h"
@@ -42,6 +43,7 @@ void SceneManager::Init()
 
 	//sceneList[SUB_WELL] = new Scene6Well2
 	sceneList[SUB_WELL] = new Scene6Well2;
+	sceneList[SUB_COW] = new Scene2Cow2;
 
     setPrevScene(WHEAT);
     sceneType = MAIN_MENU;

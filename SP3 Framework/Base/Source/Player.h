@@ -44,6 +44,9 @@ public:
     void RemoveTileMap();
 
     void SetHotspotOffset(float hotspotOffset = 1.0f);
+	bool CheckMother();
+	bool CheckDaughter();
+	bool CheckSon();
     float GetHotspotCentre();
     int score;
     int Level;
@@ -53,10 +56,16 @@ public:
 
     enum PLAYER_STATE
     {
-        WALKING,
-        IDLE,
-        JUMPING,
+		WALKING,
+		IDLE,
+		JUMPING,
 		INTERACTION,
+
+		WALKING_YUP,
+		WALKING_YDOWN,
+		IDLE_YUP,
+		IDLE_YDOWN,
+
         TOTAL
     };
 

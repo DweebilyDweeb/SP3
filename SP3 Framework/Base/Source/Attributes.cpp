@@ -76,6 +76,15 @@ void Attributes::setAttributes(float p, float c, float f, float v, float h)
 	setHydration(h);
 }
 
+void Attributes::addAttributes(const Attributes& other)
+{
+	Protein += other.Protein;
+	Carbohydrates += other.Carbohydrates;
+	Fats += other.Fats;
+	Vitamins += other.Vitamins;
+	Hydration += other.Hydration;
+}
+
 void Attributes::addProtein(float value)
 {
 	Protein += value;
@@ -145,6 +154,17 @@ Attributes operator- (const Attributes& lhs, const Attributes& rhs)
 	return temp;
 }
 
+Attributes operator* (const Attributes& lhs, const int& val)
+{
+	Attributes temp;
+	temp.setCarbohydrates(lhs.Carbohydrates * val);
+	temp.setFats(lhs.Fats * val);
+	temp.setHydration(lhs.Hydration * val);
+	temp.setProtein(lhs.Protein * val);
+	temp.setVitamins(lhs.Vitamins * val);
+	return temp;
+
+}
 Attributes Attributes::operator+= (const Attributes& other)
 {
 	this->Carbohydrates += other.Carbohydrates;

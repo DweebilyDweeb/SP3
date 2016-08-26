@@ -1,5 +1,5 @@
-#ifndef SCENE_1_HOUSE_H
-#define SCENE_1_HOUSE_H
+#ifndef SCENE_2_COW2_H
+#define SCENE_2_COW2_H
 
 #include "Scene3D.h"
 #include "Mesh.h"
@@ -8,19 +8,15 @@
 #include "Camera2D.h"
 #include "PlayerSS.h"
 
-class Scene1House : public Scene3D {
+class Scene2Cow2 : public Scene3D {
 
 private:
 	enum GEOMETRY_TYPE {
 		//Tiles
 		GEO_EMPTY,
-		GEO_DIRT,
-		GEO_GRASS,
-		GEO_BACKGROUND_1,
-		GEO_BACKGROUND_2,
-		GEO_BACKGROUND_3,
-
-		//Others
+		GEO_FENCE,
+		GEO_FENCE2,
+		GEO_SHINY,
 		GEO_PLAYER,
 
 		NUM_GEOMETRY,
@@ -30,10 +26,13 @@ private:
 		SPRITE_PLAYER,
 		SPRITE_PLAYER_IDLE,
 		SPRITE_PLAYER_JUMP,
+
+		SPRITE_PLAYER_IDLE_UP,
+		SPRITE_PLAYER_IDLE_DOWN,
+		SPRITE_PLAYER_MOVE_UP,
+		SPRITE_PLAYER_MOVE_DOWN,
 		SPRITE_PORTAL,
-		SPRITE_MOTHER,
-		SPRITE_SON,
-		SPRITE_DAUGHTER,
+		SPRITE_COW,
 		NUM_SPRITE,
 	};
 
@@ -45,31 +44,23 @@ private:
 	void InitMeshes();
 	void InitSpriteAnimations();
 	void InitCamera();
-	virtual void InitPlayer();
+	void InitPlayer();
 
 	void RenderTileMap();
 	void RenderPlayer();
-	void RenderBackground();
-	void RenderText();
 
 	Camera2D camera;
 	PlayerSS player;
 
-	float drop;
-	float accumTime;
-	int Level;
-
-	Vector3 housePos;
-
 public:
 	//Constructor(s) & Destructor
-	Scene1House();
-	virtual ~Scene1House();
+	Scene2Cow2();
+	virtual ~Scene2Cow2();
 
 	//Virtual Function(s)
 	virtual void Init();
 	virtual void Update(const double& deltaTime);
-	 virtual void UpdateSub(const double& deltaTime){};
+	virtual void UpdateSub(const double& deltaTime){};
 	virtual void Render();
 	virtual void RenderSub(){};
 	virtual void Exit();
