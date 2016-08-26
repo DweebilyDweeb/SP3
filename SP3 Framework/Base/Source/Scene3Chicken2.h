@@ -1,5 +1,5 @@
-#ifndef SCENE_1_HOUSE_H
-#define SCENE_1_HOUSE_H
+#ifndef SCENE_3_CHICKEN_2_H
+#define SCENE_3_CHICKEN_2_H
 
 #include "Scene3D.h"
 #include "Mesh.h"
@@ -8,7 +8,7 @@
 #include "Camera2D.h"
 #include "PlayerSS.h"
 
-class Scene1House : public Scene3D {
+class Scene3Chicken2 : public Scene3D {
 
 private:
 	enum GEOMETRY_TYPE {
@@ -16,9 +16,12 @@ private:
 		GEO_EMPTY,
 		GEO_DIRT,
 		GEO_GRASS,
+		GEO_FENCE,
+		GEO_TOP_GRASS,
 		GEO_BACKGROUND_1,
 		GEO_BACKGROUND_2,
 		GEO_BACKGROUND_3,
+		GEO_BACKGROUND_4,
 
 		//Others
 		GEO_PLAYER,
@@ -27,13 +30,11 @@ private:
 	};
 
 	enum SPRITE_TYPE {
+		SPRITE_CHICKEN,
 		SPRITE_PLAYER,
 		SPRITE_PLAYER_IDLE,
 		SPRITE_PLAYER_JUMP,
 		SPRITE_PORTAL,
-		SPRITE_MOTHER,
-		SPRITE_SON,
-		SPRITE_DAUGHTER,
 		NUM_SPRITE,
 	};
 
@@ -41,37 +42,42 @@ private:
 	SpriteAnimation* spriteAnimationList[NUM_SPRITE];
 
 	TileMap tileMap;
+	TileMap minigame;
 
 	void InitMeshes();
 	void InitSpriteAnimations();
 	void InitCamera();
-	virtual void InitPlayer();
+	void InitPlayer();
 
 	void RenderTileMap();
 	void RenderPlayer();
 	void RenderBackground();
 	void RenderText();
 
+	/*void RenderSub();
+	void UpdateSub(double deltaTime);*/
+
 	Camera2D camera;
 	PlayerSS player;
 
 	float drop;
-	float accumTime;
 	int Level;
+
+	bool changing;
 
 	Vector3 housePos;
 
 public:
 	//Constructor(s) & Destructor
-	Scene1House();
-	virtual ~Scene1House();
+	Scene3Chicken2();
+	virtual ~Scene3Chicken2();
 
 	//Virtual Function(s)
 	virtual void Init();
 	virtual void Update(const double& deltaTime);
-	 virtual void UpdateSub(const double& deltaTime){};
+	virtual void UpdateSub(const double& deltaTime);
 	virtual void Render();
-	virtual void RenderSub(){};
+	virtual void RenderSub();
 	virtual void Exit();
 
 };

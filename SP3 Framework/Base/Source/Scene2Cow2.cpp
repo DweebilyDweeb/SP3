@@ -89,6 +89,26 @@ void Scene2Cow2::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PLAYER_IDLE]->animation = new Animation();
 	spriteAnimationList[SPRITE_PLAYER_IDLE]->animation->Set(0, 1, 0, 1.f, true);
 
+	spriteAnimationList[SPRITE_PLAYER_IDLE_UP] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 1);
+	spriteAnimationList[SPRITE_PLAYER_IDLE_UP]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//idle_up.tga");
+	spriteAnimationList[SPRITE_PLAYER_IDLE_UP]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_IDLE_UP]->animation->Set(0, 1, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_PLAYER_IDLE_DOWN] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 1);
+	spriteAnimationList[SPRITE_PLAYER_IDLE_DOWN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//idle_down.tga");
+	spriteAnimationList[SPRITE_PLAYER_IDLE_DOWN]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_IDLE_DOWN]->animation->Set(0, 0, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_PLAYER_MOVE_UP] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 4);
+	spriteAnimationList[SPRITE_PLAYER_MOVE_UP]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//walk_up.tga");
+	spriteAnimationList[SPRITE_PLAYER_MOVE_UP]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_MOVE_UP]->animation->Set(0, 3, 0, 1.f, true);
+									  
+	spriteAnimationList[SPRITE_PLAYER_MOVE_DOWN] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 4);
+	spriteAnimationList[SPRITE_PLAYER_MOVE_DOWN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//walk_down.tga");
+	spriteAnimationList[SPRITE_PLAYER_MOVE_DOWN]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_MOVE_DOWN]->animation->Set(0, 3, 0, 1.f, true);
+
 	spriteAnimationList[SPRITE_PLAYER_JUMP] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 1);
 	spriteAnimationList[SPRITE_PLAYER_JUMP]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_jump.tga");
 	spriteAnimationList[SPRITE_PLAYER_JUMP]->animation = new Animation();
@@ -203,13 +223,28 @@ void Scene2Cow2::RenderPlayer() {
 		modelStack.Scale(-player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
 	else
 		modelStack.Scale(player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
-	if (player.playerState == Player::WALKING)
+	switch (player.playerState) {
+	case Player::WALKING:
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false, player.getInvert());
-	else if (player.playerState == Player::IDLE)
+		break;
+	case Player::IDLE:
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
-	else if (player.playerState == Player::JUMPING)
+		break;
+	case Player::JUMPING:
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_JUMP], false, player.getInvert());
-	modelStack.PopMatrix();
-
+		break;
+	case Player::WALKING_YUP:
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_MOVE_UP], false);
+		break;
+	case Player::WALKING_YDOWN:
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_MOVE_DOWN], false);
+		break;
+	case Player::IDLE_YUP:
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE_UP], false);
+		break;
+	case Player::IDLE_YDOWN:
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE_DOWN], false);
+		break;
+	}
 }
 

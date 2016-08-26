@@ -28,7 +28,8 @@ public:
     void setVitamins(float value);
     void setHydration(float value);
     void setAttributes(float p, float c, float f, float v, float h);
-
+	
+	void addAttributes(const Attributes& other);
 
     void addProtein(float value);
     void addCarbohydrates(float value);
@@ -46,8 +47,9 @@ public:
     void boundStats();
 
     friend Attributes operator+ (const Attributes&, const Attributes&);
-    friend Attributes operator- (const Attributes&, const Attributes&);
-    Attributes operator+= (const Attributes& other);
+	friend Attributes operator- (const Attributes&, const Attributes&);
+	friend Attributes operator* (const Attributes&, const int& val);
+	Attributes operator+= (const Attributes& other);
     Attributes operator-= (const Attributes& other);
 
 protected:

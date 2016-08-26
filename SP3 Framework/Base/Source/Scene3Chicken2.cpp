@@ -1,4 +1,4 @@
-#include "Scene1House.h"
+#include "Scene3Chicken2.h"
 #include "GL\glew.h"
 #include "shader.hpp"
 #include "Utility.h"
@@ -9,16 +9,15 @@
 #include "GenerateRange.h"
 #include "Collision.h"
 #include "Application.h"
-#include "InputManager.h"
 #include "SceneManager.h"
 
-Scene1House::Scene1House() {
+Scene3Chicken2::Scene3Chicken2() {
 }
 
-Scene1House::~Scene1House() {
+Scene3Chicken2::~Scene3Chicken2() {
 }
 
-void Scene1House::Exit() {
+void Scene3Chicken2::Exit() {
 
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		if (meshList[i]) {
@@ -35,7 +34,7 @@ void Scene1House::Exit() {
 	Scene3D::Exit();
 }
 
-void Scene1House::Init() {
+void Scene3Chicken2::Init() {
 
 	InitGL();
 
@@ -52,33 +51,39 @@ void Scene1House::Init() {
 	EnableFog(false);
 
 
-	tileMap.LoadFile("TileMap//Scene1House.csv");
+	tileMap.LoadFile("TileMap//Scene3Chicken22.csv");
 	tileMap.SetTileSize(1.0f);
+
+	minigame.LoadFile("TileMap//Scene3Chicken222.csv");
+	minigame.SetTileSize(1.0f);
+
 	InitPlayer();
 	InitCamera();
 
 	drop = 0.0f;
-	accumTime = 0.0f;
 	Level = 1;
 }
 
-void Scene1House::InitMeshes() {
+void Scene3Chicken2::InitMeshes() {
 
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		meshList[i] = nullptr;
 	}
-	//meshList[GEO_PLAYER] = MeshBuilder::Generate2DTile("Player", Color(1, 1, 1), 1);
 
-	//meshList[GEO_TILE_BRICK] = MeshBuilder::Generate2DTile("Tile Brick", Color(1, 1, 1), 1);
-
-	meshList[GEO_DIRT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_DIRT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1));
 	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
 
-	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
+	meshList[GEO_GRASS] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1));
 	meshList[GEO_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground_grass.tga");
 
+	meshList[GEO_FENCE] = MeshBuilder::GenerateQuad("Fence", Color(1, 1, 1));
+	meshList[GEO_FENCE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//fence.tga");
+
+	meshList[GEO_TOP_GRASS] = MeshBuilder::GenerateQuad("Game Time", Color(1, 1, 1));
+	meshList[GEO_TOP_GRASS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//top_grass.tga");
+
 	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
-	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//house.tga");
+	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//chicken_coop.tga");
 
 	meshList[GEO_BACKGROUND_2] = MeshBuilder::GenerateQuad("Background2", Color(1, 1, 1), 0.7);
 	meshList[GEO_BACKGROUND_2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//mountains.tga");
@@ -86,9 +91,12 @@ void Scene1House::InitMeshes() {
 	meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
 	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
 
+	meshList[GEO_BACKGROUND_4] = MeshBuilder::GenerateQuad("Background4", Color(1, 1, 1), 0.4);
+	meshList[GEO_BACKGROUND_4]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//top_grass.tga");
+
 }
 
-void Scene1House::InitSpriteAnimations() {
+void Scene3Chicken2::InitSpriteAnimations() {
 
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i) {
 		spriteAnimationList[i] = nullptr;
@@ -114,43 +122,26 @@ void Scene1House::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PORTAL]->animation = new Animation();
 	spriteAnimationList[SPRITE_PORTAL]->animation->Set(0, 3, 0, 1.f, true);
 
-	spriteAnimationList[SPRITE_MOTHER] = MeshBuilder::GenerateSpriteAnimation("mother", 1, 4);
-	spriteAnimationList[SPRITE_MOTHER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//mother.tga");
-	spriteAnimationList[SPRITE_MOTHER]->animation = new Animation();
-	spriteAnimationList[SPRITE_MOTHER]->animation->Set(0, 3, 0, 1.f, true);
+	spriteAnimationList[SPRITE_CHICKEN] = MeshBuilder::GenerateSpriteAnimation("chicken", 4, 6);
+	spriteAnimationList[SPRITE_CHICKEN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//chicken.tga");
+	spriteAnimationList[SPRITE_CHICKEN]->animation = new Animation();
+	spriteAnimationList[SPRITE_CHICKEN]->animation->Set(0, 23, true, 2, true);
 
-	spriteAnimationList[SPRITE_SON] = MeshBuilder::GenerateSpriteAnimation("son", 1, 4);
-	spriteAnimationList[SPRITE_SON]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//son.tga");
-	spriteAnimationList[SPRITE_SON]->animation = new Animation();
-	spriteAnimationList[SPRITE_SON]->animation->Set(0, 3, 0, 1.f, true);
-
-	spriteAnimationList[SPRITE_DAUGHTER] = MeshBuilder::GenerateSpriteAnimation("daughter", 1, 4);
-	spriteAnimationList[SPRITE_DAUGHTER]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//daughter.tga");
-	spriteAnimationList[SPRITE_DAUGHTER]->animation = new Animation();
-	spriteAnimationList[SPRITE_DAUGHTER]->animation->Set(0, 3, 0, 1.f, true);
-
-	
-	
 }
 
-void Scene1House::InitPlayer() {
+void Scene3Chicken2::InitPlayer() {
 
 	player.SetTileMap(tileMap);
 
 	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
 		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
-
-			if (SceneManager::GetInstance().getPrevScene() == WHEAT || SceneManager::GetInstance().getPrevScene() == MAIN_MENU)
-
+			if (SceneManager::GetInstance().getPrevScene() == COW)
 			{
 				if (tileMap.map[row][col] == 99) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
 				}
-
 			}
-			
-    if (SceneManager::GetInstance().getPrevScene() == COW || SceneManager::GetInstance().getPrevScene() == DEAD)
-
+			if (SceneManager::GetInstance().getPrevScene() == FISH)
 			{
 				if (tileMap.map[row][col] == 100) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
@@ -158,100 +149,50 @@ void Scene1House::InitPlayer() {
 			}
 		}
 	}
-
-
 }
 
-void Scene1House::InitCamera() {
+void Scene3Chicken2::InitCamera() {
 
 	camera.SetPlayer(player);
-	camera.SetTileMap(tileMap);
+
+	if (SceneManager::GetInstance().getChgScene() == false)
+		camera.SetTileMap(tileMap);
+	else
+		camera.SetTileMap(minigame);
 
 }
 
-void Scene1House::Update(const double& deltaTime) {
+void Scene3Chicken2::Update(const double& deltaTime) {
 
 
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i)
 	{
-
 		spriteAnimationList[i]->Update(deltaTime);
 		spriteAnimationList[i]->animation->animActive = true;
 	}
 
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
-
-	
-	accumTime += deltaTime;
-	if (accumTime > 0.2f)
-	{
-		if (player.CheckDaughter() && InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
-		{
-			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Apple", 1));
-			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Fish", 1));
-			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Meat", 1));
-			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Milk", 1));
-			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Egg", 1));
-			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Water", 1));
-			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Cabbage", 1));
-			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Potato", 1));
-			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Corn", 1));
-			Application::daughter->addAttributes(ItemManager::GetInstance().removeItem("Carrot", 1));
-			accumTime = 0.0f;
-		}
-		else if (player.CheckMother() && InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
-		{
-			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Apple", 1));
-			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Fish", 1));
-			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Meat", 1));
-			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Milk", 1));
-			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Egg", 1));
-			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Water", 1));
-			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Cabbage", 1));
-			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Potato", 1));
-			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Corn", 1));
-			Application::mother->addAttributes(ItemManager::GetInstance().removeItem("Carrot", 1));
-			accumTime = 0.0f;
-		}
-		else if (player.CheckSon() && InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
-		{
-			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Apple", 1));
-			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Fish", 1));
-			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Meat", 1));
-			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Milk", 1));
-			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Egg", 1));
-			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Water", 1));
-			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Cabbage", 1));
-			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Potato", 1));
-			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Corn", 1));
-			Application::son->addAttributes(ItemManager::GetInstance().removeItem("Carrot", 1));
-			accumTime = 0.0f;
-		}
-	}
-
-
 	Scene3D::Update(deltaTime);
 }
 
-void Scene1House::Render() {
-	SetToCameraView(&camera);
-	Scene3D::Render();
-	Scene3D::setZoomValues(2, 0, -5);
-	bool b = Scene3D::getDistXY(player.transform.position, housePos, 10);
-	if (b)
-		SetToCameraView(&camera, 1);
-	else
-		SetToCameraView(&camera);
+void Scene3Chicken2::Render() {
 
-	RenderTileMap();
-	RenderBackground();
-	RenderPlayer();
-	RenderText();
+	Scene3D::Render();
+	SetToCameraView(&camera);
+	if (SceneManager::GetInstance().getChgScene() == true)
+		RenderSub();
+	else
+	{
+		RenderTileMap();
+		RenderBackground();
+		RenderPlayer();
+		RenderText();
+	}
 
 }
 
-void Scene1House::RenderTileMap() {
+void Scene3Chicken2::RenderTileMap() {
 
 	float cameraAspectRatio = static_cast<float>(camera.aspectRatio.x) / static_cast<float>(camera.aspectRatio.y);
 	float cameraWidth = cameraAspectRatio * camera.GetOrthoSize();
@@ -279,25 +220,28 @@ void Scene1House::RenderTileMap() {
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-            case 9:
-                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
-                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                break;
-			case 20:
+			case 4:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_DAUGHTER]);
+				RenderMesh(meshList[GEO_FENCE]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 21:
-				housePos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -20);
+			case 9:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_MOTHER]);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
-			case 22:
+			case 30:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_SON]);
+				modelStack.Translate(-0.5f, 0.1f, -1);
+				modelStack.Scale(2, 1.8f, 2);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_CHICKEN]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 14:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				modelStack.Translate(0, 0.6, 0);
+				modelStack.Scale(3, 3, 3);
+				RenderMesh(meshList[GEO_BACKGROUND_1]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			}
@@ -308,7 +252,7 @@ void Scene1House::RenderTileMap() {
 }
 
 
-void Scene1House::RenderPlayer() {
+void Scene3Chicken2::RenderPlayer() {
 
 	modelStack.PushMatrix();
 	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.1f, player.transform.position.z);
@@ -318,7 +262,7 @@ void Scene1House::RenderPlayer() {
 	else
 		modelStack.Scale(player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
 	if (player.playerState == Player::WALKING)
-		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false , player.getInvert());
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false, player.getInvert());
 	else if (player.playerState == Player::IDLE)
 		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
 	else if (player.playerState == Player::JUMPING)
@@ -327,25 +271,17 @@ void Scene1House::RenderPlayer() {
 
 }
 
-void Scene1House::RenderText() {
+void Scene3Chicken2::RenderText() {
 
 
 }
-void Scene1House::RenderBackground()
+void Scene3Chicken2::RenderBackground()
 {
 
 	float xRatio = (static_cast<float>(camera.aspectRatio.x / static_cast<float>(camera.aspectRatio.y)));
 	float camWidth = xRatio * camera.GetOrthoSize();
 	float backgroundScaleX = camWidth * 2.0f;
 	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
-
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-	modelStack.PushMatrix();
-	modelStack.Translate(housePos.x, housePos.y+2, housePos.z);
-	modelStack.Scale(10, 10, 1);
-	RenderMesh(meshList[GEO_BACKGROUND_1], false);
-	modelStack.PopMatrix();
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 	for (int i = 0; i < 5; ++i)
 	{
@@ -364,6 +300,84 @@ void Scene1House::RenderBackground()
 		RenderMesh(meshList[GEO_BACKGROUND_3], false);
 		modelStack.PopMatrix();
 	}
+
+	//modelStack.PushMatrix();
+	//modelStack.Translate(16.5f, 11, -5);
+	//modelStack.Scale(85, 85, 85);
+	//RenderMesh(meshList[GEO_BACKGROUND_4]);
+	//modelStack.PopMatrix();
+
 }
 
 
+void Scene3Chicken2::RenderSub()
+{
+	float cameraAspectRatio = static_cast<float>(camera.aspectRatio.x) / static_cast<float>(camera.aspectRatio.y);
+	float cameraWidth = cameraAspectRatio * camera.GetOrthoSize();
+
+	int startCol = minigame.GetTileX(camera.transform.position.x - cameraWidth);
+	int endCol = minigame.GetTileX(camera.transform.position.x + cameraWidth) + 1;
+
+	int startRow = minigame.GetTileX(camera.transform.position.y - camera.GetOrthoSize());
+	int endRow = minigame.GetTileX(camera.transform.position.y + camera.GetOrthoSize()) + 1;
+
+	for (int row = Math::Max(0, startRow); row < Math::Min(endRow, minigame.GetNumRows()); ++row) {
+		for (int col = Math::Max(0, startCol); col < Math::Min(endCol, minigame.GetNumColumns()); ++col) {
+			modelStack.PushMatrix();
+			modelStack.Translate(col * minigame.GetTileSize(), row * minigame.GetTileSize(), -1);
+			modelStack.Scale(minigame.GetTileSize(), minigame.GetTileSize(), minigame.GetTileSize());
+			switch (minigame.map[row][col]) {
+			case 1:
+				RenderMesh(meshList[GEO_DIRT]);
+				break;
+			case 2:
+				RenderMesh(meshList[GEO_GRASS]);
+				break;
+			case 4:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				modelStack.Translate(5, 0, 0);
+				RenderMesh(meshList[GEO_FENCE]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 9:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 30:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				modelStack.Translate(4.5f, 0.1f, -1);
+				modelStack.Scale(2, 1.8f, 2);
+				RenderSpriteAnimation(spriteAnimationList[SPRITE_CHICKEN]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			case 14:
+				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				modelStack.Translate(0, 0.6, 0);
+				modelStack.Scale(3, 3, 3);
+				RenderMesh(meshList[GEO_BACKGROUND_1]);
+				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+				break;
+			}
+			modelStack.PopMatrix();
+		}
+	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(player.transform.position.x, player.transform.position.y - 0.1f, player.transform.position.z);
+	//modelStack.Rotate(player.transform.rotation.z, 0, 0, 1);
+	if (player.getInvert())
+		modelStack.Scale(-player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
+	else
+		modelStack.Scale(player.transform.scale.x, player.transform.scale.y, player.transform.scale.z);
+	if (player.playerState == Player::WALKING)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER], false, player.getInvert());
+	else if (player.playerState == Player::IDLE)
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE], false, player.getInvert());
+	modelStack.PopMatrix();
+}
+
+void Scene3Chicken2::UpdateSub(const double& deltaTime)
+{
+
+}
