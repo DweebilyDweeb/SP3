@@ -45,6 +45,7 @@
     <ClCompile Include="Source\PotatoObject.cpp" />
     <ClCompile Include="Source\Scene1House.cpp" />
     <ClCompile Include="Source\Scene2Cow.cpp" />
+    <ClCompile Include="Source\Scene2Cow2.cpp" />
     <ClCompile Include="Source\Scene3Chicken.cpp" />
     <ClCompile Include="Source\Scene3D.cpp" />
     <ClCompile Include="Source\RigidBody.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Scene1House.h" />
     <ClInclude Include="Source\Scene2Cow.h" />
+    <ClInclude Include="Source\Scene2Cow2.h" />
     <ClInclude Include="Source\Scene3Chicken.h" />
     <ClInclude Include="Source\Scene3D.h" />
     <ClInclude Include="Source\Scene4FishingPond.h" />
