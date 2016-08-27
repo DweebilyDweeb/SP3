@@ -307,7 +307,7 @@ void Scene6Well::RenderBackground()
     for (int i = 0; i < 5; ++i)
     {
         modelStack.PushMatrix();
-        modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX), 8.7, -48);
+		modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX) + distMoved, 8.7, -48);
         modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
         RenderMesh(meshList[GEO_BACKGROUND_3], false);
         modelStack.PopMatrix();

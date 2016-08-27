@@ -57,7 +57,7 @@ private:
 
 	float drop;
 	float accumTime;
-	int Level;
+	int Level;
 
 	Vector3 housePos;
 

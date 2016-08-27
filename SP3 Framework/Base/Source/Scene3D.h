@@ -238,6 +238,9 @@ protected:
 	float zoomAmount;
 	float zoomOffsetY;
 	float zoomOffsetX;
+
+	float distMoved;
+	float dir;
 	
 public:
 	//Constructor(s) & Destructor
@@ -299,6 +302,8 @@ public:
 
 	void RenderScene1Title();
 	void ResetVegetable();
+
+	void updateClouds(const double& deltaTime);
 
 };
 

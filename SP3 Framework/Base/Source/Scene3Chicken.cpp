@@ -280,7 +280,7 @@ void Scene3Chicken::RenderBackground()
 	for (int i = 0; i < 5; ++i)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX), camera.transform.position.y, -49);
+		modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX), 12, -49);
 		modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
 		RenderMesh(meshList[GEO_BACKGROUND_2], false);
 		modelStack.PopMatrix();
@@ -289,7 +289,7 @@ void Scene3Chicken::RenderBackground()
 	for (int i = 0; i < 5; ++i)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX), 8.7, -48);
+		modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX) + distMoved, 8.7, -48);
 		modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
 		RenderMesh(meshList[GEO_BACKGROUND_3], false);
 		modelStack.PopMatrix();

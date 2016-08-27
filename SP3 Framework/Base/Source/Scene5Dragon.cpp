@@ -159,7 +159,7 @@ void Scene5Dragon::Update(const double& deltaTime) {
         spriteAnimationList[i]->Update(deltaTime);
         spriteAnimationList[i]->animation->animActive = true;
     }
-
+	updateClouds(deltaTime);
     player.Update(deltaTime);
     camera.Update(deltaTime);
     //if (player.transform.position.y < 1){
@@ -277,7 +277,7 @@ void Scene5Dragon::RenderBackground()
     for (int i = 0; i < 5; ++i)
     {
         modelStack.PushMatrix();
-        modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX), 12, -49);
+		modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX), 12, -49);
         modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
         RenderMesh(meshList[GEO_BACKGROUND_2], false);
         modelStack.PopMatrix();
@@ -286,7 +286,7 @@ void Scene5Dragon::RenderBackground()
     for (int i = 0; i < 5; ++i)
     {
         modelStack.PushMatrix();
-        modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX), 8.7, -48);
+		modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX) + distMoved, 8.7, -48);
         modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
         RenderMesh(meshList[GEO_BACKGROUND_3], false);
         modelStack.PopMatrix();
