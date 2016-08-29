@@ -60,11 +60,11 @@ void Scene6Well2::Init() {
     drop = 0.0f;
     Level = 1;
 
-	BucketObject *bo = FetchBO();
+	/*BucketObject *bo = FetchBO();
 	bo->type = BucketObject::BT_WATER;
 	bo->scale.Set(2, 2, 1);
 	bo->pos.Set(16.5, 3, 0);
-	bo->vel.SetZero();
+	bo->vel.SetZero();*/
 }
 
 void Scene6Well2::InitMeshes() {
@@ -356,30 +356,31 @@ void Scene6Well2::RenderBackground()
 
 BucketObject* Scene6Well2::FetchBO()
 {
-	for (std::vector<BucketObject *>::iterator it = m_boList.begin(); it != m_boList.end(); ++it)
-	{
-		BucketObject *bo = (BucketObject *)*it;
-		if (!bo->active)
-		{
-			bo->active = true;
-			//m_objectCount;
-			return bo;
-		}
-	}
-	for (unsigned i = 0; i < 1; ++i)
-	{
-		BucketObject *bo = new BucketObject(BucketObject::BT_WATER);
-		m_boList.push_back(bo);
-	}
-	BucketObject *bo = m_boList.back();
-	bo->active = true;
-	//++m_objectCount;
-	return bo;
+	//for (std::vector<BucketObject *>::iterator it = m_boList.begin(); it != m_boList.end(); ++it)
+	//{
+	//	BucketObject *bo = (BucketObject *)*it;
+	//	if (!bo->active)
+	//	{
+	//		bo->active = true;
+	//		//m_objectCount;
+	//		return bo;
+	//	}
+	//}
+	//for (unsigned i = 0; i < 1; ++i)
+	//{
+	//	BucketObject *bo = new BucketObject(BucketObject::BT_WATER);
+	//	m_boList.push_back(bo);
+	//}
+	//BucketObject *bo = m_boList.back();
+	//bo->active = true;
+	////++m_objectCount;
+	//return bo;
+    return nullptr;
 }
 
 void Scene6Well2::RenderBO(BucketObject *bo)
 {
-	switch (bo->type)
+	/*switch (bo->type)
 	{
 	case BucketObject::BT_WATER:
 		modelStack.PushMatrix();
@@ -389,5 +390,5 @@ void Scene6Well2::RenderBO(BucketObject *bo)
 		modelStack.PopMatrix();
 		break;
 
-	}
+	}*/
 }

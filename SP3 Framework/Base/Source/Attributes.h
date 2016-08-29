@@ -1,12 +1,17 @@
 #ifndef ATTRIBUTE_H_
 #define ATTRIBUTE_H_
 
-#define statDropRateSlow 0.1f
-#define statDropRateFast 0.3f
-#define maxStat 100.f
-#define statAboveAverage 100.f
-#define statBelowAverage 65.f
-#define statAverage 70.f
+#include "LoadCSV.h"
+
+using std::stof;
+
+#define statDropRateSlow stof(getDataFromCSV("CSV//data.csv", "statDropRateSlow"))
+#define statDropRateFast stof(getDataFromCSV("CSV//data.csv", "statDropRateFast"))
+#define maxStat stof(getDataFromCSV("CSV//data.csv", "maxStat"))
+#define statAboveAverage stof(getDataFromCSV("CSV//data.csv", "statAboveAverage"))
+#define statBelowAverage stof(getDataFromCSV("CSV//data.csv", "statBelowAverage"))
+#define statAverage stof(getDataFromCSV("CSV//data.csv", "statAverage"))
+
 
 class Attributes
 {

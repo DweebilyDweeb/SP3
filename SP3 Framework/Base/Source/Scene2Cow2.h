@@ -65,7 +65,6 @@ private:
 	void RenderCGO();
 	void RenderCows(Cow*);
 	void RenderBars();
-
 	Camera2D camera;
 	PlayerSS player;
 
@@ -78,7 +77,6 @@ private:
 
 	Vector3 playBarPosUI;
 	Vector3 playBarScaleUI;
-
 public:
 	//Constructor(s) & Destructor
 	Scene2Cow2();
@@ -89,7 +87,7 @@ public:
 	virtual void Update(const double& deltaTime);
 	virtual void UpdateSub(const double& deltaTime){};
 	virtual void Render();
-	virtual void RenderSub(){};
+    virtual void RenderSub(){};
 	virtual void Exit();
 
 };

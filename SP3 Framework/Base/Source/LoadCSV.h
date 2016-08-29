@@ -6,7 +6,11 @@
 
 using std::string;
 
+
 string LoadCSV(const char* filepath, string variableName);
+
+string getDataFromCSV(const char* filepath, string variableName);
+
 
 
 

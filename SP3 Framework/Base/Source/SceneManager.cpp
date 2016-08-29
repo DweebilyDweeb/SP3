@@ -4,6 +4,7 @@
 #include "Scene2Cow.h"
 #include "Scene2Cow2.h"
 #include "Scene3Chicken.h"
+#include "Scene3Chicken2.h"
 #include "Scene4FishingPond.h"
 #include "Scene5Dragon.h"
 #include "Scene5Dragon2.h"
@@ -46,10 +47,11 @@ void SceneManager::Init()
 	sceneList[SUB_WELL] = new Scene6Well2;
 
 	sceneList[SUB_COW] = new Scene2Cow2;
+	sceneList[SUB_CHICKEN] = new Scene3Chicken2;
 
     sceneList[SUB_DRAGON] = new Scene5Dragon2;
-    setPrevScene(WELL);
-    sceneType = SUB_WELL;
+    setPrevScene(WHEAT);
+    sceneType = MAIN_MENU;
 
    
     for (int i = 0; i < TOTAL_SCENES; ++i)
@@ -144,7 +146,7 @@ void SceneManager::Update(double dt)
     }
     if (Home == true)
     {
-      //  PlayHome();
+        PlayHome();
         StopDragon();
         StopWorld();
         StopDeath();
@@ -152,21 +154,21 @@ void SceneManager::Update(double dt)
 
     if (World == true)
     {
-       // PlayWorld();
+        PlayWorld();
         StopHome();
         StopDragon();
         StopDeath();
     }
     if (Dragon == true)
     {
-       // PlayDragon();
+        PlayDragon();
         StopHome();
         StopWorld();
         StopDeath();
     }
     if (Death == true)
     {
-        //PlayDeath();
+        PlayDeath();
         StopHome();
         StopWorld();
         StopDragon();

@@ -25,6 +25,8 @@ Scene3D::Scene3D() {
 	zoomAmount = 1;
 	zoomOffsetY = 0;
 	zoomOffsetX = 0;
+	dir = 1;
+	distMoved = 0.f;
 }
 
 Scene3D::~Scene3D() {
@@ -292,12 +294,14 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 //Update
 
 void Scene3D::Update(const double& deltaTime) {
-	UpdateAttributeUI(deltaTime);
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_CHICKEN)
+		UpdateAttributeUI(deltaTime);
 	if (Application::clock->getActive() == false)
 	{
 		ResetVegetable();
 		Application::clock->setActive(true);
 	}
+	updateClouds(deltaTime);
     Application::clock->UpdateTime(deltaTime);
 }
 
@@ -432,6 +436,7 @@ void Scene3D::SetToCameraView(Camera* camera, float zoom) {
 
 void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_CHICKEN)
 	RenderAttributeUI();
 	RenderInventoryUI();
     PauseMenu();
@@ -940,4 +945,11 @@ void Scene3D::ResetVegetable()
 		if (!corn->active)
 			corn->active = true;
 	}
+}
+
+void Scene3D::updateClouds(const double& deltaTime)
+{
+	if (distMoved * dir > 5)
+		dir = -dir;
+	distMoved += (float)(dir * deltaTime);
 }

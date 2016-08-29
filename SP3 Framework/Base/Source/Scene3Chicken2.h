@@ -7,6 +7,8 @@
 #include "TileMap.h"
 #include "Camera2D.h"
 #include "PlayerSS.h"
+#include "CoopObject.h"
+#include "ChickenObject.h"
 
 class Scene3Chicken2 : public Scene3D {
 
@@ -14,14 +16,12 @@ private:
 	enum GEOMETRY_TYPE {
 		//Tiles
 		GEO_EMPTY,
-		GEO_DIRT,
-		GEO_GRASS,
 		GEO_FENCE,
 		GEO_TOP_GRASS,
-		GEO_BACKGROUND_1,
+		GEO_CHICKEN_IDLE,
+		GEO_CHICKEN_COOP,
 		GEO_BACKGROUND_2,
 		GEO_BACKGROUND_3,
-		GEO_BACKGROUND_4,
 
 		//Others
 		GEO_PLAYER,
@@ -33,7 +33,11 @@ private:
 		SPRITE_CHICKEN,
 		SPRITE_PLAYER,
 		SPRITE_PLAYER_IDLE,
-		SPRITE_PLAYER_JUMP,
+		SPRITE_PLAYER_IDLE_UP,
+		SPRITE_PLAYER_IDLE_DOWN,
+		SPRITE_PLAYER_MOVE_UP,
+		SPRITE_PLAYER_MOVE_DOWN,
+		SPRITE_PLAYER_INTERACTION,
 		SPRITE_PORTAL,
 		NUM_SPRITE,
 	};
@@ -42,7 +46,6 @@ private:
 	SpriteAnimation* spriteAnimationList[NUM_SPRITE];
 
 	TileMap tileMap;
-	TileMap minigame;
 
 	void InitMeshes();
 	void InitSpriteAnimations();
@@ -54,18 +57,24 @@ private:
 	void RenderBackground();
 	void RenderText();
 
-	/*void RenderSub();
-	void UpdateSub(double deltaTime);*/
+	void RenderChicken(ChickenObject*);
+	void RenderCoop(CoopObject*);
 
+	void UpdateEgg(const double& deltaTime);
 	Camera2D camera;
 	PlayerSS player;
 
 	float drop;
+	float interaction;
 	int Level;
+	int chickenCount;
+	int maxChickenObject;
+	int pos;
 
 	bool changing;
 
-	Vector3 housePos;
+	std::vector<ChickenObject *> m_chickenList;
+	std::vector<CoopObject*> m_coopList;
 
 public:
 	//Constructor(s) & Destructor
@@ -75,9 +84,9 @@ public:
 	//Virtual Function(s)
 	virtual void Init();
 	virtual void Update(const double& deltaTime);
-	virtual void UpdateSub(const double& deltaTime);
+	virtual void UpdateSub(const double& deltaTime){};
 	virtual void Render();
-	virtual void RenderSub();
+	virtual void RenderSub(){};
 	virtual void Exit();
 
 };

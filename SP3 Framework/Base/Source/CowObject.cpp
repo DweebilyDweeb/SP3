@@ -544,4 +544,3 @@ void State_Triggered::Triggered(Cow* c, const double& deltaTime) {
 	c->setState(new State_Triggered());
 	delete this;
 }
-

@@ -113,6 +113,12 @@ void PlayerSS::Update(const double& deltaTime) {
                 velocity.x = 0;
                 velocity.y = 0;
                 break;
+			case(SUB_CHICKEN):
+				SceneManager::GetInstance().chgCurrEnumScene(CHICKEN);
+				SceneManager::GetInstance().setPrevScene(COW);
+				velocity.x = 0;
+				velocity.y = 0;
+				break;
             default:
                 SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() - 1));
                 velocity.x = 0;
@@ -186,7 +192,7 @@ void PlayerSS::Update(const double& deltaTime) {
 	}
 
 	// FOR TOP-DOWN VIEW
-	if (SceneManager::GetInstance().getCurrSceneEnum() == SUB_COW) {
+	if (SceneManager::GetInstance().getCurrSceneEnum() == SUB_COW || SceneManager::GetInstance().getCurrSceneEnum() == SUB_CHICKEN) {
 		// ADD ANY OTHER SCENES NEEDED
 		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_MOVE_UP]) {
 			playerState = WALKING_YUP;
@@ -213,18 +219,20 @@ void PlayerSS::Update(const double& deltaTime) {
 	}
 
 	// ADD ANY OTHER TOP-DOWN SCENES TO PREVENT GRAVITY
-	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_COW)
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_COW && SceneManager::GetInstance().getCurrSceneEnum() != SUB_CHICKEN) {
 		acceleration.y = gravity * tileMap->GetTileSize();
-	
-	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_JUMP] && onGround) {
-		playerState = JUMPING;
-		acceleration.y += jumpAcceleration * tileMap->GetTileSize();
-		onGround = false;
+
+		if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_JUMP] && onGround) {
+			playerState = JUMPING;
+			acceleration.y += jumpAcceleration * tileMap->GetTileSize();
+			onGround = false;
+		}
+		if (!onGround)
+		{
+			playerState = JUMPING;
+		}
 	}
-	if (!onGround)
-	{
-		playerState = JUMPING;
-	}
+
 	if (rotateClock == true)
 	{
 		spin -= 1000 * float(deltaTime);
@@ -248,7 +256,7 @@ void PlayerSS::Update(const double& deltaTime) {
 	if (velocity.y > 0) {
 		if (CheckCollisionUp()) {
 			transform.position.y = tileY * tileMap->GetTileSize() + collisionOffset.y;
-			if (SceneManager::GetInstance().getCurrSceneEnum() == SUB_COW)
+			if (SceneManager::GetInstance().getCurrSceneEnum() == SUB_COW || SceneManager::GetInstance().getCurrSceneEnum() == SUB_CHICKEN)
 				velocity.y = 0;
 			else
 				velocity.y = -velocity.y;
@@ -285,7 +293,6 @@ void PlayerSS::Update(const double& deltaTime) {
 
 	velocity.x *= 0.95f * (1.0f - deltaTime);
 	if (CheckTrigger()) {
-		{
 			switch (SceneManager::GetInstance().getCurrSceneEnum())
 			{
 			case FISH:
@@ -333,6 +340,14 @@ void PlayerSS::Update(const double& deltaTime) {
 					SceneManager::GetInstance().chgCurrEnumScene(SUB_COW);
 				}
 				break;
+			}
+			case CHICKEN:
+			{
+				if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]) {
+					if (SceneManager::GetInstance().getIsChgScene() == false)
+						SceneManager::GetInstance().isChgScene(true);
+					SceneManager::GetInstance().chgCurrEnumScene(SUB_CHICKEN);
+					SceneManager::GetInstance().setPrevScene(CHICKEN);
 			}
 			default:
 				if (SceneManager::GetInstance().getIsChgScene() == false)

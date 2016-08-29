@@ -31,6 +31,7 @@ private:
         SPRITE_PLAYER_IDLE,
         SPRITE_PLAYER_JUMP,
         SPRITE_PORTAL,
+		SPRITE_BIRD,
         NUM_SPRITE,
     };
 

@@ -1,5 +1,8 @@
 #include "Vector3.h"
 #include "GameObject.h"
+#include "TileIndex.h"
+#include "TileMap.h"
+#include <vector>
 
 struct ChickenObject
 {
@@ -11,17 +14,24 @@ struct ChickenObject
 		TOTAL_STATES,
 	};
 
+	std::vector<TILE_TYPE> collidable;
+
 	CHICKEN_STATES CS;
 	Vector3 pos;
-	Vector3 vel;
 	Vector3 scale;
-	Vector3 dir;
+	Vector3 vel;
+	float changeState;
+	bool moving;
 	bool active;
-	float rotation;
-	float mass;
-	float timeAlive;
+	bool isInvert;
+	float OffSet = 0.495f;
 
 	ChickenObject();
 	~ChickenObject();
 
+	bool CheckUp(TileMap);
+	bool CheckDown(TileMap);
+	bool CheckRight(TileMap);
+	bool CheckLeft(TileMap);
+	void movementUpdate(const double& deltaTime, Vector3 playerpos, TileMap);
 };

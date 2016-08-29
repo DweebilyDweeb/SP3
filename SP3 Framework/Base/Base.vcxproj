@@ -23,6 +23,7 @@
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\Controller_Keyboard.cpp" />
     <ClCompile Include="Source\Controller_Mouse.cpp" />
+    <ClCompile Include="Source\Coop.cpp" />
     <ClCompile Include="Source\CornObject.cpp" />
     <ClCompile Include="Source\CowObject.cpp" />
     <ClCompile Include="Source\Daughter.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\ItemManager.cpp" />
+    <ClCompile Include="Source\LoadCSV.cpp" />
     <ClCompile Include="Source\LoadHmap.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
@@ -48,6 +50,7 @@
     <ClCompile Include="Source\Scene2Cow.cpp" />
     <ClCompile Include="Source\Scene2Cow2.cpp" />
     <ClCompile Include="Source\Scene3Chicken.cpp" />
+    <ClCompile Include="Source\Scene3Chicken2.cpp" />
     <ClCompile Include="Source\Scene3D.cpp" />
     <ClCompile Include="Source\RigidBody.cpp" />
     <ClCompile Include="Source\Scene4FishingPond.cpp" />
@@ -82,6 +85,7 @@
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\Controller_Keyboard.h" />
     <ClInclude Include="Source\Controller_Mouse.h" />
+    <ClInclude Include="Source\CoopObject.h" />
     <ClInclude Include="Source\CornObject.h" />
     <ClInclude Include="Source\CowObject.h" />
     <ClInclude Include="Source\Daughter.h" />
@@ -93,6 +97,7 @@
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\ItemManager.h" />
     <ClInclude Include="Source\Light.h" />
+    <ClInclude Include="Source\LoadCSV.h" />
     <ClInclude Include="Source\LoadHmap.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
@@ -112,6 +117,7 @@
     <ClInclude Include="Source\Scene2Cow.h" />
     <ClInclude Include="Source\Scene2Cow2.h" />
     <ClInclude Include="Source\Scene3Chicken.h" />
+    <ClInclude Include="Source\Scene3Chicken2.h" />
     <ClInclude Include="Source\Scene3D.h" />
     <ClInclude Include="Source\Scene4FishingPond.h" />
     <ClInclude Include="Source\Scene5Dragon.h" />
