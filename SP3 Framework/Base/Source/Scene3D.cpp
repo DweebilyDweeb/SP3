@@ -436,6 +436,7 @@ void Scene3D::SetToCameraView(Camera* camera, float zoom) {
 
 void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	renderSceneName();
 	RenderAttributeUI();
 	RenderInventoryUI();
     PauseMenu();
@@ -684,6 +685,10 @@ void Scene3D::UpdateAttributeUI(const double& deltaTime)
 
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
 		showStats = true;
+	}
+	else
+	{
+		showStats = false;
 	}
 
 	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_SHOW_ATTRIBUTES]){
@@ -957,4 +962,54 @@ void Scene3D::reset()
 
 	Application::clock->setTime(0, 0, 1);
 	ItemManager::GetInstance().resetItem();
+	SceneManager::GetInstance().isChgScene(false);
+}
+
+void Scene3D::renderSceneName()
+{
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	if (!showStats)
+	{
+		string tempString;
+		ostringstream ss;
+		if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::HOME)
+		{
+			tempString = "HOME";
+		}
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::COW)
+		{
+			tempString = "COW";
+		}
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::CHICKEN)
+		{
+			tempString = "CHICKEN";
+		}
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::FISH)
+		{
+			tempString = "FISH";
+		}
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::DRAGON)
+		{
+			tempString = "DRAGON";
+		}
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::WELL)
+		{
+			tempString = "WELL";
+		}
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::APPLE)
+		{
+			tempString = "APPLE";
+		}
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::CABBAGE)
+		{
+			tempString = "CABBAGE";
+		}
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::WHEAT)
+		{
+			tempString = "CORN";
+		}
+		ss << "Scene:" << tempString;
+		RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(0, 0, 0), 1, -8, 11, 5);
+	}
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 }

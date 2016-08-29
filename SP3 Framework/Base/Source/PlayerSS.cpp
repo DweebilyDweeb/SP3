@@ -90,6 +90,7 @@ void PlayerSS::Update(const double& deltaTime) {
                 SceneManager::GetInstance().setPrevScene(WHEAT);
                 velocity.x = 0;
                 velocity.y = 0;
+				SceneManager::GetInstance().isChgScene(false);
                 //insert game reset here
                 break;
             case(LOSE) :

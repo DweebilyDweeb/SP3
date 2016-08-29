@@ -308,6 +308,7 @@ public:
 
 	void reset();
 
+	void renderSceneName();
 };
 
 

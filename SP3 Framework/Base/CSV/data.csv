@@ -1,6 +1,6 @@
 statAboveAverage,80.f
-statDropRateSlow,0.3f
-statDropRateFast,0.6f
+statDropRateSlow,0.1f
+statDropRateFast,0.3f
 maxStat,100.f
-statBelowAverage,40.f
+statBelowAverage,55.f
 statAverage,60.f
