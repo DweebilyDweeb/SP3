@@ -292,7 +292,8 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 //Update
 
 void Scene3D::Update(const double& deltaTime) {
-	UpdateAttributeUI(deltaTime);
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_CHICKEN)
+		UpdateAttributeUI(deltaTime);
 	if (Application::clock->getActive() == false)
 	{
 		ResetVegetable();
@@ -432,6 +433,7 @@ void Scene3D::SetToCameraView(Camera* camera, float zoom) {
 
 void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_CHICKEN)
 	RenderAttributeUI();
 	RenderInventoryUI();
     PauseMenu();

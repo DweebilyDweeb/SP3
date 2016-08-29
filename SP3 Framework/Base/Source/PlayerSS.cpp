@@ -98,6 +98,12 @@ void PlayerSS::Update(const double& deltaTime) {
                 velocity.y = 0;
                 //insert game restart here
                 break;
+			case(SUB_CHICKEN):
+				SceneManager::GetInstance().chgCurrEnumScene(CHICKEN);
+				SceneManager::GetInstance().setPrevScene(COW);
+				velocity.x = 0;
+				velocity.y = 0;
+				break;
             default:
                 SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() - 1));
                 velocity.x = 0;
@@ -320,6 +326,7 @@ void PlayerSS::Update(const double& deltaTime) {
 					if (SceneManager::GetInstance().getIsChgScene() == false)
 						SceneManager::GetInstance().isChgScene(true);
 					SceneManager::GetInstance().chgCurrEnumScene(SUB_CHICKEN);
+					SceneManager::GetInstance().setPrevScene(CHICKEN);
 			}
 			default:
 				if (SceneManager::GetInstance().getIsChgScene() == false)
