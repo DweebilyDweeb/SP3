@@ -153,6 +153,11 @@ void LoseScreen::Update(const double& deltaTime) {
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
 
+	if (SceneManager::GetInstance().getIsReset())
+	{
+		Scene3D::reset();
+		SceneManager::GetInstance().setIsReset(true);
+	}
 }
 
 void LoseScreen::Render() {

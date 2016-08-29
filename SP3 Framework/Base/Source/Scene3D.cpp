@@ -953,3 +953,13 @@ void Scene3D::updateClouds(const double& deltaTime)
 		dir = -dir;
 	distMoved += (float)(dir * deltaTime);
 }
+
+void Scene3D::reset()
+{
+	Application::mother->Init();
+	Application::son->Init();
+	Application::daughter->Init();
+
+	Application::clock->setTime(0, 0, 1);
+	ItemManager::GetInstance().resetItem();
+}

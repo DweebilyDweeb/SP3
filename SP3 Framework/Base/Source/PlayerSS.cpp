@@ -100,6 +100,7 @@ void PlayerSS::Update(const double& deltaTime) {
                 velocity.x = 0;
                 velocity.y = 0;
                 //insert game restart here
+				SceneManager::GetInstance().setIsReset(true);
                 break;
             case(SUB_WELL) :
                 //temp

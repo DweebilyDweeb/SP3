@@ -306,6 +306,8 @@ public:
 
 	void updateClouds(const double& deltaTime);
 
+	void reset();
+
 };
 
 

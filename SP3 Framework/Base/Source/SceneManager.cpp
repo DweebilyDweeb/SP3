@@ -27,6 +27,7 @@ void SceneManager::Init()
     World = false;
     Dragon = false;
     Death = false;
+	resetStats = false;
 	chgScene = CHG_NONE;
 	chgSceneMode = false;
 
@@ -200,3 +201,12 @@ SceneManager::SceneManager()
 
 }
 
+bool SceneManager::getIsReset()
+{
+	return resetStats;
+}
+
+void SceneManager::setIsReset(bool reset)
+{
+	resetStats = reset;
+}

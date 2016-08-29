@@ -59,6 +59,9 @@ public:
 	void isChgScene(bool mode);
 	bool getIsChgScene() const;
 
+	bool getIsReset();
+	void setIsReset(bool reset);
+
 	void Init();
 	void Update(double dt);
 	void Render();
@@ -77,6 +80,7 @@ private:
     bool Dragon;
     bool Death;
 	bool chgSceneMode;
+	bool resetStats;
 };
 
 #endif //SCENE_MANAGER_H
