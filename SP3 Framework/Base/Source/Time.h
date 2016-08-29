@@ -22,6 +22,7 @@ public:
 	void setTime(int h, double m, int day);
 	void setDay();
 	void setActive(bool activity);
+	void addDays(int d);
 
 	int getHour();
 	double getMinute();

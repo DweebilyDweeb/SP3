@@ -109,6 +109,11 @@ void Time::setActive(bool activity)
 	active = activity;
 }
 
+void Time::addDays(int d)
+{
+	day = d;
+}
+
 std::ostream & operator<<(std::ostream& os, Time& time)
 {
     os.precision(3);
