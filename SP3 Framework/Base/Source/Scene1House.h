@@ -34,6 +34,7 @@ private:
 		SPRITE_MOTHER,
 		SPRITE_SON,
 		SPRITE_DAUGHTER,
+		SPRITE_BIRD,
 		NUM_SPRITE,
 	};
 
@@ -57,7 +58,7 @@ private:
 
 	float drop;
 	float accumTime;
-	int Level;
+	int Level;
 
 	Vector3 housePos;
 

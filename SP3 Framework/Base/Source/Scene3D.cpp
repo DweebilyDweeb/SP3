@@ -25,6 +25,8 @@ Scene3D::Scene3D() {
 	zoomAmount = 1;
 	zoomOffsetY = 0;
 	zoomOffsetX = 0;
+	dir = 1;
+	distMoved = 0.f;
 }
 
 Scene3D::~Scene3D() {
@@ -299,6 +301,7 @@ void Scene3D::Update(const double& deltaTime) {
 		ResetVegetable();
 		Application::clock->setActive(true);
 	}
+	updateClouds(deltaTime);
     Application::clock->UpdateTime(deltaTime);
 }
 
@@ -942,4 +945,11 @@ void Scene3D::ResetVegetable()
 		if (!corn->active)
 			corn->active = true;
 	}
+}
+
+void Scene3D::updateClouds(const double& deltaTime)
+{
+	if (distMoved * dir > 5)
+		dir = -dir;
+	distMoved += (float)(dir * deltaTime);
 }

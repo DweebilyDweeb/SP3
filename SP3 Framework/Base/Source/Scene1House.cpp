@@ -129,7 +129,10 @@ void Scene1House::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_DAUGHTER]->animation = new Animation();
 	spriteAnimationList[SPRITE_DAUGHTER]->animation->Set(0, 3, 0, 1.f, true);
 
-	
+	spriteAnimationList[SPRITE_BIRD] = MeshBuilder::GenerateSpriteAnimation("bird", 2, 1);
+	spriteAnimationList[SPRITE_BIRD]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//flying_birds.tga");
+	spriteAnimationList[SPRITE_BIRD]->animation = new Animation();
+	spriteAnimationList[SPRITE_BIRD]->animation->Set(0, 1, 0, 0.5f, true);
 	
 }
 
@@ -182,7 +185,8 @@ void Scene1House::Update(const double& deltaTime) {
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
 
-	
+	
+
 	accumTime += deltaTime;
 	if (accumTime > 0.2f)
 	{
@@ -345,25 +349,42 @@ void Scene1House::RenderBackground()
 	modelStack.Scale(10, 10, 1);
 	RenderMesh(meshList[GEO_BACKGROUND_1], false);
 	modelStack.PopMatrix();
-	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	//glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
 	for (int i = 0; i < 5; ++i)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX), camera.transform.position.y, -49);
+		modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX), 12, -49);
 		modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
 		RenderMesh(meshList[GEO_BACKGROUND_2], false);
 		modelStack.PopMatrix();
 	}
+	for (int i = 0; i < 5; ++i)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX) + 10 - distMoved, 15, -49);
+		if (dir > 0)
+		{
+			modelStack.Scale(5, 5, 1);
+			RenderSpriteAnimation(spriteAnimationList[SPRITE_BIRD], false);
+		}
+		else
+		{
+			modelStack.Scale(-5, 5, 1);
+			RenderSpriteAnimation(spriteAnimationList[SPRITE_BIRD], true);
+		}
+		modelStack.PopMatrix();
+	}
 
 	for (int i = 0; i < 5; ++i)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX), 8.7, -48);
+		modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX) + distMoved, 8.7, -48);
 		modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
 		RenderMesh(meshList[GEO_BACKGROUND_3], false);
 		modelStack.PopMatrix();
 	}
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 }
 
 
