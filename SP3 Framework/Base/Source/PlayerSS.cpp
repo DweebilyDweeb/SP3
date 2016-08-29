@@ -141,11 +141,13 @@ void PlayerSS::Update(const double& deltaTime) {
             //return to main menu
             SceneManager::GetInstance().chgCurrEnumScene(MAIN_MENU);
             velocity.x = velocity.y = 0;
+			SceneManager::GetInstance().setIsReset(true);
             break;
         case(LOSE) :
             //return to main menu
             SceneManager::GetInstance().chgCurrEnumScene(MAIN_MENU);
             velocity.x = velocity.y = 0;
+			SceneManager::GetInstance().setIsReset(true);
             break;
         default:
             SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() + 1));
