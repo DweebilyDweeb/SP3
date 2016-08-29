@@ -158,7 +158,7 @@ void Application::Run() {
 
         elapsedTime = m_timer.getElapsedTime();
         SceneManager::GetInstance().Update(elapsedTime);
-
+        cout << FPS << endl;
         //Threads
         if (accumulatedTime[UPDATE_USER_INPUT] >= 0.1) {
             InputManager::GetInstance().Update();
@@ -186,6 +186,8 @@ void Application::Run() {
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
 
     } //Check if the ESC key had been pressed or if the window had been closed
+
+    
 
 	SceneManager::GetInstance().Exit();
 

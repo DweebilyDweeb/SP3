@@ -1,3 +1,6 @@
+#ifndef CHICKEN_OBJECT_H
+#define CHICKEN_OBJECT_H
+
 #include "Vector3.h"
 #include "GameObject.h"
 #include "TileIndex.h"
@@ -35,3 +38,5 @@ struct ChickenObject
 	bool CheckLeft(TileMap);
 	void movementUpdate(const double& deltaTime, Vector3 playerpos, TileMap);
 };
+
+#endif

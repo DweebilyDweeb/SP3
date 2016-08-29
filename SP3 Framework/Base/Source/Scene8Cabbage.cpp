@@ -208,7 +208,6 @@ void Scene8Cabbage::UpdateVegetation(const double& deltaTime)
 				ItemManager::GetInstance().addItem(new Cabbage(1));
 				interaction = 0.f;
 				player.playerState = Player::IDLE;
-				return;
 			}
 		}
 	}
@@ -225,7 +224,6 @@ void Scene8Cabbage::UpdateVegetation(const double& deltaTime)
 				ItemManager::GetInstance().addItem(new Potato(1));
 				interaction = 0.f;
 				player.playerState = Player::IDLE;
-				return;
 			}
 		}
 	}
