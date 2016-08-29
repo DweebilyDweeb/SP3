@@ -241,7 +241,7 @@ void Scene3Chicken2::Update(const double& deltaTime) {
 				CO->CS = ChickenObject::RUNNING;
 			}*/
 				
-			CO->movementUpdate(deltaTime, player.transform.position, tileMap);
+			//CO->movementUpdate(deltaTime, player.transform.position, tileMap);
 			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT] && Scene3D::getDistXY(player.transform.position, CO->pos, tileMap.GetTileSize()))
 			{
 				CO->active = false;
@@ -263,14 +263,14 @@ void Scene3Chicken2::Update(const double& deltaTime) {
 			//pos++;
 		}
 	}
-	for (std::vector<CoopObject*>::iterator it = m_coopList.begin(); it != m_coopList.end(); it++)
+	/*for (std::vector<CoopObject*>::iterator it = m_coopList.begin(); it != m_coopList.end(); it++)
 	{
 		CoopObject* COO = (CoopObject*)*it;
 		if (COO->active)
 		{
 
 		}
-	}
+	}*/
 	/*if (m_chickenList.size() < maxChickenObject)
 	{
 		ChickenObject* CO = new ChickenObject;

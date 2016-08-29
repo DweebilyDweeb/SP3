@@ -294,8 +294,8 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 //Update
 
 void Scene3D::Update(const double& deltaTime) {
-	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_CHICKEN)
-		UpdateAttributeUI(deltaTime);
+    //This line below lags up the game. Must be checked
+	UpdateAttributeUI(deltaTime);
 	if (Application::clock->getActive() == false)
 	{
 		ResetVegetable();
@@ -436,7 +436,6 @@ void Scene3D::SetToCameraView(Camera* camera, float zoom) {
 
 void Scene3D::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_CHICKEN)
 	RenderAttributeUI();
 	RenderInventoryUI();
     PauseMenu();
@@ -678,17 +677,13 @@ void Scene3D::UpdateAttributeUI(const double& deltaTime)
 	Application::son->Update(deltaTime);
 	Application::daughter->Update(deltaTime);
 
-    Application::mother->boundStats();
+ /*   Application::mother->boundStats();
     Application::son->boundStats();
-    Application::daughter->boundStats();
+    Application::daughter->boundStats();*/
 
 
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_SHOW_ATTRIBUTES]) {
 		showStats = true;
-	}
-	else
-	{
-		showStats = false;
 	}
 
 	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_SHOW_ATTRIBUTES]){

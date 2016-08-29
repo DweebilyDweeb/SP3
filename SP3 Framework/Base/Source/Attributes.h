@@ -66,6 +66,9 @@ protected:
 
     float Health;
 
+	float dropRateFast;
+	float dropRateSlow;
+
 };
 
 #endif

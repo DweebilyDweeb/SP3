@@ -225,60 +225,6 @@ void Scene9Wheat::Update(const double& deltaTime)
 
 void Scene9Wheat::UpdateVegetation(const double& deltaTime)
 {
-	/*for (int row = 0; row < tileMap.GetNumRows(); ++row)
-	{
-		for (int col = 0; col < tileMap.GetNumColumns(); ++col)
-		{
-			switch (tileMap.map[row][col])
-			{
-			case 16:
-			{
-				for (std::vector<CarrotObject *>::iterator it = m_carrotList.begin(); it != m_carrotList.end(); ++it)
-				{
-					CarrotObject *carrot = (CarrotObject *)*it;
-					if (carrot->pos == Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -1) && carrot->active)
-					{
-						carrot->active = false;
-					}
-				}
-				break;
-			}
-			case 19:
-			{
-				for (std::vector<CornObject *>::iterator it = m_cornList.begin(); it != m_cornList.end(); ++it)
-				{
-					CornObject *corn = (CornObject *)*it;
-					if (corn->pos == Vector3(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -1) && corn->active)
-					{
-						corn->active = false;
-					}
-				}
-			}
-			default:
-				break;
-			}
-		}
-	}*/
-	/*int tileX = tileMap.GetTileX(player.transform.position.x);
-	int tileY = tileMap.GetTileY(player.transform.position.y);
-
-	if (tileMap.map[tileY][tileX] == TILE_CARROT)
-	{
-		for (std::vector<CarrotObject *>::iterator it = m_carrotList.begin(); it != m_carrotList.end(); ++it)
-		{
-			CarrotObject *carrot = (CarrotObject *)*it;
-			if (carrot->active && carrot->pos == Vector3(tileY * tileMap.GetTileSize(), tileX * tileMap.GetTileSize(), -1))
-			{
-				
-				carrot->active = false;
-			}
-		}
-	}
-	else if (tileMap.map[tileY][tileX] == TILE_CORN)
-	{
-		std::cout << "LOL" << std::endl;
-	}*/
-
 	for (std::vector<CarrotObject *>::iterator it = Vegetable::GetInstance().m_carrotList.begin(); it != Vegetable::GetInstance().m_carrotList.end(); ++it)
 	{
 		CarrotObject *carrot = (CarrotObject *)*it;
@@ -292,7 +238,6 @@ void Scene9Wheat::UpdateVegetation(const double& deltaTime)
 				ItemManager::GetInstance().addItem(new Carrot(1));
 				interaction = 0.f;
 				player.playerState = Player::IDLE;
-				return;
 			}
 		}
 	}
@@ -311,7 +256,6 @@ void Scene9Wheat::UpdateVegetation(const double& deltaTime)
 				ItemManager::GetInstance().addItem(new Corn(1));
 				interaction = 0.f;
 				player.playerState = Player::IDLE;
-				return;
 			}
 		}
 	}
@@ -361,6 +305,7 @@ void Scene9Wheat::RenderTileMap() {
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_WATER]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
 			case 9:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);

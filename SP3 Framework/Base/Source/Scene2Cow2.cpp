@@ -345,12 +345,14 @@ void Scene2Cow2::RenderTileMap() {
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 RenderMesh(meshList[GEO_TRANSPORT]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
             case -1:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 RenderMesh(meshList[GEO_TRANSPORT]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
             case 0:
+                break;
             case 11:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 RenderMesh(meshList[GEO_EMPTY]);
@@ -372,6 +374,7 @@ void Scene2Cow2::RenderTileMap() {
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 RenderMesh(meshList[GEO_EMPTY]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
             }
             modelStack.PopMatrix();
         }
@@ -427,6 +430,7 @@ void Scene2Cow2::RenderCows(Cow* cow) {
     if (!cow->getDead()) {
         if (cow->getTriggered()) {
             RenderSpriteAnimation(spriteAnimationList[SPRITE_COW_TRIGGERED_SIDE], false, cow->getInvert());
+            PlayCow();
             if (spriteAnimationList[SPRITE_COW_TRIGGERED_SIDE]->currentFrame == 1) {
                 cow->setRunning(true);
             }
@@ -457,6 +461,7 @@ void Scene2Cow2::RenderCows(Cow* cow) {
     else {
         modelStack.Scale(0.5, 0.5, 0.5);
         RenderMesh(meshList[GEO_MEAT], false);
+
     }
     glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
     modelStack.PopMatrix();
