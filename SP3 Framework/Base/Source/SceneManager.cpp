@@ -6,6 +6,7 @@
 #include "Scene3Chicken.h"
 #include "Scene4FishingPond.h"
 #include "Scene5Dragon.h"
+#include "Scene5Dragon2.h"
 #include "Scene6Well.h"
 #include "Scene6Well2.h"
 #include "Scene7Apple.h"
@@ -43,10 +44,12 @@ void SceneManager::Init()
 
 	//sceneList[SUB_WELL] = new Scene6Well2
 	sceneList[SUB_WELL] = new Scene6Well2;
+
 	sceneList[SUB_COW] = new Scene2Cow2;
 
-    setPrevScene(WHEAT);
-    sceneType = MAIN_MENU;
+    sceneList[SUB_DRAGON] = new Scene5Dragon2;
+    setPrevScene(WELL);
+    sceneType = SUB_WELL;
 
    
     for (int i = 0; i < TOTAL_SCENES; ++i)
@@ -117,7 +120,7 @@ void SceneManager::Update(double dt)
         Dragon = false;
         Death = false;
     }
-    if (sceneType == COW || sceneType == CHICKEN || sceneType == FISH || sceneType == WELL || sceneType == APPLE || sceneType == CABBAGE || sceneType == WHEAT)
+    if (sceneType == COW || sceneType == CHICKEN || sceneType == FISH || sceneType == DRAGON || sceneType == WELL || sceneType == APPLE || sceneType == CABBAGE || sceneType == WHEAT)
     {
         Home = false;
         World = true;
@@ -125,7 +128,7 @@ void SceneManager::Update(double dt)
         Death = false;
 
     }
-    if (sceneType == DRAGON)
+    if (sceneType == SUB_DRAGON)
     {
         Home = false;
         World = false;
@@ -141,7 +144,7 @@ void SceneManager::Update(double dt)
     }
     if (Home == true)
     {
-        PlayHome();
+      //  PlayHome();
         StopDragon();
         StopWorld();
         StopDeath();
@@ -149,21 +152,21 @@ void SceneManager::Update(double dt)
 
     if (World == true)
     {
-        PlayWorld();
+       // PlayWorld();
         StopHome();
         StopDragon();
         StopDeath();
     }
     if (Dragon == true)
     {
-        PlayDragon();
+       // PlayDragon();
         StopHome();
         StopWorld();
         StopDeath();
     }
     if (Death == true)
     {
-        PlayDeath();
+        //PlayDeath();
         StopHome();
         StopWorld();
         StopDragon();

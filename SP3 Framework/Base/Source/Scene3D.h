@@ -15,6 +15,7 @@
 #include "CabbageObject.h"
 #include "CarrotObject.h"
 #include "CornObject.h"
+#include "BucketObject.h"
 
 const unsigned int MAX_LIGHTS = 8;
 

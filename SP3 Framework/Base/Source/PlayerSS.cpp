@@ -20,6 +20,9 @@ PlayerSS::PlayerSS() {
     portal.push_back(TILE_PORTAL);
     portal.push_back(TILE_PORTAL2);
     bounce.push_back(TILE_PLATFORM);
+
+    up.push_back(TILE_WELLLEFT);
+    up.push_back(TILE_WELLRIGHT);
 	accumTime = 0.5f;
 }
 
@@ -97,6 +100,18 @@ void PlayerSS::Update(const double& deltaTime) {
                 velocity.x = 0;
                 velocity.y = 0;
                 //insert game restart here
+                break;
+            case(SUB_WELL) :
+                //temp
+                SceneManager::GetInstance().chgCurrEnumScene(WELL);
+                velocity.x = 0;
+                velocity.y = 0;
+                break;
+            case(SUB_DRAGON) :
+                //temp
+                SceneManager::GetInstance().chgCurrEnumScene(DRAGON);
+                velocity.x = 0;
+                velocity.y = 0;
                 break;
             default:
                 SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() - 1));
@@ -303,7 +318,13 @@ void PlayerSS::Update(const double& deltaTime) {
 				SceneManager::GetInstance().chgCurrEnumScene(SUB_WELL);
 				break;
 			}
-
+            case DRAGON:
+            {
+                if (SceneManager::GetInstance().getIsChgScene() == false)
+                    SceneManager::GetInstance().isChgScene(true);
+                SceneManager::GetInstance().chgCurrEnumScene(SUB_DRAGON);
+                break;
+            }
 			case COW:
 			{
 				if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]) {

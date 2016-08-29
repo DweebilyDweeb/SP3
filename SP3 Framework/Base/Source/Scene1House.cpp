@@ -156,7 +156,14 @@ void Scene1House::InitPlayer() {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
 				}
 			}
+    if (SceneManager::GetInstance().getPrevScene() == SUB_DRAGON)
+    {
+        if (tileMap.map[row][col] == 100) {
+            player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+        }
+    }
 		}
+
 	}
 
 

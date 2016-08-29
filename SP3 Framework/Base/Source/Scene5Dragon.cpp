@@ -85,7 +85,8 @@ void Scene5Dragon::InitMeshes() {
     meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
     meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
 
-    
+    meshList[GEO_CLOUD] = MeshBuilder::GenerateQuad("Cloud3", Color(1, 1, 1), 1);
+    meshList[GEO_CLOUD]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//flying_nimbus.tga");
 }
 
 void Scene5Dragon::InitSpriteAnimations() {
@@ -127,6 +128,12 @@ void Scene5Dragon::InitPlayer() {
             if (SceneManager::GetInstance().getPrevScene() == FISH)
             {
                 if (tileMap.map[row][col] == 99) {
+                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+                }
+            }
+            if (SceneManager::GetInstance().getPrevScene() == SUB_DRAGON)
+            {
+                if (tileMap.map[row][col] == 101) {
                     player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
                 }
             }
@@ -175,6 +182,13 @@ void Scene5Dragon::Update(const double& deltaTime) {
     //    }
     //    Level = 2;
     //}
+    if (player.transform.position.y > 60)
+    {
+        SceneManager::GetInstance().chgCurrEnumScene(SUB_DRAGON);
+
+        player.setVelocity(Vector3(0, 0, 0));
+    }
+
 
 }
 
@@ -219,7 +233,7 @@ void Scene5Dragon::RenderTileMap() {
                 break;
             case 7:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-                RenderMesh(meshList[GEO_GRASS]);
+                RenderMesh(meshList[GEO_CLOUD]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
             case 9:

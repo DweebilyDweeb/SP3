@@ -15,7 +15,7 @@ protected:
     vector<TILE_TYPE> collectibles;
     vector<TILE_TYPE> portal;
     vector<TILE_TYPE> bounce;
-
+    vector<TILE_TYPE> up;
 
     bool CheckIfInsideTileMap();
     bool CheckCollisionLeft();
@@ -25,6 +25,8 @@ protected:
 
     int CheckPortal();
     bool CheckTrigger();
+    bool CheckWellLeft();
+    bool CheckWellRight();
     bool CheckCollect();
     bool CheckVegetation();
     bool CheckElectric();
@@ -53,7 +55,7 @@ public:
     bool onElectricity;
     void setVelocity(Vector3 vel);
     Vector3 getVelocity();
-
+    std::vector<BucketObject *> m_boList;
     enum PLAYER_STATE
     {
 		WALKING,

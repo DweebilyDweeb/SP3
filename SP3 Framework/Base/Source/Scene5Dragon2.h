@@ -1,5 +1,5 @@
-#ifndef SCENE_5_DRAGON_H
-#define SCENE_5_DRAGON_H
+#ifndef SCENE_5_DRAGON_2_H
+#define SCENE_5_DRAGON_2_H
 
 #include "Scene3D.h"
 #include "Mesh.h"
@@ -8,7 +8,7 @@
 #include "Camera2D.h"
 #include "PlayerSS.h"
 
-class Scene5Dragon : public Scene3D {
+class Scene5Dragon2 : public Scene3D {
 
 private:
     enum GEOMETRY_TYPE {
@@ -59,8 +59,8 @@ private:
 
 public:
     //Constructor(s) & Destructor
-    Scene5Dragon();
-    virtual ~Scene5Dragon();
+    Scene5Dragon2();
+    virtual ~Scene5Dragon2();
 
     //Virtual Function(s)
     virtual void Init();

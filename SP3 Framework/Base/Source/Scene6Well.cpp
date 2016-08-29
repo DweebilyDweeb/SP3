@@ -135,6 +135,12 @@ void Scene6Well::InitPlayer() {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
 				}
 			}
+            if (SceneManager::GetInstance().getPrevScene() == SUB_WELL)
+            {
+                if (tileMap.map[row][col] == 101) {
+                    player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+                }
+            }
 			if (SceneManager::GetInstance().getPrevScene() == APPLE)
 			{
 				if (tileMap.map[row][col] == 100) {
@@ -231,7 +237,7 @@ void Scene6Well::RenderTileMap() {
 
 			case 88:
 				wellPos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), 20);
-				RenderMesh(meshList[GEO_DIRT]); break;
+				RenderMesh(meshList[GEO_GRASS]); break;
             }
             modelStack.PopMatrix();
         }

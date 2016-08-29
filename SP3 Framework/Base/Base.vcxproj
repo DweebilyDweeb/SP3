@@ -24,6 +24,7 @@
     <ClCompile Include="Source\Controller_Keyboard.cpp" />
     <ClCompile Include="Source\Controller_Mouse.cpp" />
     <ClCompile Include="Source\CornObject.cpp" />
+    <ClCompile Include="Source\CowObject.cpp" />
     <ClCompile Include="Source\Daughter.cpp" />
     <ClCompile Include="Source\DeathScreen.cpp" />
     <ClCompile Include="Source\FishObject.cpp" />
@@ -51,6 +52,7 @@
     <ClCompile Include="Source\RigidBody.cpp" />
     <ClCompile Include="Source\Scene4FishingPond.cpp" />
     <ClCompile Include="Source\Scene5Dragon.cpp" />
+    <ClCompile Include="Source\Scene5Dragon2.cpp" />
     <ClCompile Include="Source\Scene6Well.cpp" />
     <ClCompile Include="Source\Scene6Well2.cpp" />
     <ClCompile Include="Source\Scene7Apple.cpp" />
@@ -81,6 +83,7 @@
     <ClInclude Include="Source\Controller_Keyboard.h" />
     <ClInclude Include="Source\Controller_Mouse.h" />
     <ClInclude Include="Source\CornObject.h" />
+    <ClInclude Include="Source\CowObject.h" />
     <ClInclude Include="Source\Daughter.h" />
     <ClInclude Include="Source\DeathScreen.h" />
     <ClInclude Include="Source\Family.h" />
@@ -112,6 +115,7 @@
     <ClInclude Include="Source\Scene3D.h" />
     <ClInclude Include="Source\Scene4FishingPond.h" />
     <ClInclude Include="Source\Scene5Dragon.h" />
+    <ClInclude Include="Source\Scene5Dragon2.h" />
     <ClInclude Include="Source\Scene6Well.h" />
     <ClInclude Include="Source\Scene6Well2.h" />
     <ClInclude Include="Source\Scene7Apple.h" />

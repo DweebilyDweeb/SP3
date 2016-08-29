@@ -7,6 +7,7 @@
 #include "TileMap.h"
 #include "Camera2D.h"
 #include "PlayerSS.h"
+#include "CowObject.h"
 
 class Scene2Cow2 : public Scene3D {
 
@@ -18,6 +19,10 @@ private:
 		GEO_FENCE2,
 		GEO_SHINY,
 		GEO_PLAYER,
+		GEO_MEAT,
+		GEO_TRANSPORT,
+		GEO_BAR,
+		GEO_PLAYBAR,
 
 		NUM_GEOMETRY,
 	};
@@ -25,14 +30,22 @@ private:
 	enum SPRITE_TYPE {
 		SPRITE_PLAYER,
 		SPRITE_PLAYER_IDLE,
-		SPRITE_PLAYER_JUMP,
 
 		SPRITE_PLAYER_IDLE_UP,
 		SPRITE_PLAYER_IDLE_DOWN,
 		SPRITE_PLAYER_MOVE_UP,
 		SPRITE_PLAYER_MOVE_DOWN,
+
 		SPRITE_PORTAL,
 		SPRITE_COW,
+		SPRITE_COW_IDLE_UP,
+		SPRITE_COW_IDLE_DOWN,
+		SPRITE_COW_MOVE_UP,
+		SPRITE_COW_MOVE_DOWN,
+		SPRITE_COW_TRIGGERED_SIDE,
+
+		SPRITE_MILKCOW,
+
 		NUM_SPRITE,
 	};
 
@@ -45,12 +58,26 @@ private:
 	void InitSpriteAnimations();
 	void InitCamera();
 	void InitPlayer();
+	void InitCows();
 
 	void RenderTileMap();
 	void RenderPlayer();
+	void RenderCGO();
+	void RenderCows(Cow*);
+	void RenderBars();
 
 	Camera2D camera;
 	PlayerSS player;
+
+	vector<Cow*>m_cowList;
+	Vector3 milkcowPos;
+	bool subsubScene;
+
+	Vector3 barPosUI;
+	Vector3 barScaleUI;
+
+	Vector3 playBarPosUI;
+	Vector3 playBarScaleUI;
 
 public:
 	//Constructor(s) & Destructor

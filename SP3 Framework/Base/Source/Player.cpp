@@ -222,68 +222,100 @@ bool Player::CheckCollisionDown() {
         }
 
     }
-
-	Vector3 pointB(transform.position.x + (transform.scale.x * hotspotOffset), transform.position.y - (transform.scale.y * 0.5f), 0);
-	tileX = tileMap->GetTileX(pointB.x);
-	tileY = tileMap->GetTileY(pointB.y);
-
-	//Check if we are at the edge/outside the map.
-	if (tileX < 0 || tileX >= tileMap->GetNumColumns()) {
-		return true;
-	} else if (tileY < 0 || tileY >= tileMap->GetNumRows()) {
-		return true;
-	}
-
-	for (size_t i = 0; i < collidables.size(); ++i) {
-		if (collidables[i] == tileMap->map[tileY][tileX]) {
-			return true;
-		}
-	}
-    for (size_t i = 0; i < bounce.size(); ++i) {
-        if (bounce[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 7)
+   /* for (size_t i = 0; i < up.size(); ++i) {
+        if (up[i] == tileMap->map[tileY][tileX]) {
+            if (tileMap->map[tileY][tileX] == 13)
             {
-                Player::velocity.y += 200 * tileMap->GetTileSize();
+                bo->pos.y += 100 * tileMap->GetTileSize();
+                break;
+            }
+            if (tileMap->map[tileY][tileX] == 14)
+            {
+                bo->pos.y += 100 * tileMap->GetTileSize();
                 break;
             }
         }
+    }*/
 
-    }
+        Vector3 pointB(transform.position.x + (transform.scale.x * hotspotOffset), transform.position.y - (transform.scale.y * 0.5f), 0);
+        tileX = tileMap->GetTileX(pointB.x);
+        tileY = tileMap->GetTileY(pointB.y);
 
+        //Check if we are at the edge/outside the map.
+        if (tileX < 0 || tileX >= tileMap->GetNumColumns()) {
+            return true;
+        }
+        else if (tileY < 0 || tileY >= tileMap->GetNumRows()) {
+            return true;
+        }
+
+        for (size_t i = 0; i < collidables.size(); ++i) {
+            if (collidables[i] == tileMap->map[tileY][tileX]) {
+                return true;
+            }
+        }
+        for (size_t i = 0; i < bounce.size(); ++i) {
+            if (bounce[i] == tileMap->map[tileY][tileX]) {
+                if (tileMap->map[tileY][tileX] == 7)
+                {
+                    Player::velocity.y += 200 * tileMap->GetTileSize();
+                    break;
+                }
+            }
+
+        }
+       /* for (size_t i = 0; i < up.size(); ++i) {
+            if (up[i] == tileMap->map[tileY][tileX]) {
+                BucketObject *bo;
+                if (tileMap->map[tileY][tileX] == 13)
+                {
+                    bo->pos.y += 100 * tileMap->GetTileSize();
+                    break;
+                }
+                if (tileMap->map[tileY][tileX] == 14)
+                {
+                    bo->pos.y += 100 * tileMap->GetTileSize();
+                    break;
+                }
+            }
+
+        }*/
+    
 	return false;
 
 }
 
 bool Player::CheckCollisionUp() {
 
-	/*
-	***A*********************B***
-	*                           *
-	*                           *
-	*                           *
-	*            X              *
-	*                           *
-	*                           *
-	*                           *
-	*****************************
-	*/
+    /*
+    ***A*********************B***
+    *                           *
+    *                           *
+    *                           *
+    *            X              *
+    *                           *
+    *                           *
+    *                           *
+    *****************************
+    */
 
-	Vector3 pointA(transform.position.x - (transform.scale.x * hotspotOffset), transform.position.y + (transform.scale.y * 0.5f), 0);
-	int tileX = tileMap->GetTileX(pointA.x);
-	int tileY = tileMap->GetTileY(pointA.y);
+    Vector3 pointA(transform.position.x - (transform.scale.x * hotspotOffset), transform.position.y + (transform.scale.y * 0.5f), 0);
+    int tileX = tileMap->GetTileX(pointA.x);
+    int tileY = tileMap->GetTileY(pointA.y);
 
-	//Check if we are at the edge/outside the map.
-	if (tileX < 0 || tileX >= tileMap->GetNumColumns()) {
-		return true;
-	} else if (tileY < 0 || tileY >= tileMap->GetNumRows()) {
-		return true;
-	}
+    //Check if we are at the edge/outside the map.
+    if (tileX < 0 || tileX >= tileMap->GetNumColumns()) {
+        return true;
+    }
+    else if (tileY < 0 || tileY >= tileMap->GetNumRows()) {
+        return true;
+    }
 
-	for (size_t i = 0; i < collidables.size(); ++i) {
-		if (collidables[i] == tileMap->map[tileY][tileX]) {
-			return true;
-		}
-	}
+    for (size_t i = 0; i < collidables.size(); ++i) {
+        if (collidables[i] == tileMap->map[tileY][tileX]) {
+            return true;
+        }
+    }
     for (size_t i = 0; i < bounce.size(); ++i) {
         if (bounce[i] == tileMap->map[tileY][tileX]) {
             if (tileMap->map[tileY][tileX] == 7)
@@ -294,34 +326,68 @@ bool Player::CheckCollisionUp() {
         }
 
     }
-
-	Vector3 pointB(transform.position.x + (transform.scale.x * hotspotOffset), transform.position.y + (transform.scale.y * 0.5f), 0);
-	tileX = tileMap->GetTileX(pointB.x);
-	tileY = tileMap->GetTileY(pointB.y);
-
-	//Check if we are at the edge/outside the map.
-	if (tileX < 0 || tileX >= tileMap->GetNumColumns()) {
-		return true;
-	} else if (tileY < 0 || tileY >= tileMap->GetNumRows()) {
-		return true;
-	}
-
-	for (size_t i = 0; i < collidables.size(); ++i) {
-		if (collidables[i] == tileMap->map[tileY][tileX]) {
-			return true;
-		}
-	}
-    for (size_t i = 0; i < bounce.size(); ++i) {
-        if (bounce[i] == tileMap->map[tileY][tileX]) {
-            if (tileMap->map[tileY][tileX] == 7)
+    for (size_t i = 0; i < up.size(); ++i) {
+        if (up[i] == tileMap->map[tileY][tileX]) {
+            BucketObject *bo;
+            if (tileMap->map[tileY][tileX] == 13)
             {
-                Player::velocity.y += 200 * tileMap->GetTileSize();
+                bo->pos.y += 100 * tileMap->GetTileSize();
+                break;
+            }
+            if (tileMap->map[tileY][tileX] == 14)
+            {
+                bo->pos.y += 100 * tileMap->GetTileSize();
                 break;
             }
         }
-
     }
-   
+
+        Vector3 pointB(transform.position.x + (transform.scale.x * hotspotOffset), transform.position.y + (transform.scale.y * 0.5f), 0);
+        tileX = tileMap->GetTileX(pointB.x);
+        tileY = tileMap->GetTileY(pointB.y);
+
+        //Check if we are at the edge/outside the map.
+        if (tileX < 0 || tileX >= tileMap->GetNumColumns()) {
+            return true;
+        }
+        else if (tileY < 0 || tileY >= tileMap->GetNumRows()) {
+            return true;
+        }
+
+        for (size_t i = 0; i < collidables.size(); ++i) {
+            if (collidables[i] == tileMap->map[tileY][tileX]) {
+                return true;
+            }
+        }
+        for (size_t i = 0; i < bounce.size(); ++i) {
+            if (bounce[i] == tileMap->map[tileY][tileX]) {
+                if (tileMap->map[tileY][tileX] == 7)
+                {
+                    Player::velocity.y += 200 * tileMap->GetTileSize();
+                    break;
+                }
+            }
+
+        }
+
+       /* for (size_t i = 0; i < up.size(); ++i) {
+            if (up[i] == tileMap->map[tileY][tileX]) {
+                BucketObject *bo;
+                if (tileMap->map[tileY][tileX] == 13)
+                {
+                    bo->pos.y += 100 * tileMap->GetTileSize();
+                    break;
+                }
+                if (tileMap->map[tileY][tileX] == 14)
+                {
+                    bo->pos.y += 100 * tileMap->GetTileSize();
+                    break;
+                }
+            }
+
+        }*/
+    
+
 	return false;
 
 }
@@ -425,6 +491,28 @@ bool Player::CheckElectric()
     int tileX = tileMap->GetTileX(transform.position.x);
     int tileY = tileMap->GetTileY(transform.position.y);
     if (tileMap->map[tileY][tileX] == TILE_ELECTRIC)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Player::CheckWellLeft()
+{
+    int tileX = tileMap->GetTileX(transform.position.x);
+    int tileY = tileMap->GetTileY(transform.position.y);
+    if (tileMap->map[tileY][tileX] == TILE_WELLLEFT)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Player::CheckWellRight()
+{
+    int tileX = tileMap->GetTileX(transform.position.x);
+    int tileY = tileMap->GetTileY(transform.position.y);
+    if (tileMap->map[tileY][tileX] == TILE_WELLRIGHT)
     {
         return true;
     }
