@@ -8,7 +8,12 @@ Attributes::Attributes()
 	, Vitamins(0)
 	, Hydration(0)
 {
-
+	dropRateFast = statDropRateFast;
+	dropRateSlow = statDropRateSlow;
+	maximumStat = maxStat;
+	averageStat = statAverage;
+	aboveAverageStat = statAboveAverage;
+	belowAverageStat = statBelowAverage;
 }
 Attributes::~Attributes()
 {

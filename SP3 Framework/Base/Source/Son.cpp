@@ -11,39 +11,39 @@ Son::~Son()
 
 void Son::Init()
 {
-	setProtein(statAboveAverage);
-	setCarbohydrates(statAverage);
-	setFats(statBelowAverage);
-	setHydration(statAverage);
-	setVitamins(statAverage);
+	setProtein(aboveAverageStat);
+	setCarbohydrates(averageStat);
+	setFats(belowAverageStat);
+	setHydration(averageStat);
+	setVitamins(averageStat);
 }
 
 void Son::Update(const double& dt)
 {
-	if (Protein > maxStat * 0.5f)
-		minusProtein(statDropRateSlow, dt);
+	if (Protein > maximumStat * 0.5f)
+		minusProtein(dropRateSlow, dt);
 	else
-		minusProtein(statDropRateFast, dt);
+		minusProtein(dropRateFast, dt);
 
-	if (Carbohydrates > maxStat * 0.5f)
-		minusCarbohydrates(statDropRateSlow, dt);
+	if (Carbohydrates > maximumStat * 0.5f)
+		minusCarbohydrates(dropRateSlow, dt);
 	else
-		minusCarbohydrates(statDropRateFast, dt);
+		minusCarbohydrates(dropRateFast, dt);
 
-	if (Fats > maxStat * 0.5f)
-		minusFats(statDropRateSlow, dt);
+	if (Fats > maximumStat * 0.5f)
+		minusFats(dropRateSlow, dt);
 	else
-		minusFats(statDropRateFast, dt);
+		minusFats(dropRateFast, dt);
 
-	if (Hydration > maxStat * 0.5f)
-		minusHydration(statDropRateSlow, dt);
+	if (Hydration > maximumStat * 0.5f)
+		minusHydration(dropRateSlow, dt);
 	else
-		minusHydration(statDropRateFast, dt);
+		minusHydration(dropRateFast, dt);
 
-	if (Vitamins > maxStat * 0.5f)
-		minusVitamins(statDropRateSlow, dt);
+	if (Vitamins > maximumStat * 0.5f)
+		minusVitamins(dropRateSlow, dt);
 	else
-		minusVitamins(statDropRateFast, dt);
+		minusVitamins(dropRateFast, dt);
 
 	calculateHealth();
 }

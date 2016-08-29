@@ -68,6 +68,10 @@ protected:
 
 	float dropRateFast;
 	float dropRateSlow;
+	float maximumStat;
+	float averageStat;
+	float aboveAverageStat;
+	float belowAverageStat;
 
 };
 
