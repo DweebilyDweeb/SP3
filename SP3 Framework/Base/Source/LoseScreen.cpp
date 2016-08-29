@@ -156,7 +156,7 @@ void LoseScreen::Update(const double& deltaTime) {
 	if (SceneManager::GetInstance().getIsReset())
 	{
 		Scene3D::reset();
-		SceneManager::GetInstance().setIsReset(true);
+		SceneManager::GetInstance().setIsReset(false);
 	}
 }
 

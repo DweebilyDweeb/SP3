@@ -159,7 +159,11 @@ void MainMenu::InitCamera() {
 
 void MainMenu::Update(const double& deltaTime) {
 
-
+	if (SceneManager::GetInstance().getIsReset())
+	{
+		Scene3D::reset();
+		SceneManager::GetInstance().setIsReset(false);
+	}
 	for (unsigned int i = 0; i < NUM_SPRITE; ++i)
 	{
 
