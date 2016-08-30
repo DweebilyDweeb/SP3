@@ -234,6 +234,7 @@ void MainMenu::Update(const double& deltaTime) {
 				SceneManager::GetInstance().isChgScene(false);
 				SceneManager::GetInstance().chgCurrEnumScene(HOME);
 				SceneManager::GetInstance().setPrevScene(WHEAT);
+                if (SceneManager::GetInstance().bAudio == true)
                 PlaySelect();
 			}
 		}

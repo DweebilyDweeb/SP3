@@ -428,7 +428,10 @@ void Scene2Cow2::RenderCows(Cow* cow) {
     if (!cow->getDead()) {
         if (cow->getTriggered()) {
             RenderSpriteAnimation(spriteAnimationList[SPRITE_COW_TRIGGERED_SIDE], false, cow->getInvert());
-            PlayCow();
+            if (SceneManager::GetInstance().bAudio == true)
+            {
+                PlayCow();
+            }
             if (spriteAnimationList[SPRITE_COW_TRIGGERED_SIDE]->currentFrame == 1) {
                 cow->setRunning(true);
             }
