@@ -70,6 +70,7 @@ void MainMenu::Init() {
 	scale1 = scale2 = scale3 = Vector3(3, 1, 3);
 	hand = Vector3(26, 10, 0);
 	transitioning = true;
+
 }
 
 void MainMenu::InitMeshes() {
@@ -242,6 +243,14 @@ void MainMenu::Update(const double& deltaTime) {
 			scale1.y = scale3.y = 1;
 			scale2.x = 3.9;
 			scale2.y = 1.3;
+            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && SceneManager::GetInstance().bAudio == false)
+            {
+                SceneManager::GetInstance().bAudio = true;
+            }
+            else if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && SceneManager::GetInstance().bAudio == true)
+            {
+                SceneManager::GetInstance().bAudio = false;
+            }
 		}
         else if (hand.y == movement3.y)
         {

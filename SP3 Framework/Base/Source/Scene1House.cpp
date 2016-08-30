@@ -140,20 +140,19 @@ void Scene1House::InitPlayer() {
 
 	player.SetTileMap(tileMap);
 
-	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
-		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
+	for (int row = 0; row < tileMap.GetNumRows(); ++row) 
+	{
+		for (int col = 0; col < tileMap.GetNumColumns(); ++col) 
+		{
 
-			if (SceneManager::GetInstance().getPrevScene() == WHEAT || SceneManager::GetInstance().getPrevScene() == MAIN_MENU || SceneManager::GetInstance().getPrevScene() == LOSE || Application::clock->getActive() == false)
-
+			if (SceneManager::GetInstance().getPrevScene() == WHEAT || SceneManager::GetInstance().getPrevScene() == MAIN_MENU || SceneManager::GetInstance().getPrevScene() == LOSE || SceneManager::GetInstance().getPrevScene() == SUB_DRAGON || Application::clock->getActive() == false)
 			{
 				if (tileMap.map[row][col] == 99) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
 				}
-
 			}
-			
-    if (SceneManager::GetInstance().getPrevScene() == COW || SceneManager::GetInstance().getPrevScene() == DEAD)
-
+				
+			if (SceneManager::GetInstance().getPrevScene() == COW || SceneManager::GetInstance().getPrevScene() == DEAD)
 			{
 				if (tileMap.map[row][col] == 100) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
@@ -161,7 +160,6 @@ void Scene1House::InitPlayer() {
 			}
 		}
 	}
-
 
 }
 

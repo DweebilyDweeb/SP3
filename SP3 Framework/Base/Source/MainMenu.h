@@ -68,7 +68,7 @@ private:
 	float moveCam;
 
 	bool transitioning;
-
+    
 	Vector3 housePos;
 	Vector3 titleScale;
 	Vector3 movement1;
@@ -85,7 +85,7 @@ public:
 	virtual ~MainMenu();
 
 	static bool endGame;
-
+    
 	//Virtual Function(s)
 	virtual void Init();
 	virtual void Update(const double& deltaTime);

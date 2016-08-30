@@ -236,6 +236,7 @@ void Scene5Dragon::RenderTileMap() {
                 break;
             case 7:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                modelStack.Scale(2, 1, 1);
                 RenderMesh(meshList[GEO_CLOUD]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;

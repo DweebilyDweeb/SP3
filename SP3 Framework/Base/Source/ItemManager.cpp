@@ -32,8 +32,10 @@ void ItemManager::addItem(Item* item) {
 	pair<map<string, Item*>::iterator, bool> mit;
 	mit = itemMap.insert(pair<string, Item*>(item->getName(), item));
 	if (mit.second == false) {
-		if (mit.first->second->getNum() < 99)
-			mit.first->second->setNum(mit.first->second->getNum() + item->getNum());
+        if (mit.first->second->getNum() + item->getNum() < 99)
+            mit.first->second->setNum(mit.first->second->getNum() + item->getNum());
+        else
+            mit.first->second->setNum(99);
 	}
 }
 

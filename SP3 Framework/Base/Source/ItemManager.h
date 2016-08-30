@@ -366,6 +366,7 @@ private:
 		addItem(new Corn(10));
 		addItem(new Carrot(10));
 	};
+   
 };
 
 #endif

@@ -18,6 +18,10 @@
 17 - Potato
 18 - Wheat
 19 - Corn
+60 - Wish1
+61 - Wish2
+62 - Wish3
+
 
 30 - Chicken
 31 - Cow

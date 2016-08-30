@@ -19,6 +19,7 @@ private:
         GEO_BACKGROUND_1,
         GEO_BACKGROUND_2,
         GEO_BACKGROUND_3,
+        GEO_BACKGROUND_4,
         GEO_CLOUD,
         //Others
         GEO_PLAYER,
@@ -31,6 +32,10 @@ private:
         SPRITE_PLAYER_IDLE,
         SPRITE_PLAYER_JUMP,
         SPRITE_PORTAL,
+        SPRITE_WISH1,
+        SPRITE_WISH2,
+        SPRITE_WISH3,
+        SPRITE_DRAGON,
         NUM_SPRITE,
     };
 
