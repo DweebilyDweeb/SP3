@@ -19,6 +19,9 @@ PlayerSS::PlayerSS() {
 
     portal.push_back(TILE_PORTAL);
     portal.push_back(TILE_PORTAL2);
+    portal.push_back(TILE_WISH1);
+    portal.push_back(TILE_WISH2);
+    portal.push_back(TILE_WISH3);
     bounce.push_back(TILE_PLATFORM);
 
     up.push_back(TILE_WELLLEFT);
@@ -157,6 +160,51 @@ void PlayerSS::Update(const double& deltaTime) {
             break;
         }
         break;
+    case TILE_WISH1:
+    {
+        switch (SceneManager::GetInstance().getCurrSceneEnum())
+        {
+        case (SUB_DRAGON) :
+            SceneManager::GetInstance().chgCurrEnumScene(HOME);
+            velocity.x = 0;
+            velocity.y = 0;
+            
+            break;
+        }
+    }
+    case TILE_WISH2:
+    {
+        switch (SceneManager::GetInstance().getCurrSceneEnum())
+        {
+        case (SUB_DRAGON) :
+            SceneManager::GetInstance().chgCurrEnumScene(HOME);
+            velocity.x = 0;
+            velocity.y = 0;
+            ItemManager::GetInstance().addItem(new Milk(10));
+            ItemManager::GetInstance().addItem(new Meat(10));
+            ItemManager::GetInstance().addItem(new Egg(10));
+            ItemManager::GetInstance().addItem(new Water(10));
+            ItemManager::GetInstance().addItem(new Apple(10));
+            ItemManager::GetInstance().addItem(new Fish(10));
+            ItemManager::GetInstance().addItem(new Cabbage(10));
+            ItemManager::GetInstance().addItem(new Potato(10));
+            ItemManager::GetInstance().addItem(new Corn(10));
+            ItemManager::GetInstance().addItem(new Carrot(10));
+            break;
+        }
+    }
+    case TILE_WISH3:
+    {
+        switch (SceneManager::GetInstance().getCurrSceneEnum())
+        {
+        case (SUB_DRAGON) :
+            SceneManager::GetInstance().chgCurrEnumScene(MAIN_MENU);
+            velocity.x = 0;
+            velocity.y = 0;
+            SceneManager::GetInstance().setIsReset(true);
+            break;
+        }
+    }
     }
     }
 

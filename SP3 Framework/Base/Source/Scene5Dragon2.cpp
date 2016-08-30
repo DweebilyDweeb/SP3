@@ -85,6 +85,9 @@ void Scene5Dragon2::InitMeshes() {
     meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
     meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
 
+    meshList[GEO_BACKGROUND_4] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+    meshList[GEO_BACKGROUND_4]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//dragoncloud.tga");
+
     meshList[GEO_CLOUD] = MeshBuilder::GenerateQuad("Cloud3", Color(1, 1, 1), 1);
     meshList[GEO_CLOUD]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//flying_nimbus.tga");
 }
@@ -115,7 +118,25 @@ void Scene5Dragon2::InitSpriteAnimations() {
     spriteAnimationList[SPRITE_PORTAL]->animation = new Animation();
     spriteAnimationList[SPRITE_PORTAL]->animation->Set(0, 3, 0, 1.f, true);
 
+    spriteAnimationList[SPRITE_WISH1] = MeshBuilder::GenerateSpriteAnimation("portal", 1, 4);
+    spriteAnimationList[SPRITE_WISH1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//wish1.tga");
+    spriteAnimationList[SPRITE_WISH1]->animation = new Animation();
+    spriteAnimationList[SPRITE_WISH1]->animation->Set(0, 3, 0, 1.f, true);
+                              
+    spriteAnimationList[SPRITE_WISH2] = MeshBuilder::GenerateSpriteAnimation("portal", 1, 4);
+    spriteAnimationList[SPRITE_WISH2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//wish2.tga");
+    spriteAnimationList[SPRITE_WISH2]->animation = new Animation();
+    spriteAnimationList[SPRITE_WISH2]->animation->Set(0, 3, 0, 1.f, true);
+                               
+    spriteAnimationList[SPRITE_WISH3] = MeshBuilder::GenerateSpriteAnimation("portal", 1, 4);
+    spriteAnimationList[SPRITE_WISH3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//wish3.tga");
+    spriteAnimationList[SPRITE_WISH3]->animation = new Animation();
+    spriteAnimationList[SPRITE_WISH3]->animation->Set(0, 3, 0, 1.f, true);
 
+    spriteAnimationList[SPRITE_DRAGON] = MeshBuilder::GenerateSpriteAnimation("dragon", 1, 10);
+    spriteAnimationList[SPRITE_DRAGON]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//dragon.tga");
+    spriteAnimationList[SPRITE_DRAGON]->animation = new Animation();
+    spriteAnimationList[SPRITE_DRAGON]->animation->Set(0, 9, 1, 1.5f, true);
 
 }
 
@@ -200,10 +221,10 @@ void Scene5Dragon2::RenderTileMap() {
             modelStack.Scale(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
             switch (tileMap.map[row][col]) {
             case 1:
-                RenderMesh(meshList[GEO_DIRT]);
+                //RenderMesh(meshList[GEO_DIRT]);
                 break;
             case 2:
-                RenderMesh(meshList[GEO_GRASS]);
+                //RenderMesh(meshList[GEO_GRASS]);
                 break;
             case 3:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
@@ -218,6 +239,21 @@ void Scene5Dragon2::RenderTileMap() {
             case 9:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
+                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
+            case 60:
+                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                RenderSpriteAnimation(spriteAnimationList[SPRITE_WISH1]);
+                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
+            case 61:
+                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                RenderSpriteAnimation(spriteAnimationList[SPRITE_WISH2]);
+                glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                break;
+            case 62:
+                glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+                RenderSpriteAnimation(spriteAnimationList[SPRITE_WISH3]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
             }
@@ -267,22 +303,43 @@ void Scene5Dragon2::RenderBackground()
     //modelStack.PopMatrix();
     //glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-    for (int i = 0; i < 5; ++i)
-    {
-        modelStack.PushMatrix();
-        modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX), 12, -49);
-        modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
-        RenderMesh(meshList[GEO_BACKGROUND_2], false);
-        modelStack.PopMatrix();
-    }
+    //for (int i = 0; i < 5; ++i)
+    //{
+    //    modelStack.PushMatrix();
+    //    modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX), 12, -49);
+    //    modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
+    //    RenderMesh(meshList[GEO_BACKGROUND_2], false);
+    //    modelStack.PopMatrix();
+    //}
+
+    //for (int i = 0; i < 5; ++i)
+    //{
+    //    modelStack.PushMatrix();
+    //    modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX), 8.7, -48);
+    //    modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
+    //    RenderMesh(meshList[GEO_BACKGROUND_3], false);
+    //    modelStack.PopMatrix();
+    //}
 
     for (int i = 0; i < 5; ++i)
     {
         modelStack.PushMatrix();
-        modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX), 8.7, -48);
-        modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
-        RenderMesh(meshList[GEO_BACKGROUND_3], false);
+        modelStack.Translate(16.5, 12, -48);
+        modelStack.Scale(backgroundScaleX + 1, backgroundScaleY, 1);
+        RenderMesh(meshList[GEO_BACKGROUND_4], false);
         modelStack.PopMatrix();
+    }
+    for (int i = 0; i < 5; ++i)
+    {
+        
+        modelStack.PushMatrix();
+        modelStack.Translate(camWidth, 16, -20);
+        modelStack.Scale(backgroundScaleX - 10, backgroundScaleY - 8, 1);
+        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        RenderSpriteAnimation(spriteAnimationList[SPRITE_DRAGON], false);
+        glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        modelStack.PopMatrix();
+        
     }
 }
 

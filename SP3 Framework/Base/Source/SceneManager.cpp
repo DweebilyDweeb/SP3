@@ -51,8 +51,8 @@ void SceneManager::Init()
 	sceneList[SUB_CHICKEN] = new Scene3Chicken2;
 
     sceneList[SUB_DRAGON] = new Scene5Dragon2;
-    setPrevScene(WHEAT);
-    sceneType = MAIN_MENU;
+    setPrevScene(DRAGON);
+    sceneType = WELL;
 
    
     for (int i = 0; i < TOTAL_SCENES; ++i)
@@ -147,7 +147,7 @@ void SceneManager::Update(double dt)
     }
     if (Home == true)
     {
-        PlayHome();
+       // PlayHome();
         StopDragon();
         StopWorld();
         StopDeath();
@@ -155,21 +155,21 @@ void SceneManager::Update(double dt)
 
     if (World == true)
     {
-        PlayWorld();
+      //  PlayWorld();
         StopHome();
         StopDragon();
         StopDeath();
     }
     if (Dragon == true)
     {
-        PlayDragon();
+      //  PlayDragon();
         StopHome();
         StopWorld();
         StopDeath();
     }
     if (Death == true)
     {
-        PlayDeath();
+      //  PlayDeath();
         StopHome();
         StopWorld();
         StopDragon();
