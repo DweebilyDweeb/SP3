@@ -171,7 +171,7 @@ void MainMenu::Update(const double& deltaTime) {
 		spriteAnimationList[i]->animation->animActive = true;
 	}
 
-	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && transitioning)
 	{
 		moveCam = 8;
 		titleScale.x = titleScale.y = 7;
@@ -220,7 +220,7 @@ void MainMenu::Update(const double& deltaTime) {
 			hand.y += 2;
 			time = 0;
 		}
-		if (hand.y == movement1.y && time > 0.5f)
+		if (hand.y == movement1.y)
 		{
 			scale1.x = 3.9;
 			scale1.y = 1.3;
@@ -245,16 +245,16 @@ void MainMenu::Update(const double& deltaTime) {
 		}
         else if (hand.y == movement3.y)
         {
-            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
-            {
-                endGame = true;
-        }
-
 			scale1.x = scale2.x = 3;
 			scale1.y = scale2.y = 1;
 			scale3.x = 3.9;
 			scale3.y = 1.3;
             
+            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
+            {
+                endGame = true;
+			}
+
 		}
 	}
 	camera.Update(deltaTime);

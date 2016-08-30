@@ -107,6 +107,11 @@ void Time::setTime(int h, double min, int d)
 	day = d;
 }
 
+void Time::setFastForward(bool FF)
+{
+	fastForward = FF;
+}
+
 void Time::setActive(bool activity)
 {
 	active = activity;

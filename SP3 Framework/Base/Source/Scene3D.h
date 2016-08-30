@@ -330,6 +330,10 @@ public:
 	void InitSceneName();
 	void updateSceneName(const double& deltaTime);
 	void renderSceneName();
+
+	void CheatCodeFood();
+	void CheatCodeTimeFastForward();
+	void CheatCodeTimeNormal();
 };
 
 

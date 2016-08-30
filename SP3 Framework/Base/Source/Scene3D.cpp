@@ -304,15 +304,40 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 
 void Scene3D::Update(const double& deltaTime) {
     //This line below lags up the game. Must be checked
-	UpdateAttributeUI(deltaTime);
-	updateClouds(deltaTime);
-    Application::clock->UpdateTime(deltaTime);
-	if (Application::clock->getActive() == false)
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON)
 	{
-		ResetVegetable();
-		Application::clock->setActive(true);
-		SceneManager::GetInstance().chgCurrEnumScene(HOME);
-		SceneManager::GetInstance().setPrevScene(WHEAT);
+		UpdateAttributeUI(deltaTime);
+		updateClouds(deltaTime);
+		Application::clock->UpdateTime(deltaTime);
+		if (Application::clock->getDay() >= 10)
+		{
+			SceneManager;
+
+		}
+		if (Application::clock->getActive() == false)
+		{
+			ResetVegetable();
+			Application::clock->setActive(true);
+			SceneManager::GetInstance().chgCurrEnumScene(HOME);
+			SceneManager::GetInstance().setPrevScene(WHEAT);
+		}
+	}
+	static float timer = 0.f;
+	timer += (float)deltaTime;
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_CHEAT0] && timer > 0.5f)
+	{
+		CheatCodeFood();
+		timer = 0.f;
+	}
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_CHEAT1] && timer > 0.5f)
+	{
+		CheatCodeTimeFastForward();
+		timer = 0.f;
+	}
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_CHEAT2] && timer > 0.5f)
+	{
+		CheatCodeTimeNormal();
+		timer = 0.f;
 	}
 }
 
@@ -1072,4 +1097,28 @@ void Scene3D::renderSceneName()
 		
 	}
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+}
+
+void Scene3D::CheatCodeFood()
+{
+	ItemManager::GetInstance().addItem(new Milk(10));
+	ItemManager::GetInstance().addItem(new Meat(10));
+	ItemManager::GetInstance().addItem(new Egg(10));
+	ItemManager::GetInstance().addItem(new Water(10));
+	ItemManager::GetInstance().addItem(new Apple(98));
+	ItemManager::GetInstance().addItem(new Fish(10));
+	ItemManager::GetInstance().addItem(new Cabbage(10));
+	ItemManager::GetInstance().addItem(new Potato(10));
+	ItemManager::GetInstance().addItem(new Corn(10));
+	ItemManager::GetInstance().addItem(new Carrot(10));
+}
+
+void Scene3D::CheatCodeTimeFastForward()
+{
+	Application::clock->setFastForward(true);
+}
+
+void Scene3D::CheatCodeTimeNormal()
+{
+	Application::clock->setFastForward(false);
 }

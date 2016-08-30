@@ -135,6 +135,36 @@ void InputManager::Update() {
 		inputInfo.keyValue[INPUT_ENTER] = 1.0f;
 	}
 
+	if (keyboard.IsKeyPressed(VK_NUMPAD0))
+	{
+		inputInfo.keyDown[INPUT_CHEAT0] = 1;
+		inputInfo.keyValue[INPUT_CHEAT0] = 1.0f;
+	}
+	if (keyboard.IsKeyReleased(VK_NUMPAD0)){
+		inputInfo.keyReleased[INPUT_CHEAT0] = 1;
+		inputInfo.keyValue[INPUT_CHEAT0] = 1.0f;
+	}
+
+	if (keyboard.IsKeyPressed(VK_NUMPAD1))
+	{
+		inputInfo.keyDown[INPUT_CHEAT1] = 1;
+		inputInfo.keyValue[INPUT_CHEAT1] = 1.0f;
+	}
+	if (keyboard.IsKeyReleased(VK_NUMPAD1)){
+		inputInfo.keyReleased[INPUT_CHEAT1] = 1;
+		inputInfo.keyValue[INPUT_CHEAT1] = 1.0f;
+	}
+
+	if (keyboard.IsKeyPressed(VK_NUMPAD2))
+	{
+		inputInfo.keyDown[INPUT_CHEAT2] = 1;
+		inputInfo.keyValue[INPUT_CHEAT2] = 1.0f;
+	}
+	if (keyboard.IsKeyReleased(VK_NUMPAD2)){
+		inputInfo.keyReleased[INPUT_CHEAT2] = 1;
+		inputInfo.keyValue[INPUT_CHEAT2] = 1.0f;
+	}
+
 	/********************************************************************************************************************/
 	//Do not touch anything below unless you know what you're doing.
 	/********************************************************************************************************************/
