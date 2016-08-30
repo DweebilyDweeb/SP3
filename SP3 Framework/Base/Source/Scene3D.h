@@ -217,6 +217,21 @@ protected:
 		TOTAL_TITLES,
 	};
 
+	enum DAY_SHOW
+	{
+		DAY_1,
+		DAY_2,
+		DAY_3,
+		DAY_4,
+		DAY_5,
+		DAY_6,
+		DAY_7,
+		DAY_8,
+		DAY_9,
+		DAY_10,
+		TOTAL_DAY,
+	};
+
 	//Shaders
 	unsigned int shaderProgramID[NUM_SHADER];
 	unsigned int shaderParameters[NUM_SHADER * U_TOTAL];
@@ -250,6 +265,7 @@ protected:
 	Mesh* inventoryBar;
     Mesh* pause;
 	Mesh* titleList[TOTAL_TITLES];
+	Mesh* dayList[TOTAL_DAY];
 	bool showStats;
 
 	float zoomAmount;
@@ -330,6 +346,9 @@ public:
 	void InitSceneName();
 	void updateSceneName(const double& deltaTime);
 	void renderSceneName();
+
+	void InitShowDay();
+	void RenderShowDay();
 
 	void CheatCodeFood();
 	void CheatCodeTimeFastForward();
