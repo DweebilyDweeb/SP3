@@ -1,5 +1,6 @@
 #include "PlayerSS.h"
 #include "InputManager.h"
+#include "Application.h"
 
 PlayerSS::PlayerSS() {
 
@@ -350,7 +351,7 @@ void PlayerSS::Update(const double& deltaTime) {
         case FISH:
         {
             if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]) {
-                if (accumTime > 0.5f) {
+                if (accumTime > 0.1f) {
                     if (SceneManager::GetInstance().getIsChgScene() == false)
                         SceneManager::GetInstance().isChgScene(true);
                     else if (SceneManager::GetInstance().getIsChgScene() == true)
@@ -399,10 +400,9 @@ void PlayerSS::Update(const double& deltaTime) {
                 if (SceneManager::GetInstance().getIsChgScene() == false)
                     SceneManager::GetInstance().isChgScene(true);
                 SceneManager::GetInstance().chgCurrEnumScene(SUB_CHICKEN);
-                SceneManager::GetInstance().setPrevScene(CHICKEN);
-                break;
             }
-        }
+			break;
+		}
         default:
             if (SceneManager::GetInstance().getIsChgScene() == false)
                 SceneManager::GetInstance().isChgScene(true);

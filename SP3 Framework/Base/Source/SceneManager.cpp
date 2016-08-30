@@ -30,6 +30,7 @@ void SceneManager::Init()
 	resetStats = false;
 	chgScene = CHG_NONE;
 	chgSceneMode = false;
+    bAudio = true;
 
     sceneList[LOSE] = new LoseScreen;
     sceneList[DEAD] = new DeathScreen;
@@ -51,8 +52,9 @@ void SceneManager::Init()
 	sceneList[SUB_CHICKEN] = new Scene3Chicken2;
 
     sceneList[SUB_DRAGON] = new Scene5Dragon2;
-    setPrevScene(DRAGON);
-    sceneType = WELL;
+
+    setPrevScene(WHEAT);
+    sceneType = MAIN_MENU;
 
    
     for (int i = 0; i < TOTAL_SCENES; ++i)
@@ -145,31 +147,41 @@ void SceneManager::Update(double dt)
         Dragon = false;
         Death = true;
     }
-    if (Home == true)
+    if (SceneManager::GetInstance().bAudio == true)
     {
-       // PlayHome();
-        StopDragon();
-        StopWorld();
-        StopDeath();
-    }
+        if (Home == true)
+        {
+            PlayHome();
+            StopDragon();
+            StopWorld();
+            StopDeath();
+        }
 
-    if (World == true)
-    {
-      //  PlayWorld();
-        StopHome();
-        StopDragon();
-        StopDeath();
+        if (World == true)
+        {
+            PlayWorld();
+            StopHome();
+            StopDragon();
+            StopDeath();
+        }
+        if (Dragon == true)
+        {
+            PlayDragon();
+            StopHome();
+            StopWorld();
+            StopDeath();
+        }
+        if (Death == true)
+        {
+            PlayDeath();
+            StopHome();
+            StopWorld();
+            StopDragon();
+        }
     }
-    if (Dragon == true)
+    else
     {
-      //  PlayDragon();
-        StopHome();
-        StopWorld();
         StopDeath();
-    }
-    if (Death == true)
-    {
-      //  PlayDeath();
         StopHome();
         StopWorld();
         StopDragon();

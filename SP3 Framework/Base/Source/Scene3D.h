@@ -203,6 +203,20 @@ protected:
 
 	};
 
+	enum TITLE_TYPE
+	{
+		TT_HOME,
+		TT_COW,
+		TT_CHICKEN,
+		TT_FISH,
+		TT_DRAGON,
+		TT_WELL,
+		TT_APPLE,
+		TT_CABBAGE,
+		TT_CORN,
+		TOTAL_TITLES,
+	};
+
 	//Shaders
 	unsigned int shaderProgramID[NUM_SHADER];
 	unsigned int shaderParameters[NUM_SHADER * U_TOTAL];
@@ -232,8 +246,10 @@ protected:
 	Mesh* barBackground;
     Mesh* bigClock;
     Mesh* clockHandH;
+	Mesh* clockHandM;
 	Mesh* inventoryBar;
     Mesh* pause;
+	Mesh* titleList[TOTAL_TITLES];
 	bool showStats;
 
 	float zoomAmount;
@@ -242,6 +258,9 @@ protected:
 
 	float distMoved;
 	float dir;
+
+	bool isFading;
+	float fadeAway;
 	
 public:
 	//Constructor(s) & Destructor
@@ -308,7 +327,13 @@ public:
 
 	void reset();
 
+	void InitSceneName();
+	void updateSceneName(const double& deltaTime);
 	void renderSceneName();
+
+	void CheatCodeFood();
+	void CheatCodeTimeFastForward();
+	void CheatCodeTimeNormal();
 };
 
 

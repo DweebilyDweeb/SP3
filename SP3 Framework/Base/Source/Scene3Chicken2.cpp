@@ -63,24 +63,12 @@ void Scene3Chicken2::Init() {
 	tileMap.LoadFile("TileMap//Scene3Chicken2.csv");
 	tileMap.SetTileSize(1.0f);
 
-	InitPlayer();
-	InitCamera();
 	maxChickenObject = 10;
 	chickenCount = maxChickenObject;
-	for (int i = 0; i < maxChickenObject; i++)
-	{
-		ChickenObject* CO = new ChickenObject;
-		CO->CS = ChickenObject::IDLE;
-		CO->pos.Set(Math::RandIntMinMax(5, 25), Math::RandIntMinMax(3, 16), -1);
-		CO->scale.Set(2, 1.8f, 2);
-		int inverting = Math::RandIntMinMax(1, 2);
-		if (inverting == 1)
-			CO->isInvert = true;
-		else if (inverting == 2)
-			CO->isInvert = false;
-		CO->active = true;
-		m_chickenList.push_back(CO);
-	}
+
+	InitPlayer();
+	InitCamera();
+	InitChicken();
 
 	CoopObject* COO = new CoopObject;
 	COO->pos.Set(15, 8, -1);
@@ -110,12 +98,6 @@ void Scene3Chicken2::InitMeshes() {
 
 	meshList[GEO_CHICKEN_COOP] = MeshBuilder::GenerateQuad("Chicken Idle", Color(1, 1, 1), 0.4);
 	meshList[GEO_CHICKEN_COOP]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//chicken_coop.tga");
-
-	meshList[GEO_BACKGROUND_2] = MeshBuilder::GenerateQuad("Background2", Color(1, 1, 1), 0.7);
-	meshList[GEO_BACKGROUND_2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//mountains.tga");
-
-	meshList[GEO_BACKGROUND_3] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 0.4);
-	meshList[GEO_BACKGROUND_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clouds.tga");
 	
 }
 
@@ -165,10 +147,25 @@ void Scene3Chicken2::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PORTAL]->animation = new Animation();
 	spriteAnimationList[SPRITE_PORTAL]->animation->Set(0, 3, 0, 1.f, true);
 
-	spriteAnimationList[SPRITE_CHICKEN] = MeshBuilder::GenerateSpriteAnimation("chicken", 4, 6);
-	spriteAnimationList[SPRITE_CHICKEN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//chicken.tga");
-	spriteAnimationList[SPRITE_CHICKEN]->animation = new Animation();
-	spriteAnimationList[SPRITE_CHICKEN]->animation->Set(0, 23, true, 2, true);
+	spriteAnimationList[SPRITE_CHICKEN_UP] = MeshBuilder::GenerateSpriteAnimation("chicken", 8, 12);
+	spriteAnimationList[SPRITE_CHICKEN_UP]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//chickenSprite2.tga");
+	spriteAnimationList[SPRITE_CHICKEN_UP]->animation = new Animation();
+	spriteAnimationList[SPRITE_CHICKEN_UP]->animation->Set(36, 38, true, 3, true);
+
+	spriteAnimationList[SPRITE_CHICKEN_DOWN] = MeshBuilder::GenerateSpriteAnimation("chicken", 8, 12);
+	spriteAnimationList[SPRITE_CHICKEN_DOWN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//chickenSprite2.tga");
+	spriteAnimationList[SPRITE_CHICKEN_DOWN]->animation = new Animation();
+	spriteAnimationList[SPRITE_CHICKEN_DOWN]->animation->Set(0, 2, true, 3, true);
+
+	spriteAnimationList[SPRITE_CHICKEN_LEFT] = MeshBuilder::GenerateSpriteAnimation("chicken", 8, 12);
+	spriteAnimationList[SPRITE_CHICKEN_LEFT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//chickenSprite2.tga");
+	spriteAnimationList[SPRITE_CHICKEN_LEFT]->animation = new Animation();
+	spriteAnimationList[SPRITE_CHICKEN_LEFT]->animation->Set(12, 14, true, 3, true);
+
+	spriteAnimationList[SPRITE_CHICKEN_RIGHT] = MeshBuilder::GenerateSpriteAnimation("chicken", 8, 12);
+	spriteAnimationList[SPRITE_CHICKEN_RIGHT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//chickenSprite2.tga");
+	spriteAnimationList[SPRITE_CHICKEN_RIGHT]->animation = new Animation();
+	spriteAnimationList[SPRITE_CHICKEN_RIGHT]->animation->Set(24, 26, true, 3, true);
 
 }
 
@@ -193,6 +190,17 @@ void Scene3Chicken2::InitCamera() {
 	camera.SetPlayer(player);
 	camera.SetTileMap(tileMap);
 
+}
+
+void Scene3Chicken2::InitChicken()
+{
+	for (unsigned int i = 0; i < maxChickenObject; ++i)
+	{
+		ChickenObject* chicken = new ChickenObject;
+		chicken->setTileMap(tileMap);
+		chicken->setPlayer(player);
+		m_chickenList.push_back(chicken);
+	}
 }
 
 void Scene3Chicken2::UpdateEgg(const double& deltaTime)
@@ -234,62 +242,22 @@ void Scene3Chicken2::Update(const double& deltaTime) {
 	for (std::vector<ChickenObject*>::iterator it = m_chickenList.begin(); it != m_chickenList.end(); it++)
 	{
 		ChickenObject* CO = (ChickenObject*)*it;
-		if (CO->active)
+		if (CO->getActive())
 		{
-			/*if (Scene3D::getDistXY(player.transform.position, CO->pos, 3.f))
+			if (Scene3D::getDistXY(player.transform.position, CO->getPosition(), 2.f))
+				CO->setCurrentState(ChickenObject::RUNNING);;
+			CO->movementUpdate(deltaTime);
+			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT] && Scene3D::getDistXY(player.transform.position, CO->getPosition(), tileMap.GetTileSize()))
 			{
-				CO->CS = ChickenObject::RUNNING;
-			}*/
-				
-			//CO->movementUpdate(deltaTime, player.transform.position, tileMap);
-			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT] && Scene3D::getDistXY(player.transform.position, CO->pos, tileMap.GetTileSize()))
-			{
-				CO->active = false;
 				chickenCount--;
 				ItemManager::GetInstance().addItem(new Meat(Math::RandIntMinMax(1, 2)));
-				CO->pos.Set(Math::RandIntMinMax(5, 25), Math::RandIntMinMax(3, 16), -1);
-				CO->CS = ChickenObject::IDLE;
-				CO->active = true;
+				CO->setPosition(Vector3(Math::RandIntMinMax(5, 25), Math::RandIntMinMax(3, 16), -1));
+				CO->setCurrentState(ChickenObject::IDLE);
 				chickenCount++;
-				/*ChickenObject* CO2 = m_chickenList[m_chickenList.size() - 1];
-				ChickenObject* temp = m_chickenList[pos];
-				m_chickenList[pos] = CO2;
-				m_chickenList[m_chickenList.size() - 1] = temp;
-				m_chickenList.pop_back();*/
-				/*CO->active = false;
-				chickenCount--;
-				m_chickenList.erase(it);*/
 			}
-			//pos++;
 		}
 	}
-	/*for (std::vector<CoopObject*>::iterator it = m_coopList.begin(); it != m_coopList.end(); it++)
-	{
-		CoopObject* COO = (CoopObject*)*it;
-		if (COO->active)
-		{
 
-		}
-	}*/
-	/*if (m_chickenList.size() < maxChickenObject)
-	{
-		ChickenObject* CO = new ChickenObject;
-		CO->CS = ChickenObject::IDLE;
-		for (std::vector<ChickenObject*>::iterator it2 = m_chickenList.begin(); it2 != m_chickenList.end(); it2++)
-		{
-			ChickenObject* CO2 = (ChickenObject*)*it2;
-			CO->pos.Set(Math::RandIntMinMax(5, 20), Math::RandIntMinMax(3, 16), -1);
-			if (CO->pos != CO2->pos)
-				break;
-		}
-		CO->scale.Set(2, 1.8f, 2);
-		CO->active = true;
-		m_chickenList.push_back(CO);
-		chickenCount++;
-	}
-	pos = 0;*/
-
-	
 	UpdateEgg(deltaTime);
 	if (player.playerState != Player::INTERACTION)
 		player.Update(deltaTime);
@@ -310,7 +278,7 @@ void Scene3Chicken2::Render() {
 	for (std::vector<ChickenObject*>::iterator it = m_chickenList.begin(); it != m_chickenList.end(); it++)
 	{
 		ChickenObject* GO = (ChickenObject*)*it;
-		if (GO->active)
+		if (GO->getActive())
 			RenderChicken(GO);
 	}
 	for (std::vector<CoopObject*>::iterator it = m_coopList.begin(); it != m_coopList.end(); it++)
@@ -336,34 +304,28 @@ void Scene3Chicken2::RenderTileMap() {
 	for (int row = Math::Max(0, startRow); row < Math::Min(endRow, tileMap.GetNumRows()); ++row) {
 		for (int col = Math::Max(0, startCol); col < Math::Min(endCol, tileMap.GetNumColumns()); ++col) {
 			modelStack.PushMatrix();
+			glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 			modelStack.Translate(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -1);
 			modelStack.Scale(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
 			switch (tileMap.map[row][col]) {
 			case 3:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				RenderMesh(meshList[GEO_TOP_GRASS]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 4:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderMesh(meshList[GEO_FENCE]);
 				RenderMesh(meshList[GEO_TOP_GRASS]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 99:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				modelStack.Translate(0, 0, -5);
 				RenderMesh(meshList[GEO_TOP_GRASS]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			case 111:
-				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				modelStack.Translate(0, 0, -5);
 				RenderMesh(meshList[GEO_TOP_GRASS]);
-				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			}
+			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 			modelStack.PopMatrix();
 		}
 	}
@@ -418,31 +380,11 @@ void Scene3Chicken2::RenderBackground()
 	float camWidth = xRatio * camera.GetOrthoSize();
 	float backgroundScaleX = camWidth * 2.0f;
 	float backgroundScaleY = camera.GetOrthoSize() * 2.0f;
-
-	for (int i = 0; i < 5; ++i)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate((0.7 * camera.transform.position.x) + (i * backgroundScaleX), camera.transform.position.y, -49);
-		modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
-		RenderMesh(meshList[GEO_BACKGROUND_2], false);
-		modelStack.PopMatrix();
-	}
-
-	for (int i = 0; i < 5; ++i)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate((0.5 * camera.transform.position.x) + (i * backgroundScaleX), 8.7, -48);
-		modelStack.Scale(backgroundScaleX, backgroundScaleY, 1);
-		RenderMesh(meshList[GEO_BACKGROUND_3], false);
-		modelStack.PopMatrix();
-	}
 }
 
 void Scene3Chicken2::RenderChicken(ChickenObject* CO)
 {
-	modelStack.PushMatrix();
-	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-	if (CO->CS == ChickenObject::WALKING || CO->CS == ChickenObject::RUNNING)
+	/*if (CO->CS == ChickenObject::WALKING || CO->CS == ChickenObject::RUNNING)
 	{
 		modelStack.Translate(CO->pos.x - 0.5f, CO->pos.y + 0.1f, CO->pos.z);
 		if (CO->isInvert)
@@ -460,6 +402,34 @@ void Scene3Chicken2::RenderChicken(ChickenObject* CO)
 		else
 			modelStack.Scale(CO->scale.x * 1.2f, CO->scale.y * 1.5f, CO->scale.z);
 		RenderMesh(meshList[GEO_CHICKEN_IDLE]);
+	}*/
+
+	modelStack.PushMatrix();
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	modelStack.Translate(CO->getPosition().x, CO->getPosition().y, CO->getPosition().z);
+	modelStack.Scale(CO->getScale().x, CO->getScale().y, CO->getScale().z);
+	switch (CO->getDirection())
+	{
+	case ChickenObject::UP:
+	{
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_CHICKEN_UP]);
+		break;
+	}
+	case ChickenObject::DOWN:
+	{
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_CHICKEN_DOWN]);
+		break;
+	}
+	case ChickenObject::RIGHT:
+	{
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_CHICKEN_RIGHT]);
+		break;
+	}
+	case ChickenObject::LEFT:
+	{
+		RenderSpriteAnimation(spriteAnimationList[SPRITE_CHICKEN_LEFT]);
+		break;
+	}
 	}
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	modelStack.PopMatrix();

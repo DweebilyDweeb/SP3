@@ -70,6 +70,7 @@ void MainMenu::Init() {
 	scale1 = scale2 = scale3 = Vector3(3, 1, 3);
 	hand = Vector3(26, 10, 0);
 	transitioning = true;
+
 }
 
 void MainMenu::InitMeshes() {
@@ -171,6 +172,14 @@ void MainMenu::Update(const double& deltaTime) {
 		spriteAnimationList[i]->animation->animActive = true;
 	}
 
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && transitioning)
+	{
+		moveCam = 8;
+		titleScale.x = titleScale.y = 7;
+		movement1.x = movement2.x = movement3.x = Xstop;
+		transitioning = false;
+	}
+
 	//player.Update(deltaTime);
 	if (transitioning)
 	{
@@ -234,19 +243,27 @@ void MainMenu::Update(const double& deltaTime) {
 			scale1.y = scale3.y = 1;
 			scale2.x = 3.9;
 			scale2.y = 1.3;
+            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && SceneManager::GetInstance().bAudio == false)
+            {
+                SceneManager::GetInstance().bAudio = true;
+            }
+            else if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && SceneManager::GetInstance().bAudio == true)
+            {
+                SceneManager::GetInstance().bAudio = false;
+            }
 		}
         else if (hand.y == movement3.y)
         {
-            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
-            {
-                endGame = true;
-        }
-
 			scale1.x = scale2.x = 3;
 			scale1.y = scale2.y = 1;
 			scale3.x = 3.9;
 			scale3.y = 1.3;
             
+            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
+            {
+                endGame = true;
+			}
+
 		}
 	}
 	camera.Update(deltaTime);

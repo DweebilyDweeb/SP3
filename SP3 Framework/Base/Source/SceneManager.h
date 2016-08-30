@@ -61,7 +61,7 @@ public:
 
 	bool getIsReset();
 	void setIsReset(bool reset);
-
+    bool bAudio;
 	void Init();
 	void Update(double dt);
 	void Render();
@@ -81,6 +81,7 @@ private:
     bool Death;
 	bool chgSceneMode;
 	bool resetStats;
+    
 };
 
 #endif //SCENE_MANAGER_H

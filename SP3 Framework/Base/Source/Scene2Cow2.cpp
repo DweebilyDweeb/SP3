@@ -361,13 +361,11 @@ void Scene2Cow2::RenderTileMap() {
             case 1:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 RenderMesh(meshList[GEO_FENCE2]);
-                RenderMesh(meshList[GEO_EMPTY]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
             case 4:
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 RenderMesh(meshList[GEO_FENCE]);
-                RenderMesh(meshList[GEO_EMPTY]);
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
                 break;
             case 99:

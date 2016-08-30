@@ -21,12 +21,15 @@ Scene3D::Scene3D() {
 	currentShader = NONE;
 	InitAttributeUI();
 	InitInventoryUI();
+	InitSceneName();
 
 	zoomAmount = 1;
 	zoomOffsetY = 0;
 	zoomOffsetX = 0;
 	dir = 1;
 	distMoved = 0.f;
+	isFading = false;
+	fadeAway = 0.f;
 }
 
 Scene3D::~Scene3D() {
@@ -40,6 +43,11 @@ void Scene3D::Exit() {
 	glDeleteVertexArrays(1, &vertexArrayID);
 	delete referenceAxes;
 	delete fontList[FONT_CONSOLAS];
+	for (unsigned int i = 0; i < TOTAL_TITLES; ++i) {
+		if (titleList[i]) {
+			delete titleList[i];
+		}
+	}
 	delete healthBar;
 	delete statsBar;
 	delete healthUiBackground;
@@ -49,6 +57,7 @@ void Scene3D::Exit() {
     delete pause;
     delete bigClock;
     delete clockHandH;
+	delete clockHandM;
 }
 
 void Scene3D::DeleteShaders() {
@@ -295,14 +304,41 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 
 void Scene3D::Update(const double& deltaTime) {
     //This line below lags up the game. Must be checked
-	UpdateAttributeUI(deltaTime);
-	if (Application::clock->getActive() == false)
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON)
 	{
-		ResetVegetable();
-		Application::clock->setActive(true);
+		UpdateAttributeUI(deltaTime);
+		updateClouds(deltaTime);
+		Application::clock->UpdateTime(deltaTime);
+		if (Application::clock->getDay() >= 10)
+		{
+			SceneManager;
+
+		}
+		if (Application::clock->getActive() == false)
+		{
+			ResetVegetable();
+			Application::clock->setActive(true);
+			SceneManager::GetInstance().chgCurrEnumScene(HOME);
+			SceneManager::GetInstance().setPrevScene(WHEAT);
+		}
 	}
-	updateClouds(deltaTime);
-    Application::clock->UpdateTime(deltaTime);
+	static float timer = 0.f;
+	timer += (float)deltaTime;
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_CHEAT0] && timer > 0.5f)
+	{
+		CheatCodeFood();
+		timer = 0.f;
+	}
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_CHEAT1] && timer > 0.5f)
+	{
+		CheatCodeTimeFastForward();
+		timer = 0.f;
+	}
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_CHEAT2] && timer > 0.5f)
+	{
+		CheatCodeTimeNormal();
+		timer = 0.f;
+	}
 }
 
 //Things that need to be updated every frame.
@@ -659,6 +695,8 @@ void Scene3D::InitAttributeUI()
     bigClock->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWOHands.tga");
     clockHandH = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
     clockHandH->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
+	clockHandM = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
+	clockHandM->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
     pause = MeshBuilder::GenerateQuad("Pause", Color(1, 1, 1));
     pause->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//pause.tga");
@@ -713,7 +751,8 @@ void Scene3D::RenderAttributeUI()
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
 
 		RenderMeshIn2D(bigClock, 5, 5, 12, 8, 0, 0, 0, 0, 0, 0);
-		RenderMeshIn2D(clockHandH, 2, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, Application::clock->getRotation());
+		RenderMeshIn2D(clockHandH, 1.5, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, Application::clock->getRotation());
+		RenderMeshIn2D(clockHandM, 2, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, -90);
 
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}
@@ -965,6 +1004,52 @@ void Scene3D::reset()
 	SceneManager::GetInstance().isChgScene(false);
 }
 
+void Scene3D::InitSceneName()
+{
+	for (unsigned int i = 0; i < TOTAL_TITLES; ++i) {
+		titleList[i] = nullptr;
+	}
+
+	titleList[TT_HOME] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_HOME]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//home.tga");
+	titleList[TT_COW] = MeshBuilder::GenerateQuad("cow", Color(1, 1, 1), 1);
+	titleList[TT_COW]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//cow.tga");
+	titleList[TT_CHICKEN] = MeshBuilder::GenerateQuad("chicken", Color(1, 1, 1), 1);
+	titleList[TT_CHICKEN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//chicken.tga");
+	titleList[TT_FISH] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_FISH]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//fish.tga");
+	titleList[TT_DRAGON] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_DRAGON]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//dragon.tga");
+	titleList[TT_WELL] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_WELL]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//well.tga");
+	titleList[TT_APPLE] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_APPLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//apple.tga");
+	titleList[TT_CABBAGE] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_CABBAGE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//cabbage.tga");
+	titleList[TT_CORN] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_CORN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//corn.tga");
+}
+
+void Scene3D::updateSceneName(const double& deltaTime)
+{
+	if (!SceneManager::GetInstance().getIsChgScene())
+	{
+		isFading = true;
+	}
+	else
+	{
+		isFading = false;
+	}
+	if (isFading == true)
+	{
+		fadeAway += deltaTime;
+	}
+	else
+	{
+		fadeAway = 0.f;
+	}
+}
+
 void Scene3D::renderSceneName()
 {
 	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
@@ -974,42 +1059,66 @@ void Scene3D::renderSceneName()
 		ostringstream ss;
 		if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::HOME)
 		{
-			tempString = "HOME";
+			RenderMeshIn2D(titleList[TT_HOME], 10, 10, 0, 12, 2);
 		}
-		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::COW)
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::COW || SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::SUB_COW)
 		{
-			tempString = "COW";
+			RenderMeshIn2D(titleList[TT_COW], 10, 10, 0, 12, 2);
 		}
-		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::CHICKEN)
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::CHICKEN || SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::SUB_CHICKEN)
 		{
-			tempString = "CHICKEN";
+			RenderMeshIn2D(titleList[TT_CHICKEN], 10, 10, 0, 12, 2);
 		}
 		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::FISH)
 		{
-			tempString = "FISH";
+			RenderMeshIn2D(titleList[TT_FISH], 10, 10, 0, 12, 2);
 		}
-		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::DRAGON)
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::DRAGON && SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::SUB_DRAGON)
 		{
-			tempString = "DRAGON";
+			RenderMeshIn2D(titleList[TT_DRAGON], 10, 10, 0, 12, 2);
 		}
 		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::WELL)
 		{
-			tempString = "WELL";
+			RenderMeshIn2D(titleList[TT_WELL], 10, 10, 0, 12, 2);
 		}
 		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::APPLE)
 		{
-			tempString = "APPLE";
+			RenderMeshIn2D(titleList[TT_APPLE], 10, 10, 0, 12, 2);
 		}
 		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::CABBAGE)
 		{
-			tempString = "CABBAGE";
+			RenderMeshIn2D(titleList[TT_CABBAGE], 10, 10, 0, 12, 2);
 		}
 		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::WHEAT)
 		{
-			tempString = "CORN";
+			RenderMeshIn2D(titleList[TT_CORN], 10, 10, 0, 12, 2);
 		}
-		ss << "Scene:" << tempString;
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(0, 0, 0), 1, -8, 11, 5);
+
+		
 	}
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+}
+
+void Scene3D::CheatCodeFood()
+{
+	ItemManager::GetInstance().addItem(new Milk(10));
+	ItemManager::GetInstance().addItem(new Meat(10));
+	ItemManager::GetInstance().addItem(new Egg(10));
+	ItemManager::GetInstance().addItem(new Water(10));
+	ItemManager::GetInstance().addItem(new Apple(98));
+	ItemManager::GetInstance().addItem(new Fish(10));
+	ItemManager::GetInstance().addItem(new Cabbage(10));
+	ItemManager::GetInstance().addItem(new Potato(10));
+	ItemManager::GetInstance().addItem(new Corn(10));
+	ItemManager::GetInstance().addItem(new Carrot(10));
+}
+
+void Scene3D::CheatCodeTimeFastForward()
+{
+	Application::clock->setFastForward(true);
+}
+
+void Scene3D::CheatCodeTimeNormal()
+{
+	Application::clock->setFastForward(false);
 }
