@@ -246,6 +246,7 @@ protected:
 	Mesh* barBackground;
     Mesh* bigClock;
     Mesh* clockHandH;
+	Mesh* clockHandM;
 	Mesh* inventoryBar;
     Mesh* pause;
 	Mesh* titleList[TOTAL_TITLES];

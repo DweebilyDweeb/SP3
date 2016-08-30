@@ -5,6 +5,7 @@ Time::Time()
     hour(0),
     minute(0.f),
     day(1),
+	fastForward(false),
     active(false),
     rotation(0)
 {}
@@ -34,8 +35,10 @@ void Time::UpdateTime(const double& deltaTime)
 {
     if (active)
     {
-        //minute += 1.8 * deltaTime;
-		minute += 10 * deltaTime;
+		if (!fastForward)
+			minute += 1.8 * deltaTime;
+		else
+			minute += 10 * deltaTime;
         rotation = float(-hour * 30);
         if (minute > 60)
         {
@@ -111,6 +114,7 @@ void Time::setActive(bool activity)
 
 void Time::addDays(int d)
 {
+	hour = minute = 0.f;
 	day = d;
 }
 

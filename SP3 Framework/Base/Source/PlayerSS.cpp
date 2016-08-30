@@ -1,5 +1,6 @@
 #include "PlayerSS.h"
 #include "InputManager.h"
+#include "Application.h"
 
 PlayerSS::PlayerSS() {
 

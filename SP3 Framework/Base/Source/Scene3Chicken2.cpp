@@ -244,6 +244,8 @@ void Scene3Chicken2::Update(const double& deltaTime) {
 		ChickenObject* CO = (ChickenObject*)*it;
 		if (CO->getActive())
 		{
+			if (Scene3D::getDistXY(player.transform.position, CO->getPosition(), 2.f))
+				CO->setCurrentState(ChickenObject::RUNNING);;
 			CO->movementUpdate(deltaTime);
 			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT] && Scene3D::getDistXY(player.transform.position, CO->getPosition(), tileMap.GetTileSize()))
 			{

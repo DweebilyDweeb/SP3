@@ -11,6 +11,7 @@ class Time
 
 	int day;
 	bool active;
+	bool fastForward;
 	float rotation;
 public:
 	Time();

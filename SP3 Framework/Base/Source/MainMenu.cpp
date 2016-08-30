@@ -171,6 +171,14 @@ void MainMenu::Update(const double& deltaTime) {
 		spriteAnimationList[i]->animation->animActive = true;
 	}
 
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
+	{
+		moveCam = 8;
+		titleScale.x = titleScale.y = 7;
+		movement1.x = movement2.x = movement3.x = Xstop;
+		transitioning = false;
+	}
+
 	//player.Update(deltaTime);
 	if (transitioning)
 	{
@@ -212,7 +220,7 @@ void MainMenu::Update(const double& deltaTime) {
 			hand.y += 2;
 			time = 0;
 		}
-		if (hand.y == movement1.y)
+		if (hand.y == movement1.y && time > 0.5f)
 		{
 			scale1.x = 3.9;
 			scale1.y = 1.3;

@@ -57,6 +57,7 @@ void Scene3D::Exit() {
     delete pause;
     delete bigClock;
     delete clockHandH;
+	delete clockHandM;
 }
 
 void Scene3D::DeleteShaders() {
@@ -304,13 +305,15 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 void Scene3D::Update(const double& deltaTime) {
     //This line below lags up the game. Must be checked
 	UpdateAttributeUI(deltaTime);
+	updateClouds(deltaTime);
+    Application::clock->UpdateTime(deltaTime);
 	if (Application::clock->getActive() == false)
 	{
 		ResetVegetable();
 		Application::clock->setActive(true);
+		SceneManager::GetInstance().chgCurrEnumScene(HOME);
+		SceneManager::GetInstance().setPrevScene(WHEAT);
 	}
-	updateClouds(deltaTime);
-    Application::clock->UpdateTime(deltaTime);
 }
 
 //Things that need to be updated every frame.
@@ -667,6 +670,8 @@ void Scene3D::InitAttributeUI()
     bigClock->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWOHands.tga");
     clockHandH = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
     clockHandH->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
+	clockHandM = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
+	clockHandM->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
     pause = MeshBuilder::GenerateQuad("Pause", Color(1, 1, 1));
     pause->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//pause.tga");
@@ -721,7 +726,8 @@ void Scene3D::RenderAttributeUI()
 		RenderMeshIn2D(healthUiBackground, 11, 11, -12.9, 9.5);
 
 		RenderMeshIn2D(bigClock, 5, 5, 12, 8, 0, 0, 0, 0, 0, 0);
-		RenderMeshIn2D(clockHandH, 2, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, Application::clock->getRotation());
+		RenderMeshIn2D(clockHandH, 1.5, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, Application::clock->getRotation());
+		RenderMeshIn2D(clockHandM, 2, 1, 11.98, 8.034, 1, -0.38, 0, 0, 0, -90);
 
 		glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	}

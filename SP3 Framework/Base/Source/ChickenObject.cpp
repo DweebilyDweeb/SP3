@@ -135,12 +135,16 @@ void ChickenObject::movementUpdate(const double& deltaTime)
 	}
 	if (currentState == RUNNING)
 	{
-		Vector3 temp = player->transform.position - pos;
+		Vector3 temp = pos - player->transform.position;
 		temp.z = 0;
 		temp = temp.Normalized();
 
-		vel = temp * Math::RandFloatMinMax(-4.f, 4.f);
-		currentState = IDLE;
+		vel = temp * 5;
+		if (time > 3.f)
+		{
+			currentState = IDLE;
+			time = 0.f;
+		}
 	}
 
 	if (vel.x < 0)
@@ -221,114 +225,6 @@ void ChickenObject::movementUpdate(const double& deltaTime)
 	}
 
 	pos += vel * (float)deltaTime;
-
-	//switch (currentState)
-	//{
-	//case IDLE:
-	//{
-	//	
-	//	break;
-	//}
-	//case WALKING:
-	//{
-	//  /*  vel.Set(Math::RandFloatMinMax(-4.f, 4.f) * (float)deltaTime, Math::RandFloatMinMax(-4.f, 4.f) * (float)deltaTime, 0);
-	//    pos += vel;*/
-	//    break;
-	//}
- //   case RUNNING:
- //   {
- //       break;
- //       //	Vector2 collisionOffset;
- //       //	collisionOffset.x = (tileMap->GetTileSize() - scale.x) * 0.5f;
- //       //	collisionOffset.y = (tileMap->GetTileSize() - scale.y) * 0.5f;
-
- //       //	int tileX = tileMap->GetTileX(pos.x);
- //       //	int tileY = tileMap->GetTileY(pos.y);
-
- //       //	Vector3 maxSpeed(75, 75, 0);
- //       //	Vector3 maxSpeedN(-75, -75, 0);
- //       //	Vector3 minSpeed(0, 0, 0);
- //       //	
- //       //	Vector3 temp;
-
- //       //	Vector3 direction = playerpos - pos;
- //       //	direction.z = 0;
- //       //	
- //       //	if (direction.LengthSquared() > 10.f)
- //       //	{
- //       //		CS = IDLE;
- //       //		break;
- //       //	}
-
- //       //	/*if (direction.x > 0)
- //       //	{
- //       //		temp.x = maxSpeed.x - direction.x;
- //       //		if (direction.y > 0)
- //       //			temp.y = maxSpeed.y - direction.y;
- //       //		else
- //       //			temp.y = maxSpeedN.y + direction.y;
- //       //	}
- //       //	else
- //       //	{
- //       //		temp.x = maxSpeedN.x + direction.x;
- //       //		if (direction.y > 0)
- //       //			temp.y = maxSpeed.y - direction.y;
- //       //		else
- //       //			temp.y = maxSpeedN.y + direction.y;
- //       //	}*/
-
- //       //	/*if (direction.x > 0)
- //       //		direction.x = Math::Wrap(direction.x, -10.f, -1.f);
- //       //	else
- //       //		direction.x = Math::Wrap(direction.x, 1.f, 10.f);
-
- //       //	if (direction.y > 0)
- //       //		direction.y = Math::Wrap(direction.y, -10.f, -1.f);
- //       //	else
- //       //		direction.y = Math::Wrap(direction.y, 1.f, 10.f);*/
-
- //       //	vel.y = temp.y * (float)deltaTime;
-
- //       //	if (vel.y > 0) {
- //       //		if (CheckUp(tileMap)) {
- //       //			pos.y = (tileY * tileMap->GetTileSize() + collisionOffset.y) * (float)deltaTime;
- //       //			vel.y = 0;
- //       //		}
- //       //	}
- //       //	else {
- //       //		if (CheckDown(tileMap)) {
- //       //			pos.y = (tileY * tileMap->GetTileSize() - collisionOffset.y) * (float)deltaTime;
- //       //			vel.y = 0;
- //       //		}
- //       //	}
-
- //       //	vel.x = temp.x* (float)deltaTime;
- //       //	if (vel.x > 0) {
- //       //		if (CheckRight(tileMap)) {
- //       //			pos.x = (tileX * tileMap->GetTileSize() + collisionOffset.x) * (float)deltaTime;
- //       //			vel.x = 0;
- //       //		}
- //       //	}
- //       //	else {
- //       //		if (CheckLeft(tileMap)) {
- //       //			pos.x = (tileX * tileMap->GetTileSize() - collisionOffset.x) * (float)deltaTime;
- //       //			vel.x = 0;
- //       //		}
- //       //	}
- //       //	if (vel.x < 0)
- //       //		isInvert = true;
- //       //	else
- //       //		isInvert = false;
- //       //	pos += vel * (float)deltaTime;
- //       //	break;
- //       //}
- //       //default:
- //       //	break;
- //       //}
- //   }
-	//default:
-	//	break;
-	//}
 }
 
 bool ChickenObject::CheckUp()
