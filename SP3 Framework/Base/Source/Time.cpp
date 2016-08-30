@@ -120,7 +120,7 @@ void Time::setActive(bool activity)
 void Time::addDays(int d)
 {
 	hour = minute = 0.f;
-	day = d;
+	day += d;
 }
 
 std::ostream & operator<<(std::ostream& os, Time& time)

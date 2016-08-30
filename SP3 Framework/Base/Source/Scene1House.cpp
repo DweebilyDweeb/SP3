@@ -143,7 +143,7 @@ void Scene1House::InitPlayer() {
 	for (int row = 0; row < tileMap.GetNumRows(); ++row) {
 		for (int col = 0; col < tileMap.GetNumColumns(); ++col) {
 
-			if (SceneManager::GetInstance().getPrevScene() == WHEAT || SceneManager::GetInstance().getPrevScene() == MAIN_MENU || SceneManager::GetInstance().getPrevScene() == LOSE)
+			if (SceneManager::GetInstance().getPrevScene() == WHEAT || SceneManager::GetInstance().getPrevScene() == MAIN_MENU || SceneManager::GetInstance().getPrevScene() == LOSE || Application::clock->getActive() == false)
 
 			{
 				if (tileMap.map[row][col] == 99) {

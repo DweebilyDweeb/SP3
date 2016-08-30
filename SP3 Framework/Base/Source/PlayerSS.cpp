@@ -119,6 +119,7 @@ void PlayerSS::Update(const double& deltaTime) {
 			case(SUB_CHICKEN):
 				SceneManager::GetInstance().chgCurrEnumScene(CHICKEN);
 				SceneManager::GetInstance().setPrevScene(COW);
+				SceneManager::GetInstance().isChgScene(false);
 				velocity.x = 0;
 				velocity.y = 0;
 				break;

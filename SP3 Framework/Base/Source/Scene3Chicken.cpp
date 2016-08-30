@@ -116,10 +116,10 @@ void Scene3Chicken::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PORTAL]->animation = new Animation();
 	spriteAnimationList[SPRITE_PORTAL]->animation->Set(0, 3, 0, 1.f, true);
 
-	spriteAnimationList[SPRITE_CHICKEN] = MeshBuilder::GenerateSpriteAnimation("chicken", 4, 6);
-	spriteAnimationList[SPRITE_CHICKEN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//chicken.tga");
+	spriteAnimationList[SPRITE_CHICKEN] = MeshBuilder::GenerateSpriteAnimation("chicken", 8, 12);
+	spriteAnimationList[SPRITE_CHICKEN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//chickenSprite2.tga");
 	spriteAnimationList[SPRITE_CHICKEN]->animation = new Animation();
-	spriteAnimationList[SPRITE_CHICKEN]->animation->Set(0, 23, true, 2, true);
+	spriteAnimationList[SPRITE_CHICKEN]->animation->Set(12, 14, true, 3, true);
 
 	spriteAnimationList[SPRITE_BIRD] = MeshBuilder::GenerateSpriteAnimation("bird", 2, 1);
 	spriteAnimationList[SPRITE_BIRD]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//flying_birds.tga");
@@ -230,8 +230,6 @@ void Scene3Chicken::RenderTileMap() {
 				break;
 			case 30:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Translate(-0.5f, 0.1f, -1);
-				modelStack.Scale(2, 1.8f, 2);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_CHICKEN]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
