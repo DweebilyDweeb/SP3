@@ -158,7 +158,6 @@ void Application::Run() {
 
         elapsedTime = m_timer.getElapsedTime();
         SceneManager::GetInstance().Update(elapsedTime);
-        cout << FPS << endl;
         //Threads
         if (accumulatedTime[UPDATE_USER_INPUT] >= 0.1) {
             InputManager::GetInstance().Update();

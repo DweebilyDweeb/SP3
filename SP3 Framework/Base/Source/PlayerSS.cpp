@@ -351,10 +351,9 @@ void PlayerSS::Update(const double& deltaTime) {
                 if (SceneManager::GetInstance().getIsChgScene() == false)
                     SceneManager::GetInstance().isChgScene(true);
                 SceneManager::GetInstance().chgCurrEnumScene(SUB_CHICKEN);
-                SceneManager::GetInstance().setPrevScene(CHICKEN);
-                break;
             }
-        }
+			break;
+		}
         default:
             if (SceneManager::GetInstance().getIsChgScene() == false)
                 SceneManager::GetInstance().isChgScene(true);

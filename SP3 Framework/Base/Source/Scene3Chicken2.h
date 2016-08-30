@@ -30,7 +30,11 @@ private:
 	};
 
 	enum SPRITE_TYPE {
-		SPRITE_CHICKEN,
+		SPRITE_CHICKEN_UP,
+		SPRITE_CHICKEN_DOWN,
+		SPRITE_CHICKEN_LEFT,
+		SPRITE_CHICKEN_RIGHT,
+
 		SPRITE_PLAYER,
 		SPRITE_PLAYER_IDLE,
 		SPRITE_PLAYER_IDLE_UP,
@@ -51,6 +55,7 @@ private:
 	void InitSpriteAnimations();
 	void InitCamera();
 	void InitPlayer();
+	void InitChicken();
 
 	void RenderTileMap();
 	void RenderPlayer();
