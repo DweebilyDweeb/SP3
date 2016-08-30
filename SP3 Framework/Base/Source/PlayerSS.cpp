@@ -302,7 +302,7 @@ void PlayerSS::Update(const double& deltaTime) {
         case FISH:
         {
             if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT]) {
-                if (accumTime > 0.5f) {
+                if (accumTime > 0.1f) {
                     if (SceneManager::GetInstance().getIsChgScene() == false)
                         SceneManager::GetInstance().isChgScene(true);
                     else if (SceneManager::GetInstance().getIsChgScene() == true)

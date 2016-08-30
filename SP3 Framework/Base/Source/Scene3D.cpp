@@ -21,12 +21,15 @@ Scene3D::Scene3D() {
 	currentShader = NONE;
 	InitAttributeUI();
 	InitInventoryUI();
+	InitSceneName();
 
 	zoomAmount = 1;
 	zoomOffsetY = 0;
 	zoomOffsetX = 0;
 	dir = 1;
 	distMoved = 0.f;
+	isFading = false;
+	fadeAway = 0.f;
 }
 
 Scene3D::~Scene3D() {
@@ -40,6 +43,11 @@ void Scene3D::Exit() {
 	glDeleteVertexArrays(1, &vertexArrayID);
 	delete referenceAxes;
 	delete fontList[FONT_CONSOLAS];
+	for (unsigned int i = 0; i < TOTAL_TITLES; ++i) {
+		if (titleList[i]) {
+			delete titleList[i];
+		}
+	}
 	delete healthBar;
 	delete statsBar;
 	delete healthUiBackground;
@@ -965,6 +973,52 @@ void Scene3D::reset()
 	SceneManager::GetInstance().isChgScene(false);
 }
 
+void Scene3D::InitSceneName()
+{
+	for (unsigned int i = 0; i < TOTAL_TITLES; ++i) {
+		titleList[i] = nullptr;
+	}
+
+	titleList[TT_HOME] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_HOME]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//home.tga");
+	titleList[TT_COW] = MeshBuilder::GenerateQuad("cow", Color(1, 1, 1), 1);
+	titleList[TT_COW]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//cow.tga");
+	titleList[TT_CHICKEN] = MeshBuilder::GenerateQuad("chicken", Color(1, 1, 1), 1);
+	titleList[TT_CHICKEN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//chicken.tga");
+	titleList[TT_FISH] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_FISH]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//fish.tga");
+	titleList[TT_DRAGON] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_DRAGON]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//dragon.tga");
+	titleList[TT_WELL] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_WELL]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//well.tga");
+	titleList[TT_APPLE] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_APPLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//apple.tga");
+	titleList[TT_CABBAGE] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_CABBAGE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//cabbage.tga");
+	titleList[TT_CORN] = MeshBuilder::GenerateQuad("home", Color(1, 1, 1), 1);
+	titleList[TT_CORN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//corn.tga");
+}
+
+void Scene3D::updateSceneName(const double& deltaTime)
+{
+	if (!SceneManager::GetInstance().getIsChgScene())
+	{
+		isFading = true;
+	}
+	else
+	{
+		isFading = false;
+	}
+	if (isFading == true)
+	{
+		fadeAway += deltaTime;
+	}
+	else
+	{
+		fadeAway = 0.f;
+	}
+}
+
 void Scene3D::renderSceneName()
 {
 	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
@@ -974,42 +1028,42 @@ void Scene3D::renderSceneName()
 		ostringstream ss;
 		if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::HOME)
 		{
-			tempString = "HOME";
+			RenderMeshIn2D(titleList[TT_HOME], 10, 10, 0, 12, 2);
 		}
-		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::COW)
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::COW || SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::SUB_COW)
 		{
-			tempString = "COW";
+			RenderMeshIn2D(titleList[TT_COW], 10, 10, 0, 12, 2);
 		}
-		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::CHICKEN)
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::CHICKEN || SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::SUB_CHICKEN)
 		{
-			tempString = "CHICKEN";
+			RenderMeshIn2D(titleList[TT_CHICKEN], 10, 10, 0, 12, 2);
 		}
 		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::FISH)
 		{
-			tempString = "FISH";
+			RenderMeshIn2D(titleList[TT_FISH], 10, 10, 0, 12, 2);
 		}
-		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::DRAGON)
+		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::DRAGON && SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::SUB_DRAGON)
 		{
-			tempString = "DRAGON";
+			RenderMeshIn2D(titleList[TT_DRAGON], 10, 10, 0, 12, 2);
 		}
 		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::WELL)
 		{
-			tempString = "WELL";
+			RenderMeshIn2D(titleList[TT_WELL], 10, 10, 0, 12, 2);
 		}
 		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::APPLE)
 		{
-			tempString = "APPLE";
+			RenderMeshIn2D(titleList[TT_APPLE], 10, 10, 0, 12, 2);
 		}
 		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::CABBAGE)
 		{
-			tempString = "CABBAGE";
+			RenderMeshIn2D(titleList[TT_CABBAGE], 10, 10, 0, 12, 2);
 		}
 		else if (SceneManager::GetInstance().getCurrSceneEnum() == SCENE_TYPE::WHEAT)
 		{
-			tempString = "CORN";
+			RenderMeshIn2D(titleList[TT_CORN], 10, 10, 0, 12, 2);
 		}
-		ss << "Scene:" << tempString;
-		RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(0, 0, 0), 1, -8, 11, 5);
+
+		
 	}
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 }
