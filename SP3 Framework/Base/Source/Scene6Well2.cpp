@@ -59,7 +59,8 @@ void Scene6Well2::Init() {
 
     drop = 0.0f;
     Level = 1;
-
+    BucketCount = 0;
+    ropeMove = 0.0f;
 	/*BucketObject *bo = FetchBO();
 	bo->type = BucketObject::BT_WATER;
 	bo->scale.Set(2, 2, 1);
@@ -102,6 +103,12 @@ void Scene6Well2::InitMeshes() {
 
 	meshList[GEO_BUCKET] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
 	meshList[GEO_BUCKET]->textureArray[0] = LoadTGA("Image//SP3_Texture//Collectibles//water_bucket.tga");
+
+    meshList[GEO_ROPE] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+    meshList[GEO_ROPE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//rope.tga");
+
+    meshList[GEO_PULLEY] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+    meshList[GEO_PULLEY]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//pulley.tga");
 }
 
 void Scene6Well2::InitSpriteAnimations() {
@@ -171,6 +178,8 @@ void Scene6Well2::Update(const double& deltaTime) {
     player.Update(deltaTime);
     camera.Update(deltaTime);
 
+    spawningOfBucket(deltaTime);
+    displacementOfBucket(deltaTime);
     Scene3D::Update(deltaTime);
     if (player.transform.GetPosition().y < 3)
     {
@@ -186,7 +195,9 @@ void Scene6Well2::Render() {
     SetToCameraView(&camera);
     RenderTileMap();
     RenderBackground();
+    glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
     RenderPlayer();
+    glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
     RenderText();
 	for (std::vector<BucketObject *>::iterator it = m_boList.begin(); it != m_boList.end(); ++it)
 	{
@@ -321,7 +332,7 @@ void Scene6Well2::RenderBackground()
 
     glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
     modelStack.PushMatrix();
-    modelStack.Translate(wellPos.x + 0.55f, wellPos.y + 1.1f, wellPos.z);
+    modelStack.Translate(wellPos.x + 0.55f, wellPos.y + 1.1f, 2);
 	modelStack.Scale(8.9, 6.2, 1);
     RenderMesh(meshList[GEO_BACKGROUND_1], false);
     modelStack.PopMatrix();
@@ -332,6 +343,23 @@ void Scene6Well2::RenderBackground()
     modelStack.Translate(wellPos.x + 0.55f, wellPos.y + 1.1f, -2);
 	modelStack.Scale(8.9, 6.2, 1);
     RenderMesh(meshList[GEO_BACKGROUND_4], false);
+    modelStack.PopMatrix();
+    glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+    glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+    modelStack.PushMatrix();
+    modelStack.Translate(wellPos.x + 0.55f, ropeMove + 20, -0.1);
+    modelStack.Rotate(90, 0, 0, 1);
+    modelStack.Scale(40, 0.5, 1);
+    RenderMesh(meshList[GEO_ROPE], false);
+    modelStack.PopMatrix();
+    glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+    glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+    modelStack.PushMatrix();
+    modelStack.Translate(wellPos.x - 1.4, 28, -0.05);
+    modelStack.Scale(6.2, 9, 1);
+    RenderMesh(meshList[GEO_PULLEY], false);
     modelStack.PopMatrix();
     glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
@@ -356,39 +384,99 @@ void Scene6Well2::RenderBackground()
 
 BucketObject* Scene6Well2::FetchBO()
 {
-	//for (std::vector<BucketObject *>::iterator it = m_boList.begin(); it != m_boList.end(); ++it)
-	//{
-	//	BucketObject *bo = (BucketObject *)*it;
-	//	if (!bo->active)
-	//	{
-	//		bo->active = true;
-	//		//m_objectCount;
-	//		return bo;
-	//	}
-	//}
-	//for (unsigned i = 0; i < 1; ++i)
-	//{
-	//	BucketObject *bo = new BucketObject(BucketObject::BT_WATER);
-	//	m_boList.push_back(bo);
-	//}
-	//BucketObject *bo = m_boList.back();
-	//bo->active = true;
-	////++m_objectCount;
-	//return bo;
-    return nullptr;
+    for (std::vector<BucketObject *>::iterator it = m_boList.begin(); it != m_boList.end(); ++it)
+    {
+        BucketObject *bo = (BucketObject *)*it;
+        if (!bo->active)
+        {
+            bo->active = true;
+            //m_objectCount;
+            return bo;
+        }
+    }
+    for (unsigned i = 0; i < 1; ++i)
+    {
+        BucketObject *bo = new BucketObject(BucketObject::BT_WATER);
+        m_boList.push_back(bo);
+    }
+    BucketObject *bo = m_boList.back();
+    bo->active = true;
+    //++m_objectCount;
+    return bo;
 }
 
 void Scene6Well2::RenderBO(BucketObject *bo)
 {
-	/*switch (bo->type)
+	switch (bo->type)
 	{
 	case BucketObject::BT_WATER:
 		modelStack.PushMatrix();
 		modelStack.Translate(bo->pos.x, bo->pos.y, bo->pos.z);
 		modelStack.Scale(bo->scale.x, bo->scale.y, bo->scale.z);
+        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		RenderMesh(meshList[GEO_BUCKET], false);
+        glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		modelStack.PopMatrix();
 		break;
 
-	}*/
+	}
+}
+void Scene6Well2::spawningOfBucket(const double& deltaTime)
+{
+   
+    if (BucketCount < 1)
+    {
+        BucketObject * bo = FetchBO();
+        bo->active = true;
+        bo->type = BucketObject::BT_WATER;
+        bo->scale.Set(1, 1, 1);
+        bo->mass = 1.7;
+        bo->pos.Set(16.5, 3, 0);
+        bo->vel.SetZero();
+        if (SceneManager::GetInstance().bAudio == true)
+            PlayBloop();
+        BucketCount++;
+    }
+}
+void Scene6Well2::displacementOfBucket(const double& deltaTime)
+{
+    for (std::vector<BucketObject *>::iterator it = m_boList.begin(); it != m_boList.end(); ++it)
+    {
+        BucketObject *bo = (BucketObject *)*it;
+        if (bo->active)
+        {
+            Vector3 acceleration, gravity;
+            gravity.Set(0, 1, 0);
+            acceleration = (gravity  * (1 / bo->mass));
+            bo->vel += acceleration * (float)deltaTime;
+            if (bo->vel.LengthSquared() > 25)
+            {
+                bo->vel.Normalize();
+                bo->vel *= 5;
+                //go->active = false;
+               
+            }
+            ropeMove = bo->pos.y;
+            if (bo->pos.y > 28)
+            {
+                bo->vel.SetZero();
+            }
+
+            if (bo->type == BucketObject::BT_WATER)
+            {
+                if (Scene3D::getDistXY(player.transform.position, bo->pos, tileMap.GetTileSize()))
+                {
+                    //item in inventory increase herre
+                    ItemManager::GetInstance().addItem(new Water(1));
+                    bo->active = false;
+                    BucketCount--;
+                }
+                bo->pos += (float)deltaTime * bo->vel * 2;
+            }
+          
+
+        }
+
+
+    }
 }

@@ -326,21 +326,8 @@ bool Player::CheckCollisionUp() {
         }
 
     }
-    for (size_t i = 0; i < up.size(); ++i) {
-        if (up[i] == tileMap->map[tileY][tileX]) {
-            BucketObject *bo;
-            if (tileMap->map[tileY][tileX] == 13)
-            {
-                bo->pos.y += 100 * tileMap->GetTileSize();
-                break;
-            }
-            if (tileMap->map[tileY][tileX] == 14)
-            {
-                bo->pos.y += 100 * tileMap->GetTileSize();
-                break;
-            }
-        }
-    }
+   
+    
 
         Vector3 pointB(transform.position.x + (transform.scale.x * hotspotOffset), transform.position.y + (transform.scale.y * 0.5f), 0);
         tileX = tileMap->GetTileX(pointB.x);

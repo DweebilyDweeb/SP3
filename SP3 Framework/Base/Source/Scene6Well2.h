@@ -26,6 +26,8 @@ private:
 		GEO_WELL,
 		GEO_WELL2,
 		GEO_BUCKET,
+        GEO_ROPE,
+        GEO_PULLEY,
         NUM_GEOMETRY,
     };
 
@@ -58,7 +60,8 @@ private:
 
     float drop;
     int Level;
-
+    float BucketCount;
+    float ropeMove;
     Vector3 wellPos;
 	std::vector<BucketObject *> m_boList;
 public:
@@ -74,6 +77,9 @@ public:
     virtual void RenderSub(){};
     virtual void Exit();
 
+
+    void spawningOfBucket(const double& deltaTime);
+    void displacementOfBucket(const double& deltaTime);
 	void RenderBO(BucketObject *fo);
 
 	BucketObject* FetchBO();
