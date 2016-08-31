@@ -351,6 +351,7 @@ public:
 	void CheatCodeFood();
 	void CheatCodeTimeFastForward();
 	void CheatCodeTimeNormal();
+	void CheatCodeSkipDay();
 
 	void InitWin();
 	void UpdateWin(const double& deltaTime);

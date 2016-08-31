@@ -41,7 +41,7 @@ void PlayerSS::Update(const double& deltaTime) {
 
 		Player::Update(deltaTime);
 		accumTime += deltaTime;
-		if (Application::clock->getDay() >= 10) {
+		if (Application::clock->getDay() >= 11) {
 			velocity.x = velocity.y = 0;
 		}
 		maxSpeed = tileMap->GetTileSize() * 20;

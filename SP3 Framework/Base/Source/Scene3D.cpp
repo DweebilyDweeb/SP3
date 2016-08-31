@@ -333,14 +333,13 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 //Update
 
 void Scene3D::Update(const double& deltaTime) {
-	if (Application::clock->getDay() >= 10){
+	if (Application::clock->getDay() >= 11){
 		UpdateWin(deltaTime);
 		//Application::clock->setActive(false);
 	}
     //This line below lags up the game. Must be checked
 
-	if ((SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::clock->getDay() < 10)
-		|| (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::GetInstance().bPaused == false))
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && (Application::clock->getDay() < 11 || Application::GetInstance().bPaused == false))
 	{
 		UpdateAttributeUI(deltaTime);
 		updateClouds(deltaTime);
@@ -371,6 +370,11 @@ void Scene3D::Update(const double& deltaTime) {
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_CHEAT2] && timer > 0.5f)
 	{
 		CheatCodeTimeNormal();
+		timer = 0.f;
+	}
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_CHEAT3] && timer > 1.f)
+	{
+		CheatCodeSkipDay();
 		timer = 0.f;
 	}
 }
@@ -1222,6 +1226,11 @@ void Scene3D::CheatCodeTimeFastForward()
 void Scene3D::CheatCodeTimeNormal()
 {
 	Application::clock->setFastForward(false);
+}
+
+void Scene3D::CheatCodeSkipDay()
+{
+	Application::clock->addDays(1);
 }
 
 void Scene3D::InitWin() {

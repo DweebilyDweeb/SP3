@@ -165,6 +165,16 @@ void InputManager::Update() {
 		inputInfo.keyValue[INPUT_CHEAT2] = 1.0f;
 	}
 
+	if (keyboard.IsKeyPressed(VK_NUMPAD3))
+	{
+		inputInfo.keyDown[INPUT_CHEAT3] = 1;
+		inputInfo.keyValue[INPUT_CHEAT3] = 1.0f;
+	}
+	if (keyboard.IsKeyReleased(VK_NUMPAD3)){
+		inputInfo.keyReleased[INPUT_CHEAT3] = 1;
+		inputInfo.keyValue[INPUT_CHEAT3] = 1.0f;
+	}
+
 	/********************************************************************************************************************/
 	//Do not touch anything below unless you know what you're doing.
 	/********************************************************************************************************************/
