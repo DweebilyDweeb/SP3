@@ -57,26 +57,22 @@ void Scene3D::Exit() {
 	
 	while (Vegetable::GetInstance().m_carrotList.size() > 0) {
 		CarrotObject *im = Vegetable::GetInstance().m_carrotList.back();
-		if (im)
-			delete im;
+		delete im;
 		Vegetable::GetInstance().m_carrotList.pop_back();
 	}
 	while (Vegetable::GetInstance().m_cornList.size() > 0) {
 		CornObject *im = Vegetable::GetInstance().m_cornList.back();
-		if (im)
-			delete im;
+		delete im;
 		Vegetable::GetInstance().m_cornList.pop_back();
 	}
 	while (Vegetable::GetInstance().m_potatoList.size() > 0) {
 		PotatoObject *im = Vegetable::GetInstance().m_potatoList.back();
-		if (im)
-			delete im;
+		delete im;
 		Vegetable::GetInstance().m_potatoList.pop_back();
 	}
 	while (Vegetable::GetInstance().m_cabbageList.size() > 0) {
 		CabbageObject *im = Vegetable::GetInstance().m_cabbageList.back();
-		if (im)
-			delete im;
+		delete im;
 		Vegetable::GetInstance().m_cabbageList.pop_back();
 	}
 
@@ -798,51 +794,51 @@ void Scene3D::RenderAttributeUI()
 
 		if (Application::son->getProtein() > 0)
 			RenderMeshIn2D(statsBar, Application::son->getProtein() * 0.05f, 0.5, -5.5, -0.3, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -0.3, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -0.3, 5, 0.5);
 		if (Application::son->getCarbohydrates() > 0)
 			RenderMeshIn2D(statsBar, Application::son->getCarbohydrates() * 0.05f, 0.5, -5.5, -2.75, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -2.75, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -2.75, 5, 0.5);
 		if (Application::son->getFats() > 0)
 			RenderMeshIn2D(statsBar, Application::son->getFats() * 0.05f, 0.5, -5.5, -5, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -5, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -5, 5, 0.5);
 		if (Application::son->getVitamins() > 0)
 			RenderMeshIn2D(statsBar, Application::son->getVitamins() * 0.05f, 0.5, -5.5, -7.2, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -7.2, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -7.2, 5, 0.5);
 		if (Application::son->getHydration() > 0)
 			RenderMeshIn2D(statsBar, Application::son->getHydration() * 0.05f, 0.5, -5.5, -9.25, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -9.25, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -9.25, 5, 0.5);
 
 		if (Application::mother->getProtein() > 0)
 			RenderMeshIn2D(statsBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -0.25, -0.3, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -0.3, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -0.3, 5, 0.5);
 		if (Application::mother->getCarbohydrates() > 0)
 			RenderMeshIn2D(statsBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -0.25, -2.75, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -2.75, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -2.75, 5, 0.5);
 		if (Application::mother->getFats() > 0)
 			RenderMeshIn2D(statsBar, Application::mother->getFats() * 0.05f, 0.5, -0.25, -5, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -5, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -5, 5, 0.5);
 		if (Application::mother->getVitamins() > 0)
 			RenderMeshIn2D(statsBar, Application::mother->getVitamins() * 0.05f, 0.5, -0.25, -7.2, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -7.2, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -7.2, 5, 0.5);
 		if (Application::mother->getHydration() > 0)
 			RenderMeshIn2D(statsBar, Application::mother->getHydration() * 0.05f, 0.5, -0.25, -9.25, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -9.25, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -9.25, 5, 0.5);
 
 		if (Application::daughter->getProtein() > 0)
 			RenderMeshIn2D(statsBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 5, -0.3, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, 5, -0.3, 10.5, 0.5);
+		RenderMeshIn2D(barBackground,5, 0.5, 5, -0.3, 5, 0.5);
 		if (Application::daughter->getCarbohydrates() > 0)
 			RenderMeshIn2D(statsBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 5, -2.75, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, 5, -2.75, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, 5, -2.75, 5, 0.5);
 		if (Application::daughter->getFats() > 0)
 			RenderMeshIn2D(statsBar, Application::daughter->getFats() * 0.05f, 0.5, 5, -5, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, 5, -5, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, 5, -5, 5, 0.5);
 		if (Application::daughter->getVitamins() > 0)
 			RenderMeshIn2D(statsBar, Application::daughter->getVitamins() * 0.05f, 0.5, 5, -7.2, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, 5, -7.2, 10.55, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, 5, -7.2, 5, 0.5);
 		if (Application::daughter->getHydration() > 0)
 			RenderMeshIn2D(statsBar, Application::daughter->getHydration() * 0.05f, 0.5, 5, -9.25, 11, 0.5);
-		RenderMeshIn2D(barBackground, 5, 0.5, 5, -9.25, 10.5, 0.5);
+		RenderMeshIn2D(barBackground, 5, 0.5, 5, -9.25, 5, 0.5);
 		
 
         RenderMeshIn2D(statUiBackground, 30, 30,0,0,10);
@@ -856,7 +852,7 @@ void Scene3D::InitInventoryUI()
 {
 	inventoryBar = MeshBuilder::GenerateQuad("inventory", Color(0, 0, 0), 1);
 	inventoryBar->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//inventory.tga");
-	Inventory::GetInstance().setPos(Vector3(0, -10, -5));
+	Inventory::GetInstance().setPos(Vector3(0, -9, -5));
 	Inventory::GetInstance().setSize(Vector3(30, 5, 0));
 
  
@@ -882,34 +878,34 @@ void Scene3D::RenderInventoryUI()
 			ss << it->second->getNum();
 			glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 			if (it->first == "Milk") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord, -11, 1);
 			}
 			if (it->first == "Meat") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 3, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 3, -11, 1);
 			}
 			if (it->first == "Egg") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 6, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 6, -11, 1);
 			}
 			if (it->first == "Water") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 8.9, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 8.9, -11, 1);
 			}
 			if (it->first == "Apple") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 11.8, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 11.8, -11, 1);
 			}
 			if (it->first == "Fish") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 14.8, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 14.8, -11, 1);
 			}
 			if (it->first == "Cabbage") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 17.6, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 17.6, -11, 1);
 			}
 			if (it->first == "Potato") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 20.6, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 20.6, -11, 1);
 			}
 			if (it->first == "Corn") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 23.5, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 23.5, -11, 1);
 			}
 			if (it->first == "Carrot") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 26.5, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 26.5, -11, 1);
 			}
 			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		}
@@ -1036,7 +1032,6 @@ void Scene3D::reset()
 	Application::clock->setTime(0, 0, 1);
 	ItemManager::GetInstance().resetItem();
 	SceneManager::GetInstance().isChgScene(false);
-	ResetVegetable();
 }
 
 void Scene3D::InitSceneName()
