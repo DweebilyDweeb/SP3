@@ -148,12 +148,14 @@ void PlayerSS::Update(const double& deltaTime) {
             SceneManager::GetInstance().chgCurrEnumScene(MAIN_MENU);
             velocity.x = velocity.y = 0;
 			SceneManager::GetInstance().setIsReset(true);
+            SceneManager::GetInstance().bWish = true;
             break;
         case(LOSE) :
             //return to main menu
             SceneManager::GetInstance().chgCurrEnumScene(MAIN_MENU);
             velocity.x = velocity.y = 0;
 			SceneManager::GetInstance().setIsReset(true);
+            SceneManager::GetInstance().bWish = true;
             break;
         default:
             SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() + 1));
@@ -170,7 +172,8 @@ void PlayerSS::Update(const double& deltaTime) {
             SceneManager::GetInstance().chgCurrEnumScene(HOME);
             velocity.x = 0;
             velocity.y = 0;
-            
+            Application::clock->addDays(2);
+            SceneManager::GetInstance().bWish = false;
             break;
         }
     }
@@ -192,6 +195,7 @@ void PlayerSS::Update(const double& deltaTime) {
             ItemManager::GetInstance().addItem(new Potato(10));
             ItemManager::GetInstance().addItem(new Corn(10));
             ItemManager::GetInstance().addItem(new Carrot(10));
+            SceneManager::GetInstance().bWish = false;
             break;
         }
     }

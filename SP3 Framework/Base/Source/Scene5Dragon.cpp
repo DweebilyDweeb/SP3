@@ -59,6 +59,7 @@ void Scene5Dragon::Init() {
 
     drop = 0.0f;
     Level = 1;
+    
 }
 
 void Scene5Dragon::InitMeshes() {
@@ -185,11 +186,12 @@ void Scene5Dragon::Update(const double& deltaTime) {
     //    }
     //    Level = 2;
     //}
-    if (player.transform.position.y > 60)
+    if (player.transform.position.y > 60 && SceneManager::GetInstance().bWish == true)
     {
         SceneManager::GetInstance().chgCurrEnumScene(SUB_DRAGON);
 
         player.setVelocity(Vector3(0, 0, 0));
+
     }
 
 

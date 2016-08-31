@@ -55,14 +55,13 @@ private:
 
     float drop;
     int Level;
-
+    
     Vector3 housePos;
 
 public:
     //Constructor(s) & Destructor
     Scene5Dragon();
     virtual ~Scene5Dragon();
-
     //Virtual Function(s)
     virtual void Init();
     virtual void Update(const double& deltaTime);
