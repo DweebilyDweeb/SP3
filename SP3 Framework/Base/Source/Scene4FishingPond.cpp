@@ -452,6 +452,7 @@ void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 			fo->mass = 1.7;
 			fo->pos.Set(Math::RandFloatMinMax(18, 24), 4, -1.1);
 			fo->vel.Set(Math::RandFloatMinMax(-1, 1), Math::RandFloatMinMax(8, 10), 0);
+            if (SceneManager::GetInstance().bAudio == true)
             PlayBloop();
 		}
 		else
@@ -462,6 +463,7 @@ void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 			fo->mass = temp;
 			fo->pos.Set(Math::RandFloatMinMax(19, 23), 4, -1.1);
             fo->vel.Set(Math::RandFloatMinMax(-0.5, 0.5), Math::RandFloatMinMax(2, 5), 0);
+            if (SceneManager::GetInstance().bAudio == true)
             PlayBloop();
 		}
 
