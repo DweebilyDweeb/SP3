@@ -338,11 +338,8 @@ void Scene3D::Update(const double& deltaTime) {
 		//Application::clock->setActive(false);
 	}
     //This line below lags up the game. Must be checked
-<<<<<<< HEAD
-	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::clock->getDay() < 2)
-=======
-    if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::GetInstance().bPaused == false)
->>>>>>> 077f9a23053f9f52f1de7dd376533d585c96e141
+	if ((SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::clock->getDay() < 2)
+		|| (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::GetInstance().bPaused == false))
 	{
 		UpdateAttributeUI(deltaTime);
 		updateClouds(deltaTime);
@@ -865,11 +862,6 @@ void Scene3D::InitInventoryUI()
  
 }
 
-void Scene3D::UpdateInventoryUI(const double& deltaTime)
-{
-
-}
-
 void Scene3D::RenderInventoryUI()
 {
 	if (!SceneManager::GetInstance().getIsChgScene()) {
@@ -980,19 +972,10 @@ void Scene3D::setZoomValues(float zoomAmount, float zoomOffsetX, float zoomOffse
 	this->zoomOffsetY = zoomOffsetY;
 }
 
-void Scene3D::UpdateDeath(const double& deltaTime)
-{
-
-}
 void Scene3D::RenderDeath()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-}
-
-void Scene3D::RenderScene1Title()
-{
-	
 }
 
 void Scene3D::ResetVegetable()

@@ -331,13 +331,10 @@ public:
 	void RenderAttributeUI();
 
 	void InitInventoryUI();
-	void UpdateInventoryUI(const double& deltaTime);
 	void RenderInventoryUI();
 
-    void UpdateDeath(const double& deltaTime);
     void RenderDeath();
 
-	void RenderScene1Title();
 	void ResetVegetable();
 
 	void updateClouds(const double& deltaTime);
