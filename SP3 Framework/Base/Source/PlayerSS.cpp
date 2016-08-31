@@ -221,6 +221,10 @@ void PlayerSS::Update(const double& deltaTime) {
             velocity.x = 0;
             velocity.y = 0;
             SceneManager::GetInstance().setIsReset(true);
+            SceneManager::GetInstance().Home = true;
+            SceneManager::GetInstance().World = false;
+            SceneManager::GetInstance().Dragon = false;
+            SceneManager::GetInstance().Death = false;
             break;
         }
     }

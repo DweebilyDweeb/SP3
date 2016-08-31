@@ -67,6 +67,11 @@ public:
 	void Update(double dt);
 	void Render();
 	void Exit();
+
+    bool Home;
+    bool World;
+    bool Dragon;
+    bool Death;
 	
 private:
 
@@ -76,10 +81,7 @@ private:
 	CHANGESCENE_TYPE chgScene;
 	Scene3D* sceneList[TOTAL_FINALSCENES];
 
-    bool Home;
-    bool World;
-    bool Dragon;
-    bool Death;
+
 	bool chgSceneMode;
 	bool resetStats;
     
