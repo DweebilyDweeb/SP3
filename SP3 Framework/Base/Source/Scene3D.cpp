@@ -830,7 +830,7 @@ void Scene3D::InitInventoryUI()
 {
 	inventoryBar = MeshBuilder::GenerateQuad("inventory", Color(0, 0, 0), 1);
 	inventoryBar->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//inventory.tga");
-	Inventory::GetInstance().setPos(Vector3(0, -10, -5));
+	Inventory::GetInstance().setPos(Vector3(0, -9, -5));
 	Inventory::GetInstance().setSize(Vector3(30, 5, 0));
 
  
@@ -856,34 +856,34 @@ void Scene3D::RenderInventoryUI()
 			ss << it->second->getNum();
 			glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 			if (it->first == "Milk") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord, -11, 1);
 			}
 			if (it->first == "Meat") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 3, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 3, -11, 1);
 			}
 			if (it->first == "Egg") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 6, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 6, -11, 1);
 			}
 			if (it->first == "Water") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 8.9, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 8.9, -11, 1);
 			}
 			if (it->first == "Apple") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 11.8, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 11.8, -11, 1);
 			}
 			if (it->first == "Fish") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 14.8, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 14.8, -11, 1);
 			}
 			if (it->first == "Cabbage") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 17.6, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 17.6, -11, 1);
 			}
 			if (it->first == "Potato") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 20.6, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 20.6, -11, 1);
 			}
 			if (it->first == "Corn") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 23.5, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 23.5, -11, 1);
 			}
 			if (it->first == "Carrot") {
-				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 26.5, -12, 1);
+				RenderTextOnScreen(fontList[FONT_CONSOLAS], ss.str(), Color(1, 1, 1), 1, xCoord + 26.5, -11, 1);
 			}
 			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		}
