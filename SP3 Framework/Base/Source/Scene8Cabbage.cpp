@@ -174,12 +174,16 @@ void Scene8Cabbage::InitPlayer() {
 			{
 				if (tileMap.map[row][col] == 99) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+					player.playerState = Player::IDLE;
+					interaction = 0.f;
 				}
 			}
 			if (SceneManager::GetInstance().getPrevScene() == WHEAT)
 			{
 				if (tileMap.map[row][col] == 100) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+					player.playerState = Player::IDLE;
+					interaction = 0.f;
 				}
 			}
 		}
@@ -241,8 +245,12 @@ void Scene8Cabbage::Update(const double& deltaTime) {
 
 	if (player.playerState != Player::INTERACTION)
 		player.Update(deltaTime);
-	else
+	else if (player.playerState == Player::INTERACTION)
+	{
 		player.setVelocity(Vector3(0, 0, 0));
+		if (!Application::clock->getActive())
+			player.playerState = Player::IDLE;
+	}
 	camera.Update(deltaTime);
 
 	Scene3D::Update(deltaTime);

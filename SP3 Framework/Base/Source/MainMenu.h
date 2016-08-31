@@ -20,8 +20,11 @@ private:
 		GEO_STARTGAME,
 		GEO_OPTION,
 		GEO_ENDGAME,
-		GEO_BLACKFADE,
 		GEO_HAND,
+		GEO_INSTRUCTIONS,
+		GEO_INSTRUCTIONS1,
+		GEO_INSTRUCTIONS2,
+		GEO_INSTRUCTIONS3,
 		GEO_BACKGROUND_1,
 		GEO_BACKGROUND_2,
 		GEO_BACKGROUND_3,
@@ -34,6 +37,7 @@ private:
 
 	enum SPRITE_TYPE {
 		SPRITE_PLAYER_IDLE,
+		SPRITE_PLAYER_WAVE,
 		SPRITE_PORTAL,
 		SPRITE_MOTHER,
 		SPRITE_SON,
@@ -59,16 +63,19 @@ private:
 	Camera2D camera;
 	PlayerSS player;
 
-	float drop;
 	int Level;
 	float alpha;
 
 	float Xstop;
 
 	float moveCam;
+	float moveCamY;
+	float setNewOrtho;
 
 	bool transitioning;
+	bool MainMenuToHome;
     
+	Vector3 FamLife;
 	Vector3 housePos;
 	Vector3 titleScale;
 	Vector3 movement1;

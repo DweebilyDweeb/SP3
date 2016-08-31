@@ -175,12 +175,16 @@ void Scene9Wheat::InitPlayer() {
 			{
 				if (tileMap.map[row][col] == 99) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+					player.playerState = Player::IDLE;
+					interaction = 0.f;
 				}
 			}
 			if (SceneManager::GetInstance().getPrevScene() == HOME)
 			{
 				if (tileMap.map[row][col] == 100) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+					player.playerState = Player::IDLE;
+					interaction = 0.f;
 				}
 			}
 		}
@@ -205,19 +209,21 @@ void Scene9Wheat::Update(const double& deltaTime)
 
 	if (player.playerState != Player::INTERACTION)
 		player.Update(deltaTime);
-	else
+	else if (player.playerState == Player::INTERACTION)
+	{
+		if ((InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_INTERACT]))
+			player.playerState == Player::IDLE;
 		player.setVelocity(Vector3(0, 0, 0));
+	}
 
 	camera.Update(deltaTime);
 
 	Scene3D::Update(deltaTime);
 
-	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
-		UpdateVegetation(deltaTime);
-	else
+	UpdateVegetation(deltaTime);
+	if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_INTERACT])
 	{
-		if (InputManager::GetInstance().GetInputInfo().keyReleased[INPUT_INTERACT])
-			player.playerState = Player::IDLE;
+		player.playerState = Player::IDLE;
 		interaction = 0.f;
 	}
 
@@ -230,14 +236,17 @@ void Scene9Wheat::UpdateVegetation(const double& deltaTime)
 		CarrotObject *carrot = (CarrotObject *)*it;
 		if (Scene3D::getDistXY(carrot->pos, player.transform.position, 0.9f) && carrot->active && player.getOnGround())
 		{
-			player.playerState = Player::INTERACTION;
-			interaction += (float)deltaTime;
-			if (interaction > 3.f)
+			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
 			{
-				carrot->active = false;
-				ItemManager::GetInstance().addItem(new Carrot(1));
-				interaction = 0.f;
-				player.playerState = Player::IDLE;
+				player.playerState = Player::INTERACTION;
+				interaction += (float)deltaTime;
+				if (interaction > 3.f)
+				{
+					carrot->active = false;
+					ItemManager::GetInstance().addItem(new Carrot(1));
+					interaction = 0.f;
+					player.playerState = Player::IDLE;
+				}
 			}
 		}
 	}
@@ -247,15 +256,17 @@ void Scene9Wheat::UpdateVegetation(const double& deltaTime)
 	
 		if (Scene3D::getDistX(corn->pos, player.transform.position, 0.5f) && corn->active && player.getOnGround())
 		{
-
-			player.playerState = Player::INTERACTION;
-			interaction += (float)deltaTime;
-			if (interaction > 3.f)
+			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT])
 			{
-				corn->active = false;
-				ItemManager::GetInstance().addItem(new Corn(1));
-				interaction = 0.f;
-				player.playerState = Player::IDLE;
+				player.playerState = Player::INTERACTION;
+				interaction += (float)deltaTime;
+				if (interaction > 3.f)
+				{
+					corn->active = false;
+					ItemManager::GetInstance().addItem(new Corn(1));
+					interaction = 0.f;
+					player.playerState = Player::IDLE;
+				}
 			}
 		}
 	}

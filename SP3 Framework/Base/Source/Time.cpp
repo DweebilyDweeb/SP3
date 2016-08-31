@@ -11,10 +11,11 @@ Time::Time()
 {}
 
 Time::Time(int h, double m)
-    :
-    hour(h),
-    minute(m),
-    day(1),
+:
+	hour(h),
+	minute(m),
+	day(1),
+	fastForward(false),
     active(false),
     rotation(0)
 {}
@@ -24,6 +25,7 @@ Time::Time(int h, double m, int d, bool a)
     hour(h),
     minute(m),
     day(d),
+	fastForward(false),
     active(a),
     rotation(0)
 {}

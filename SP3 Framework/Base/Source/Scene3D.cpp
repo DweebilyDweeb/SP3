@@ -338,11 +338,7 @@ void Scene3D::Update(const double& deltaTime) {
 		//Application::clock->setActive(false);
 	}
     //This line below lags up the game. Must be checked
-<<<<<<< HEAD
-	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::clock->getDay() < 2)
-=======
-    if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::GetInstance().bPaused == false)
->>>>>>> 077f9a23053f9f52f1de7dd376533d585c96e141
+	if ((SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::clock->getDay()) < 10 && (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::GetInstance().bPaused == false))
 	{
 		UpdateAttributeUI(deltaTime);
 		updateClouds(deltaTime);
@@ -352,9 +348,9 @@ void Scene3D::Update(const double& deltaTime) {
 		if (Application::clock->getActive() == false)
 		{
 			ResetVegetable();
+			SceneManager::GetInstance().isChgScene(false);
 			SceneManager::GetInstance().chgCurrEnumScene(HOME);
 			SceneManager::GetInstance().setPrevScene(WHEAT);
-			SceneManager::GetInstance().isChgScene(false);
 			Application::clock->setActive(true);
 		}
 	}

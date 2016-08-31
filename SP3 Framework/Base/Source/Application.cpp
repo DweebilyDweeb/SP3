@@ -105,7 +105,7 @@ void Application::Init() {
 
     //Create a window and create its OpenGL context
     //m_window = glfwCreateWindow(m_window_width, m_window_height, "150553E_GDEV", NULL, NULL); //Windowed
-    m_window = glfwCreateWindow(m_window_width, m_window_height, "Fam Life",glfwGetPrimaryMonitor(), NULL); //Windowed
+    m_window = glfwCreateWindow(m_window_width, m_window_height, "Fam Life", NULL, NULL); //Windowed
     //m_window = glfwCreateWindow(glfwGetVideoMode(glfwGetPrimaryMonitor())->width, glfwGetVideoMode(glfwGetPrimaryMonitor())->height, "150553E_GDEV", glfwGetPrimaryMonitor(), NULL);
 
     //If the window couldn't be created
