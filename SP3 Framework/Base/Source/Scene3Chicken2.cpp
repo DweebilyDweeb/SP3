@@ -39,6 +39,12 @@ void Scene3Chicken2::Exit() {
 		m_chickenList.pop_back();
 	}
 
+	while (m_coopList.size() > 0)
+	{
+		CoopObject *CO = m_coopList.back();
+		delete CO;
+		m_coopList.pop_back();
+	}
 	Scene3D::Exit();
 
 }
@@ -70,7 +76,7 @@ void Scene3Chicken2::Init() {
 	InitCamera();
 	InitChicken();
 
-	CoopObject* COO = new CoopObject;
+	CoopObject* COO = new CoopObject();
 	COO->pos.Set(15, 8, -1);
 	COO->scale.Set(6, 6, 6);
 	COO->active = true;
