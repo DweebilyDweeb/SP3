@@ -97,6 +97,12 @@ void PlayerSS::Update(const double& deltaTime) {
 				SceneManager::GetInstance().isChgScene(false);
                 //insert game reset here
                 break;
+			case(FISH) :
+				SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() - 1));
+				velocity.x = 0;
+				velocity.y = 0;
+				SceneManager::GetInstance().isChgScene(false);
+				break;
             case(LOSE) :
                 //temp
                 SceneManager::GetInstance().chgCurrEnumScene(HOME);
@@ -150,6 +156,12 @@ void PlayerSS::Update(const double& deltaTime) {
 			SceneManager::GetInstance().setIsReset(true);
             SceneManager::GetInstance().bWish = true;
             break;
+		case(FISH) :
+			SceneManager::GetInstance().chgCurrEnumScene(static_cast<SCENE_TYPE>(SceneManager::GetInstance().getCurrSceneEnum() + 1));
+			velocity.x = 0;
+			velocity.y = 0;
+			SceneManager::GetInstance().isChgScene(false);
+			break;
         case(LOSE) :
             //return to main menu
             SceneManager::GetInstance().chgCurrEnumScene(MAIN_MENU);

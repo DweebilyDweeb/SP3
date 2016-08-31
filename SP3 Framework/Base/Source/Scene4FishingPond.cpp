@@ -65,7 +65,8 @@ void Scene4FishingPond::Init() {
 
 	drop = 0.0f;
 	Level = 1;
-	maxFish = 6;
+	maxFish = stoi(getDataFromCSV("CSV//data.csv", "maxFish"));
+	chanceOfFish = stoi(getDataFromCSV("CSV//data.csv", "chanceOfFish(1-10)"));
 	fishCount = 0;
 	accumTime = 0.5f;
     player.onElectricity = false;
@@ -445,7 +446,7 @@ void Scene4FishingPond::spawningOfFish(const double& deltaTime)
 		int randNo = Math::RandFloatMinMax(1, 10);
 		FishObject * fo = FetchFO();
 		fo->active = true;
-		if (randNo < 9)
+		if (randNo < chanceOfFish)
 		{
 			fo->type = FishObject::FT_TROUT;
 			fo->scale.Set(1, 1, 1);

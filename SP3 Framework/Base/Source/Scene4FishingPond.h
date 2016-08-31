@@ -66,6 +66,7 @@ private:
 	int Level;
 	int maxFish;
 	int fishCount;
+	float chanceOfFish;
 	Vector3 fishingRodPos;
 
 	std::vector<FishObject *> m_foList;
