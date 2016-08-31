@@ -227,8 +227,9 @@ void MainMenu::Update(const double& deltaTime) {
 			scale1.y = 1.3;
 			scale2.x = scale3.x = 3;
 			scale2.y = scale3.y = 1;                                                                                                                
-			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
+			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && time > 0.2f)
 			{
+				time = 0.f;
 				player.setVelocity(Vector3(0, 0, 0));
 				Application::clock->setTime(0, 0, 1);
 				SceneManager::GetInstance().isChgScene(false);
@@ -244,13 +245,15 @@ void MainMenu::Update(const double& deltaTime) {
 			scale1.y = scale3.y = 1;
 			scale2.x = 3.9;
 			scale2.y = 1.3;
-            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && SceneManager::GetInstance().bAudio == false)
+            if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && SceneManager::GetInstance().bAudio == false && time > 0.2f)
             {
                 SceneManager::GetInstance().bAudio = true;
+				time = 0.f;
             }
-            else if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && SceneManager::GetInstance().bAudio == true)
+			else if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && SceneManager::GetInstance().bAudio == true && time > 0.2f)
             {
                 SceneManager::GetInstance().bAudio = false;
+				time = 0.f;
             }
 		}
         else if (hand.y == movement3.y)

@@ -231,6 +231,13 @@ void Scene2Cow2::Update(const double& deltaTime) {
         m_cowList[i]->Update(deltaTime);
     }
 
+	while (m_cowList.size() < 10) {
+		Cow* cow = new Cow(spriteAnimationList[SPRITE_COW]);
+		cow->setTileMap(tileMap);
+		cow->setPlayer(player);
+		m_cowList.push_back(cow);
+	}
+
     static bool isInteracted = false;
     if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT] && !isInteracted) {
         for (int i = 0; i < m_cowList.size(); ++i){

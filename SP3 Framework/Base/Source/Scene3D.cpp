@@ -22,6 +22,7 @@ Scene3D::Scene3D() {
 	InitAttributeUI();
 	InitInventoryUI();
 	InitSceneName();
+	InitShowDay();
 
 	zoomAmount = 1;
 	zoomOffsetY = 0;
@@ -46,6 +47,11 @@ void Scene3D::Exit() {
 	for (unsigned int i = 0; i < TOTAL_TITLES; ++i) {
 		if (titleList[i]) {
 			delete titleList[i];
+		}
+	}
+	for (unsigned int i = 0; i < TOTAL_DAY; ++i) {
+		if (dayList[i]) {
+			delete dayList[i];
 		}
 	}
 	delete healthBar;
@@ -309,11 +315,13 @@ void Scene3D::Update(const double& deltaTime) {
 		UpdateAttributeUI(deltaTime);
 		updateClouds(deltaTime);
 		Application::clock->UpdateTime(deltaTime);
-		if (Application::clock->getDay() >= 10)
+		/*if (Application::clock->getDay() > 10)
 		{
-			SceneManager;
+			SceneManager::GetInstance().chgCurrEnumScene(WIN);
+			Application::clock->setActive = false;
 
-		}
+		}*/
+		//Add the condition if it's not the win scene so time doesnt update
 		if (Application::clock->getActive() == false)
 		{
 			ResetVegetable();
@@ -475,6 +483,7 @@ void Scene3D::Render() {
 	renderSceneName();
 	RenderAttributeUI();
 	RenderInventoryUI();
+	RenderShowDay();
     PauseMenu();
 }
 void Scene3D::RenderSub() {
@@ -695,7 +704,7 @@ void Scene3D::InitAttributeUI()
     bigClock->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWOHands.tga");
     clockHandH = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
     clockHandH->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
-	clockHandM = MeshBuilder::GenerateQuad("Hour Hand", Color(1, 1, 1));
+	clockHandM = MeshBuilder::GenerateQuad("Minute Hand", Color(1, 1, 1));
 	clockHandM->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//clockWithHands.tga");
 	//statUiBackground->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//health.tga");
     pause = MeshBuilder::GenerateQuad("Pause", Color(1, 1, 1));
@@ -760,7 +769,6 @@ void Scene3D::RenderAttributeUI()
 	{
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		
-
 
 		if (Application::son->getProtein() > 0)
 			RenderMeshIn2D(statsBar, Application::son->getProtein() * 0.05f, 0.5, -5.5, -0.3, 11, 0.5);
@@ -1030,6 +1038,34 @@ void Scene3D::InitSceneName()
 	titleList[TT_CORN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//corn.tga");
 }
 
+void Scene3D::InitShowDay()
+{
+	for (unsigned int i = 0; i < TOTAL_DAY; ++i) {
+		dayList[i] = nullptr;
+	}
+
+	dayList[DAY_1] = MeshBuilder::GenerateQuad("day 1", Color(1, 1, 1), 1);
+	dayList[DAY_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Day1.tga");
+	dayList[DAY_2] = MeshBuilder::GenerateQuad("day 2", Color(1, 1, 1), 1);
+	dayList[DAY_2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Day2.tga");
+	dayList[DAY_3] = MeshBuilder::GenerateQuad("day 3", Color(1, 1, 1), 1);
+	dayList[DAY_3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Day3.tga");
+	dayList[DAY_4] = MeshBuilder::GenerateQuad("day 4", Color(1, 1, 1), 1);
+	dayList[DAY_4]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Day4.tga");
+	dayList[DAY_5] = MeshBuilder::GenerateQuad("day 5", Color(1, 1, 1), 1);
+	dayList[DAY_5]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Day5.tga");
+	dayList[DAY_6] = MeshBuilder::GenerateQuad("day 6", Color(1, 1, 1), 1);
+	dayList[DAY_6]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Day6.tga");
+	dayList[DAY_7] = MeshBuilder::GenerateQuad("day 7", Color(1, 1, 1), 1);
+	dayList[DAY_7]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Day7.tga");
+	dayList[DAY_8] = MeshBuilder::GenerateQuad("day 8", Color(1, 1, 1), 1);
+	dayList[DAY_8]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Day8.tga");
+	dayList[DAY_9] = MeshBuilder::GenerateQuad("day 9", Color(1, 1, 1), 1);
+	dayList[DAY_9]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Day9.tga");
+	dayList[DAY_10] = MeshBuilder::GenerateQuad("day 10", Color(1, 1, 1), 1);
+	dayList[DAY_10]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Day10.tga");
+}
+
 void Scene3D::updateSceneName(const double& deltaTime)
 {
 	if (!SceneManager::GetInstance().getIsChgScene())
@@ -1095,6 +1131,45 @@ void Scene3D::renderSceneName()
 		}
 
 		
+	}
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+}
+
+void Scene3D::RenderShowDay()
+{
+	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	switch (Application::clock->getDay())
+	{
+	case 1:
+		RenderMeshIn2D(dayList[DAY_1], 6.f, 6.f, 13, 6);
+		break;
+	case 2:
+		RenderMeshIn2D(dayList[DAY_2], 6.f, 6.f, 13, 6);
+		break;
+	case 3:
+		RenderMeshIn2D(dayList[DAY_3], 6.f, 6.f, 13, 6);
+		break;
+	case 4:
+		RenderMeshIn2D(dayList[DAY_4], 6.f, 6.f, 13, 6);
+		break;
+	case 5:
+		RenderMeshIn2D(dayList[DAY_5], 6.f, 6.f, 13, 6);
+		break;
+	case 6:
+		RenderMeshIn2D(dayList[DAY_6], 6.f, 6.f, 13, 6);
+		break;
+	case 7:
+		RenderMeshIn2D(dayList[DAY_7], 6.f, 6.f, 13, 6);
+		break;
+	case 8:
+		RenderMeshIn2D(dayList[DAY_8], 6.f, 6.f, 13, 6);
+		break;
+	case 9:
+		RenderMeshIn2D(dayList[DAY_9], 6.f, 6.f, 13, 6);
+		break;
+	case 10:
+		RenderMeshIn2D(dayList[DAY_10], 6.f, 6.f, 13, 6);
+		break;
 	}
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 }
