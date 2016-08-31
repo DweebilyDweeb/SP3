@@ -266,6 +266,7 @@ protected:
     Mesh* pause;
 	Mesh* titleList[TOTAL_TITLES];
 	Mesh* dayList[TOTAL_DAY];
+	Mesh* winScreen;
 	bool showStats;
 
 	float zoomAmount;
@@ -353,6 +354,10 @@ public:
 	void CheatCodeFood();
 	void CheatCodeTimeFastForward();
 	void CheatCodeTimeNormal();
+
+	void InitWin();
+	void UpdateWin(const double& deltaTime);
+	void RenderWin();
 };
 
 

@@ -23,6 +23,7 @@ Scene3D::Scene3D() {
 	InitInventoryUI();
 	InitSceneName();
 	InitShowDay();
+	InitWin();
 
 	zoomAmount = 1;
 	zoomOffsetY = 0;
@@ -86,6 +87,7 @@ void Scene3D::Exit() {
     delete bigClock;
     delete clockHandH;
 	delete clockHandM;
+	delete winScreen;
 }
 
 void Scene3D::DeleteShaders() {
@@ -331,18 +333,17 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 //Update
 
 void Scene3D::Update(const double& deltaTime) {
+	if (Application::clock->getDay() >= 10){
+		UpdateWin(deltaTime);
+		//Application::clock->setActive(false);
+	}
     //This line below lags up the game. Must be checked
-	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON)
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::clock->getDay() < 2)
 	{
 		UpdateAttributeUI(deltaTime);
 		updateClouds(deltaTime);
 		Application::clock->UpdateTime(deltaTime);
-		/*if (Application::clock->getDay() > 10)
-		{
-			SceneManager::GetInstance().chgCurrEnumScene(WIN);
-			Application::clock->setActive = false;
 
-		}*/
 		//Add the condition if it's not the win scene so time doesnt update
 		if (Application::clock->getActive() == false)
 		{
@@ -507,6 +508,7 @@ void Scene3D::Render() {
 	RenderAttributeUI();
 	RenderInventoryUI();
 	RenderShowDay();
+	RenderWin();
     PauseMenu();
 }
 void Scene3D::RenderSub() {
@@ -1219,4 +1221,23 @@ void Scene3D::CheatCodeTimeFastForward()
 void Scene3D::CheatCodeTimeNormal()
 {
 	Application::clock->setFastForward(false);
+}
+
+void Scene3D::InitWin() {
+	winScreen = MeshBuilder::GenerateQuad("Win", Color(1, 1, 1), 1);
+	winScreen->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//win.tga");
+}
+
+void Scene3D::UpdateWin(const double& deltaTime) {
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER]) {
+		SceneManager::GetInstance().chgCurrEnumScene(MAIN_MENU);
+		SceneManager::GetInstance().setIsReset(true);
+		//Application::clock->setActive(true);
+	}
+}
+
+void Scene3D::RenderWin() {
+	if (Application::clock->getDay() >= 10){
+		RenderMeshIn2D(winScreen, 34, 25, 0, 0, 10);
+	}
 }

@@ -38,7 +38,9 @@ void PlayerSS::Update(const double& deltaTime) {
     //Assume our player is always the same size as 1 tile.
     Player::Update(deltaTime);
     accumTime += deltaTime;
-
+	if (Application::clock->getDay() >= 10) {
+		velocity.x = velocity.y = 0;
+	}
     maxSpeed = tileMap->GetTileSize() * 20;
     transform.scale.Set(tileMap->GetTileSize(), tileMap->GetTileSize(), 1);
     //transform.rotation.Set(0, 0, spin);
