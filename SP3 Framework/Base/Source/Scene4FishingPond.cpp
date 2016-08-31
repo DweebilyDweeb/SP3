@@ -66,7 +66,7 @@ void Scene4FishingPond::Init() {
 	drop = 0.0f;
 	Level = 1;
 	maxFish = stoi(getDataFromCSV("CSV//data.csv", "maxFish"));
-	chanceOfFish = stoi(getDataFromCSV("CSV//data.csv", "chanceOfFish(1-10)"));
+	chanceOfFish = stof(getDataFromCSV("CSV//data.csv", "chanceOfFish(1-10)"));
 	fishCount = 0;
 	accumTime = 0.5f;
     player.onElectricity = false;
