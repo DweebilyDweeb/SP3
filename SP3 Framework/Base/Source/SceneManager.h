@@ -62,6 +62,7 @@ public:
 	bool getIsReset();
 	void setIsReset(bool reset);
     bool bAudio;
+    bool bWish;
 	void Init();
 	void Update(double dt);
 	void Render();

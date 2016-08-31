@@ -31,7 +31,7 @@ void SceneManager::Init()
 	chgScene = CHG_NONE;
 	chgSceneMode = false;
     bAudio = true;
-
+    bWish = true;
     sceneList[LOSE] = new LoseScreen;
     sceneList[DEAD] = new DeathScreen;
 	sceneList[MAIN_MENU] = new MainMenu;

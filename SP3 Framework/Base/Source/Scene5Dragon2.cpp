@@ -88,6 +88,18 @@ void Scene5Dragon2::InitMeshes() {
     meshList[GEO_BACKGROUND_4] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
     meshList[GEO_BACKGROUND_4]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//dragoncloud.tga");
 
+    meshList[GEO_ONE_WISH] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+    meshList[GEO_ONE_WISH]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//one_wish.tga");
+
+    meshList[GEO_RED] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+    meshList[GEO_RED]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//red.tga");
+
+    meshList[GEO_GREEN] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+    meshList[GEO_GREEN]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//green.tga");
+
+    meshList[GEO_BLUE] = MeshBuilder::GenerateQuad("Background3", Color(1, 1, 1), 1);
+    meshList[GEO_BLUE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//blue.tga");
+
     meshList[GEO_CLOUD] = MeshBuilder::GenerateQuad("Cloud3", Color(1, 1, 1), 1);
     meshList[GEO_CLOUD]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//flying_nimbus.tga");
 }
@@ -341,6 +353,60 @@ void Scene5Dragon2::RenderBackground()
         modelStack.PopMatrix();
         
     }
+    for (int i = 0; i < 5; ++i)
+    {
+
+        modelStack.PushMatrix();
+        modelStack.Translate(camWidth, 22, -19);
+        modelStack.Scale(15, 2, 1);
+        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        RenderMesh(meshList[GEO_ONE_WISH], false);
+        glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        modelStack.PopMatrix();
+
+    }
+
+    for (int i = 0; i < 5; ++i)
+    {
+
+        modelStack.PushMatrix();
+        modelStack.Translate(10, 7, -19);
+        modelStack.Scale(3.5, 1, 1);
+        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        RenderMesh(meshList[GEO_RED], false);
+        glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        modelStack.PopMatrix();
+
+    }
+
+    for (int i = 0; i < 5; ++i)
+    {
+
+        modelStack.PushMatrix();
+        modelStack.Translate(17, 7, -19);
+        modelStack.Scale(3, 1, 1);
+        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        RenderMesh(meshList[GEO_GREEN], false);
+        glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        modelStack.PopMatrix();
+
+    }
+
+    for (int i = 0; i < 5; ++i)
+    {
+
+        modelStack.PushMatrix();
+        modelStack.Translate(24, 7, -19);
+        modelStack.Scale(3, 1, 1);
+        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        RenderMesh(meshList[GEO_BLUE], false);
+        glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+        modelStack.PopMatrix();
+
+    }
+
 }
+
+
 
 

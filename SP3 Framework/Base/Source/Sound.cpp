@@ -50,8 +50,6 @@ void PlayCow()
 
 void PlayBloop()
 {
-    if (engine->isCurrentlyPlaying("Audio/Sound_Effects/bloop.wav"))
-        return;
     engine->play2D("Audio/Sound_Effects/bloop.wav", false);
 }
 

@@ -20,6 +20,10 @@ private:
         GEO_BACKGROUND_2,
         GEO_BACKGROUND_3,
         GEO_BACKGROUND_4,
+        GEO_ONE_WISH,
+        GEO_RED,
+        GEO_GREEN,
+        GEO_BLUE,
         GEO_CLOUD,
         //Others
         GEO_PLAYER,
