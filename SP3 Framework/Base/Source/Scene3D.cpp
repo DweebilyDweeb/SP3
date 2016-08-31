@@ -349,6 +349,7 @@ void Scene3D::Update(const double& deltaTime) {
 			ResetVegetable();
 			SceneManager::GetInstance().chgCurrEnumScene(HOME);
 			SceneManager::GetInstance().setPrevScene(WHEAT);
+			SceneManager::GetInstance().isChgScene(false);
 			Application::clock->setActive(true);
 		}
 	}
