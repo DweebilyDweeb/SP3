@@ -36,6 +36,7 @@ PlayerSS::~PlayerSS() {
 void PlayerSS::Update(const double& deltaTime) {
 
     //Assume our player is always the same size as 1 tile.
+
     Player::Update(deltaTime);
     accumTime += deltaTime;
 
