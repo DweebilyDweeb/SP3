@@ -140,7 +140,7 @@ void SceneManager::Update(double dt)
         Dragon = true;
         Death = false;
     }
-    if (sceneType == DEAD)
+    if (sceneType == DEAD || sceneType == LOSE)
     {
         Home = false;
         World = false;
