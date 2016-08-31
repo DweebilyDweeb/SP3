@@ -15,6 +15,8 @@ public:
 	//Constructor(s) & Destructor
 	Family() {}
 	virtual ~Family() {}
+protected:
+	float multiplier;
 };
 
 

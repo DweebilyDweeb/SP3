@@ -70,7 +70,7 @@ public:
 	Milk(int vnum = 1) {
 		setName("Milk");
 		setNum(vnum);
-		attri.setAttributes(8, 2, 2, 2, 2);
+		attri.setAttributes(8, 1, 2, 2, 5);
 	};
 
 	virtual ~Milk() {};
@@ -99,7 +99,7 @@ public:
 	Meat(int vnum = 1) {
 		setName("Meat");
 		setNum(vnum);
-		attri.setAttributes(8, 2, 2, 2, 2);
+		attri.setAttributes(10, 2, 2, 2, 2);
 	};
 
 	virtual ~Meat() {};
@@ -127,7 +127,7 @@ public:
 	Egg(int vnum = 1) {
 		setName("Egg");
 		setNum(vnum);
-		attri.setAttributes(8, 2, 2, 2, 2);
+		attri.setAttributes(6, 0, 4, 2, 1);
 	};
 
 	virtual ~Egg() {};
@@ -154,7 +154,7 @@ public:
 	Water(int vnum = 1) {
 		setName("Water");
 		setNum(vnum);
-		attri.setAttributes(8, 2, 2, 2, 2);
+		attri.setAttributes(0, 0, 0, 0, 50);
 	};
 
 	virtual ~Water() {};
@@ -181,7 +181,7 @@ public:
 	Apple(int vnum = 1) {
 		setName("Apple");
 		setNum(vnum);
-		attri.setAttributes(8, 2, 2, 2, 2);
+		attri.setAttributes(1, 3, 1, 5, 3);
 	};
 
 	virtual ~Apple() {};
@@ -211,7 +211,7 @@ public:
 	Fish(int vnum = 1) {
 		setName("Fish");
 		setNum(vnum);
-		attri.setAttributes(8, 2, 2, 2, 2);
+		attri.setAttributes(6, 1, 6, 4, 1);
 	};
 
 	virtual ~Fish() {};
@@ -238,7 +238,7 @@ public:
 	Cabbage(int vnum = 1) {
 		setName("Cabbage");
 		setNum(vnum);
-		attri.setAttributes(8, 2, 2, 2, 2);
+		attri.setAttributes(1, 2, 0, 12, 2);
 	};
 
 	virtual ~Cabbage() {};
@@ -265,7 +265,7 @@ public:
 	Potato(int vnum = 1) {
 		setName("Potato");
 		setNum(vnum);
-		attri.setAttributes(8, 2, 2, 2, 2);
+		attri.setAttributes(2, 7, 2, 10, 2);
 	};
 
 	virtual ~Potato() {};
@@ -292,7 +292,7 @@ public:
 	Corn(int vnum = 1) {
 		setName("Corn");
 		setNum(vnum);
-		attri.setAttributes(8, 2, 2, 2, 2);
+		attri.setAttributes(6, 12, 4, 4, 2);
 	};
 
 	virtual ~Corn() {};
@@ -319,7 +319,7 @@ public:
 	Carrot(int vnum = 1) {
 		setName("Carrot");
 		setNum(vnum);
-		attri.setAttributes(8, 2, 2, 2, 2);
+		attri.setAttributes(1, 2, 0, 12, 1);
 	};
 
 	virtual ~Carrot() {};
