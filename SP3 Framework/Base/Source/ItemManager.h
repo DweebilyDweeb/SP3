@@ -70,7 +70,7 @@ public:
 	Milk(int vnum = 1) {
 		setName("Milk");
 		setNum(vnum);
-		attri.setAttributes(8, 1, 2, 2, 5);
+		attri.setAttributes(4, 1, 2, 2, 4);
 	};
 
 	virtual ~Milk() {};
@@ -99,7 +99,7 @@ public:
 	Meat(int vnum = 1) {
 		setName("Meat");
 		setNum(vnum);
-		attri.setAttributes(10, 2, 2, 2, 2);
+		attri.setAttributes(8, 1, 1, 1, 1);
 	};
 
 	virtual ~Meat() {};
@@ -127,7 +127,7 @@ public:
 	Egg(int vnum = 1) {
 		setName("Egg");
 		setNum(vnum);
-		attri.setAttributes(6, 0, 4, 2, 1);
+		attri.setAttributes(3, 0, 2, 1, 0);
 	};
 
 	virtual ~Egg() {};
@@ -211,7 +211,7 @@ public:
 	Fish(int vnum = 1) {
 		setName("Fish");
 		setNum(vnum);
-		attri.setAttributes(6, 1, 6, 4, 1);
+		attri.setAttributes(10, 1, 8, 4, 1);
 	};
 
 	virtual ~Fish() {};
@@ -359,7 +359,7 @@ private:
 		addItem(new Meat(10));
 		addItem(new Egg(10));
 		addItem(new Water(10));
-		addItem(new Apple(98));
+		addItem(new Apple(10));
 		addItem(new Fish(10));
 		addItem(new Cabbage(10));
 		addItem(new Potato(10));

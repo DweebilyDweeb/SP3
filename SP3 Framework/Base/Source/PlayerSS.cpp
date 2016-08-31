@@ -36,6 +36,7 @@ PlayerSS::~PlayerSS() {
 void PlayerSS::Update(const double& deltaTime) {
 
     //Assume our player is always the same size as 1 tile.
+
     Player::Update(deltaTime);
     accumTime += deltaTime;
 	if (Application::clock->getDay() >= 10) {
@@ -222,6 +223,10 @@ void PlayerSS::Update(const double& deltaTime) {
             velocity.x = 0;
             velocity.y = 0;
             SceneManager::GetInstance().setIsReset(true);
+            SceneManager::GetInstance().Home = true;
+            SceneManager::GetInstance().World = false;
+            SceneManager::GetInstance().Dragon = false;
+            SceneManager::GetInstance().Death = false;
             break;
         }
     }

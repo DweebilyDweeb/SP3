@@ -9,7 +9,6 @@ using std::stof;
 #define statDropRateFast stof(getDataFromCSV("CSV//data.csv", "statDropRateFast"))
 #define maxStat stof(getDataFromCSV("CSV//data.csv", "maxStat"))
 #define statAboveAverage stof(getDataFromCSV("CSV//data.csv", "statAboveAverage"))
-#define statBelowAverage stof(getDataFromCSV("CSV//data.csv", "statBelowAverage"))
 #define statAverage stof(getDataFromCSV("CSV//data.csv", "statAverage"))
 
 
@@ -71,8 +70,6 @@ protected:
 	float maximumStat;
 	float averageStat;
 	float aboveAverageStat;
-	float belowAverageStat;
-
 };
 
 #endif
