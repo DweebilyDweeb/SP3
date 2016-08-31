@@ -13,7 +13,6 @@ Attributes::Attributes()
 	maximumStat = maxStat;
 	averageStat = statAverage;
 	aboveAverageStat = statAboveAverage;
-	belowAverageStat = statBelowAverage;
 }
 Attributes::~Attributes()
 {

@@ -808,7 +808,7 @@ void Scene3D::RenderAttributeUI()
 		RenderMeshIn2D(barBackground, 5, 0.5, -5.5, -9.25, 10.5, 0.5);
 
 		if (Application::mother->getProtein() > 0)
-			RenderMeshIn2D(statsBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -0.25, -0.3, 11, 0.5);
+			RenderMeshIn2D(statsBar, Application::mother->getProtein() * 0.05f, 0.5, -0.25, -0.3, 11, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -0.3, 10.5, 0.5);
 		if (Application::mother->getCarbohydrates() > 0)
 			RenderMeshIn2D(statsBar, Application::mother->getCarbohydrates() * 0.05f, 0.5, -0.25, -2.75, 11, 0.5);
@@ -824,7 +824,7 @@ void Scene3D::RenderAttributeUI()
 		RenderMeshIn2D(barBackground, 5, 0.5, -0.25, -9.25, 10.5, 0.5);
 
 		if (Application::daughter->getProtein() > 0)
-			RenderMeshIn2D(statsBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 5, -0.3, 11, 0.5);
+			RenderMeshIn2D(statsBar, Application::daughter->getProtein() * 0.05f, 0.5, 5, -0.3, 11, 0.5);
 		RenderMeshIn2D(barBackground, 5, 0.5, 5, -0.3, 10.5, 0.5);
 		if (Application::daughter->getCarbohydrates() > 0)
 			RenderMeshIn2D(statsBar, Application::daughter->getCarbohydrates() * 0.05f, 0.5, 5, -2.75, 11, 0.5);
@@ -1030,7 +1030,18 @@ void Scene3D::reset()
 
 	Application::clock->setTime(0, 0, 1);
 	ItemManager::GetInstance().resetItem();
+	ItemManager::GetInstance().addItem(new Milk(10));
+	ItemManager::GetInstance().addItem(new Meat(10));
+	ItemManager::GetInstance().addItem(new Egg(10));
+	ItemManager::GetInstance().addItem(new Water(10));
+	ItemManager::GetInstance().addItem(new Apple(10));
+	ItemManager::GetInstance().addItem(new Fish(10));
+	ItemManager::GetInstance().addItem(new Cabbage(10));
+	ItemManager::GetInstance().addItem(new Potato(10));
+	ItemManager::GetInstance().addItem(new Corn(10));
+	ItemManager::GetInstance().addItem(new Carrot(10));
 	SceneManager::GetInstance().isChgScene(false);
+	SceneManager::GetInstance().bWish = true;
 	ResetVegetable();
 }
 
@@ -1202,7 +1213,7 @@ void Scene3D::CheatCodeFood()
 	ItemManager::GetInstance().addItem(new Meat(10));
 	ItemManager::GetInstance().addItem(new Egg(10));
 	ItemManager::GetInstance().addItem(new Water(10));
-	ItemManager::GetInstance().addItem(new Apple(98));
+	ItemManager::GetInstance().addItem(new Apple(10));
 	ItemManager::GetInstance().addItem(new Fish(10));
 	ItemManager::GetInstance().addItem(new Cabbage(10));
 	ItemManager::GetInstance().addItem(new Potato(10));

@@ -77,6 +77,7 @@ void Scene4FishingPond::Init() {
         {
             fo->active = false;
         }
+		fishCount = 0;
     }
 }
 
@@ -177,7 +178,15 @@ void Scene4FishingPond::InitPlayer() {
 			}
 		}
 	}
-
+	for (std::vector<FishObject *>::iterator it = m_foList.begin(); it != m_foList.end(); ++it)
+	{
+		FishObject *fo = (FishObject *)*it;
+		if (fo->active)
+		{
+			fo->active = false;
+		}
+		fishCount = 0;
+	}
 
 }
 
