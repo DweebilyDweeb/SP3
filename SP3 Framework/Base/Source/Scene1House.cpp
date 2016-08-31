@@ -294,6 +294,7 @@ void Scene1House::RenderTileMap() {
 				break;
 			case 21:
 				housePos.Set(col * tileMap.GetTileSize(), row * tileMap.GetTileSize(), -20);
+				modelStack.Scale(1, tileMap.GetTileSize() * 1.5, 1);
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_MOTHER]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
