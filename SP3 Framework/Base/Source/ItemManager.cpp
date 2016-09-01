@@ -64,4 +64,8 @@ void ItemManager::resetItem()
 		(*mit).second->setNum(0);
 	}
 }
+
+ItemManager::~ItemManager() {
+	
+}
 /***********************************************/

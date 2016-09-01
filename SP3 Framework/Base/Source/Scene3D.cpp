@@ -55,27 +55,6 @@ void Scene3D::Exit() {
 			delete dayList[i];
 		}
 	}
-	
-	while (Vegetable::GetInstance().m_carrotList.size() > 0) {
-		CarrotObject *im = Vegetable::GetInstance().m_carrotList.back();
-		delete im;
-		Vegetable::GetInstance().m_carrotList.pop_back();
-	}
-	while (Vegetable::GetInstance().m_cornList.size() > 0) {
-		CornObject *im = Vegetable::GetInstance().m_cornList.back();
-		delete im;
-		Vegetable::GetInstance().m_cornList.pop_back();
-	}
-	while (Vegetable::GetInstance().m_potatoList.size() > 0) {
-		PotatoObject *im = Vegetable::GetInstance().m_potatoList.back();
-		delete im;
-		Vegetable::GetInstance().m_potatoList.pop_back();
-	}
-	while (Vegetable::GetInstance().m_cabbageList.size() > 0) {
-		CabbageObject *im = Vegetable::GetInstance().m_cabbageList.back();
-		delete im;
-		Vegetable::GetInstance().m_cabbageList.pop_back();
-	}
 
 	delete healthBar;
 	delete statsBar;
@@ -88,6 +67,8 @@ void Scene3D::Exit() {
     delete clockHandH;
 	delete clockHandM;
 	delete winScreen;
+	ItemManager::GetInstance().removeItems();
+	Vegetable::GetInstance().removeItems();
 }
 
 void Scene3D::DeleteShaders() {

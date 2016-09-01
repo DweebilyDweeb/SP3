@@ -1,6 +1,13 @@
 #ifndef SCENE_3D_H
 #define SCENE_3D_H
 
+#ifdef _DEBUG
+#ifndef DBG_NEW
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define new DBG_NEW
+#endif
+#endif  // _DEBUG
+
 #include "Scene.h"
 #include "Camera.h"
 #include "MatrixStack.h"
@@ -365,7 +372,28 @@ struct Vegetable : public Singleton<Vegetable>{
 	std::vector<PotatoObject *> m_potatoList;
 	std::vector<CarrotObject *> m_carrotList;
 	std::vector<CornObject *> m_cornList;
-
+	void removeItems() {
+		while (m_carrotList.size() > 0) {
+			CarrotObject *im = m_carrotList.back();
+			delete im;
+			m_carrotList.pop_back();
+		}
+		while (Vegetable::GetInstance().m_cornList.size() > 0) {
+			CornObject *im = m_cornList.back();
+			delete im;
+			m_cornList.pop_back();
+		}
+		while (Vegetable::GetInstance().m_potatoList.size() > 0) {
+			PotatoObject *im = m_potatoList.back();
+			delete im;
+			m_potatoList.pop_back();
+		}
+		while (Vegetable::GetInstance().m_cabbageList.size() > 0) {
+			CabbageObject *im = m_cabbageList.back();
+			delete im;
+			m_cabbageList.pop_back();
+		}
+	}
 
 };
 

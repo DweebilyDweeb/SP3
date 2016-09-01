@@ -2,6 +2,13 @@
 #define ITEM_MANAGER_H_
 #define GRAVITY -10
 
+#ifdef _DEBUG
+#ifndef DBG_NEW
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define new DBG_NEW
+#endif
+#endif  // _DEBUG
+
 #include <map>
 #include <vector>
 #include <sstream>
@@ -345,14 +352,22 @@ class ItemManager : public Singleton<ItemManager>
 	friend class Singleton<ItemManager>;
 
 public:
-	~ItemManager(){
-	};
+	~ItemManager();
 
 	void addItem(Item* item);
 	Attributes removeItem(string vname, int val);
 
 	map<string, Item*>itemMap;
 	void resetItem();
+	void removeItems() {
+		map<string, Item*>::iterator mit = itemMap.begin();
+		while (mit != itemMap.end()) {
+			if (mit->second) {
+				delete mit->second;
+				itemMap.erase(mit++);
+			}
+		}
+	};
 private:
 	ItemManager() {
 		addItem(new Milk(10));
