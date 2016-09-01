@@ -314,17 +314,20 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 //Update
 
 void Scene3D::Update(const double& deltaTime) {
-	if (Application::clock->getDay() >= 10){
+	if (Application::clock->getDay() > 10){
 		UpdateWin(deltaTime);
 		//Application::clock->setActive(false);
 	}
     //This line below lags up the game. Must be checked
 
-	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && (Application::clock->getDay() < 11 || Application::GetInstance().bPaused == false))
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::clock->getDay() < 11)
 	{
-		UpdateAttributeUI(deltaTime);
-		updateClouds(deltaTime);
-		Application::clock->UpdateTime(deltaTime);
+		if (Application::GetInstance().bPaused == false)
+		{
+			UpdateAttributeUI(deltaTime);
+			updateClouds(deltaTime);
+			Application::clock->UpdateTime(deltaTime);
+		}
 
 		//Add the condition if it's not the win scene so time doesnt update
 		if (Application::clock->getActive() == false)
@@ -1228,7 +1231,7 @@ void Scene3D::UpdateWin(const double& deltaTime) {
 }
 
 void Scene3D::RenderWin() {
-	if (Application::clock->getDay() >= 10){
+	if (Application::clock->getDay() > 10){
 		RenderMeshIn2D(winScreen, 34, 25, 0, 0, 10);
 	}
 }

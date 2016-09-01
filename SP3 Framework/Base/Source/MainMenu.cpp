@@ -62,7 +62,7 @@ void MainMenu::Init() {
 	moveCamY = -2.5f;
 	setNewOrtho = 2;
 	Xstop = 29;
-	FamLife = Vector3(15, 24, 0);
+	FamLife = Vector3(15, 24.4f, 0);
 	titleScale = Vector3(0.05f, 0.05f, 0.05f);
 	movement1 = Vector3(35, 10, 0);
 	movement2 = Vector3(38, 8, 0);
@@ -470,8 +470,8 @@ void MainMenu::RenderBackground()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(FamLife.x, FamLife.y - 5.f, -1);
-	modelStack.Scale(23, 6.3f, 5);
+	modelStack.Translate(FamLife.x, FamLife.y - 4.9f, -1);
+	modelStack.Scale(23, 6.6f, 5);
 	RenderMesh(meshList[GEO_INSTRUCTIONS], false);
 	modelStack.PopMatrix();
 
@@ -482,14 +482,14 @@ void MainMenu::RenderBackground()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(housePos.x + 0.2f, housePos.y + 14.5f, 1);
-	modelStack.Scale(11, 7.5f, 5);
+	modelStack.Translate(housePos.x - 0.5f, housePos.y + 15.1f, 1);
+	modelStack.Scale(15, 10.22f, 5);
 	RenderMesh(meshList[GEO_INSTRUCTIONS2], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(FamLife.x - 5, FamLife.y - 5.2f, 0);
-	modelStack.Scale(10, 7.5f, 5);
+	modelStack.Translate(FamLife.x - 5.5f, FamLife.y - 4.9f, 0);
+	modelStack.Scale(7.8f, 6.5f, 5);
 	RenderMesh(meshList[GEO_INSTRUCTIONS3], false);
 	modelStack.PopMatrix();
 
