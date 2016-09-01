@@ -333,7 +333,7 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 //Update
 
 void Scene3D::Update(const double& deltaTime) {
-	if (Application::clock->getDay() >= 11){
+	if (Application::clock->getDay() >= 10){
 		UpdateWin(deltaTime);
 		//Application::clock->setActive(false);
 	}
