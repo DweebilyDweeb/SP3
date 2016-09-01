@@ -121,12 +121,14 @@ void PlayerSS::Update(const double& deltaTime) {
 							case(SUB_WELL) :
 								//temp
 								SceneManager::GetInstance().chgCurrEnumScene(WELL);
+								SceneManager::GetInstance().isChgScene(false);
 								velocity.x = 0;
 								velocity.y = 0;
 								break;
 							case(SUB_DRAGON) :
 								//temp
 								SceneManager::GetInstance().chgCurrEnumScene(DRAGON);
+								SceneManager::GetInstance().isChgScene(false);
 								velocity.x = 0;
 								velocity.y = 0;
 								break;
