@@ -53,8 +53,8 @@ void SceneManager::Init()
 
     sceneList[SUB_DRAGON] = new Scene5Dragon2;
 
-    setPrevScene(WELL);
-    sceneType = SUB_WELL;
+    setPrevScene(WHEAT);
+    sceneType = MAIN_MENU;
 
    
     for (int i = 0; i < TOTAL_SCENES; ++i)

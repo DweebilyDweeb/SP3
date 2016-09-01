@@ -185,6 +185,8 @@ void Scene3Chicken2::InitPlayer() {
 			{
 				if (tileMap.map[row][col] == 99) {
 					player.transform.SetPosition(tileMap.GetTileSize() * col, tileMap.GetTileSize() * row, 0);
+					player.playerState = Player::IDLE;
+					interaction = 0.f;
 				}
 			}
 		}
@@ -257,7 +259,7 @@ void Scene3Chicken2::Update(const double& deltaTime) {
 			{
 				chickenCount--;
 				ItemManager::GetInstance().addItem(new Meat(Math::RandIntMinMax(1, 2)));
-				CO->setPosition(Vector3(Math::RandIntMinMax(5, 25), Math::RandIntMinMax(3, 16), -1));
+				CO->setPosition(Vector3(Math::RandIntMinMax(5, 25), Math::RandIntMinMax(3, 16), 1));
 				CO->setCurrentState(ChickenObject::IDLE);
 				chickenCount++;
 			}
@@ -315,6 +317,7 @@ void Scene3Chicken2::RenderTileMap() {
 			modelStack.Scale(tileMap.GetTileSize(), tileMap.GetTileSize(), tileMap.GetTileSize());
 			switch (tileMap.map[row][col]) {
 			case 3:
+				modelStack.Translate(0, 0, -1);
 				RenderSpriteAnimation(spriteAnimationList[SPRITE_PORTAL]);
 				RenderMesh(meshList[GEO_TOP_GRASS]);
 				break;

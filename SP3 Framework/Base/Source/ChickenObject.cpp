@@ -3,7 +3,7 @@
 ChickenObject::ChickenObject() :
 currentState(IDLE),
 direction(LEFT),
-pos(0, 0, -1),
+pos(0, 0, 1),
 scale(1, 1, 1),
 vel(0, 0, 0),
 time(0),

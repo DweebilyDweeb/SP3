@@ -23,6 +23,7 @@ Scene3D::Scene3D() {
 	InitInventoryUI();
 	InitSceneName();
 	InitShowDay();
+	InitWin();
 
 	zoomAmount = 1;
 	zoomOffsetY = 0;
@@ -86,6 +87,7 @@ void Scene3D::Exit() {
     delete bigClock;
     delete clockHandH;
 	delete clockHandM;
+	delete winScreen;
 }
 
 void Scene3D::DeleteShaders() {
@@ -331,25 +333,25 @@ void Scene3D::InitFog(Color color, int fogType, float start, float end, float de
 //Update
 
 void Scene3D::Update(const double& deltaTime) {
+	if (Application::clock->getDay() >= 11){
+		UpdateWin(deltaTime);
+		//Application::clock->setActive(false);
+	}
     //This line below lags up the game. Must be checked
-    if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && Application::GetInstance().bPaused == false)
+
+	if (SceneManager::GetInstance().getCurrSceneEnum() != SUB_DRAGON && (Application::clock->getDay() < 11 || Application::GetInstance().bPaused == false))
 	{
 		UpdateAttributeUI(deltaTime);
 		updateClouds(deltaTime);
 		Application::clock->UpdateTime(deltaTime);
-		/*if (Application::clock->getDay() > 10)
-		{
-			SceneManager::GetInstance().chgCurrEnumScene(WIN);
-			Application::clock->setActive = false;
 
-		}*/
 		//Add the condition if it's not the win scene so time doesnt update
 		if (Application::clock->getActive() == false)
 		{
 			ResetVegetable();
+			SceneManager::GetInstance().isChgScene(false);
 			SceneManager::GetInstance().chgCurrEnumScene(HOME);
 			SceneManager::GetInstance().setPrevScene(WHEAT);
-			SceneManager::GetInstance().isChgScene(false);
 			Application::clock->setActive(true);
 		}
 	}
@@ -368,6 +370,11 @@ void Scene3D::Update(const double& deltaTime) {
 	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_CHEAT2] && timer > 0.5f)
 	{
 		CheatCodeTimeNormal();
+		timer = 0.f;
+	}
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_CHEAT3] && timer > 1.f)
+	{
+		CheatCodeSkipDay();
 		timer = 0.f;
 	}
 }
@@ -507,6 +514,7 @@ void Scene3D::Render() {
 	RenderAttributeUI();
 	RenderInventoryUI();
 	RenderShowDay();
+	RenderWin();
     PauseMenu();
 }
 void Scene3D::RenderSub() {
@@ -859,11 +867,6 @@ void Scene3D::InitInventoryUI()
  
 }
 
-void Scene3D::UpdateInventoryUI(const double& deltaTime)
-{
-
-}
-
 void Scene3D::RenderInventoryUI()
 {
 	if (!SceneManager::GetInstance().getIsChgScene()) {
@@ -974,19 +977,10 @@ void Scene3D::setZoomValues(float zoomAmount, float zoomOffsetX, float zoomOffse
 	this->zoomOffsetY = zoomOffsetY;
 }
 
-void Scene3D::UpdateDeath(const double& deltaTime)
-{
-
-}
 void Scene3D::RenderDeath()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-}
-
-void Scene3D::RenderScene1Title()
-{
-	
 }
 
 void Scene3D::ResetVegetable()
@@ -1232,4 +1226,28 @@ void Scene3D::CheatCodeTimeFastForward()
 void Scene3D::CheatCodeTimeNormal()
 {
 	Application::clock->setFastForward(false);
+}
+
+void Scene3D::CheatCodeSkipDay()
+{
+	Application::clock->addDays(1);
+}
+
+void Scene3D::InitWin() {
+	winScreen = MeshBuilder::GenerateQuad("Win", Color(1, 1, 1), 1);
+	winScreen->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//win.tga");
+}
+
+void Scene3D::UpdateWin(const double& deltaTime) {
+	if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER]) {
+		SceneManager::GetInstance().chgCurrEnumScene(MAIN_MENU);
+		SceneManager::GetInstance().setIsReset(true);
+		//Application::clock->setActive(true);
+	}
+}
+
+void Scene3D::RenderWin() {
+	if (Application::clock->getDay() >= 10){
+		RenderMeshIn2D(winScreen, 34, 25, 0, 0, 10);
+	}
 }

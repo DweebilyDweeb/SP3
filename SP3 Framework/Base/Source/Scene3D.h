@@ -266,6 +266,7 @@ protected:
     Mesh* pause;
 	Mesh* titleList[TOTAL_TITLES];
 	Mesh* dayList[TOTAL_DAY];
+	Mesh* winScreen;
 	bool showStats;
 
 	float zoomAmount;
@@ -330,13 +331,10 @@ public:
 	void RenderAttributeUI();
 
 	void InitInventoryUI();
-	void UpdateInventoryUI(const double& deltaTime);
 	void RenderInventoryUI();
 
-    void UpdateDeath(const double& deltaTime);
     void RenderDeath();
 
-	void RenderScene1Title();
 	void ResetVegetable();
 
 	void updateClouds(const double& deltaTime);
@@ -353,6 +351,11 @@ public:
 	void CheatCodeFood();
 	void CheatCodeTimeFastForward();
 	void CheatCodeTimeNormal();
+	void CheatCodeSkipDay();
+
+	void InitWin();
+	void UpdateWin(const double& deltaTime);
+	void RenderWin();
 };
 
 

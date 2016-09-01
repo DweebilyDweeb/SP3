@@ -179,7 +179,6 @@ void Scene1House::Update(const double& deltaTime) {
 		spriteAnimationList[i]->Update(deltaTime);
 		spriteAnimationList[i]->animation->animActive = true;
 	}
-
 	player.Update(deltaTime);
 	camera.Update(deltaTime);
 

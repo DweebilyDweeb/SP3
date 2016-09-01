@@ -58,11 +58,11 @@ void MainMenu::Init() {
 	InitPlayer();
 	InitCamera();
 
-	drop = 0.0f;
-	Level = 1;
-	moveCam = -8.5;
+	moveCam = -8.5f;
+	moveCamY = -2.5f;
+	setNewOrtho = 2;
 	Xstop = 29;
-	alpha = 0;
+	FamLife = Vector3(15, 24, 0);
 	titleScale = Vector3(0.05f, 0.05f, 0.05f);
 	movement1 = Vector3(35, 10, 0);
 	movement2 = Vector3(38, 8, 0);
@@ -70,7 +70,7 @@ void MainMenu::Init() {
 	scale1 = scale2 = scale3 = Vector3(3, 1, 3);
 	hand = Vector3(26, 10, 0);
 	transitioning = true;
-
+	MainMenuToHome = false;
 }
 
 void MainMenu::InitMeshes() {
@@ -78,8 +78,6 @@ void MainMenu::InitMeshes() {
 	for (unsigned int i = 0; i < NUM_GEOMETRY; ++i) {
 		meshList[i] = nullptr;
 	}
-
-	meshList[GEO_BLACKFADE] = MeshBuilder::GenerateQuad("Fading", Color(0, 0, 0));
 
 	meshList[GEO_DIRT] = MeshBuilder::GenerateQuad("Tile Brick", Color(1, 1, 1), 1);
 	meshList[GEO_DIRT]->textureArray[0] = LoadTGA("Image//SP3_Texture//Tiles//ground.tga");
@@ -102,6 +100,18 @@ void MainMenu::InitMeshes() {
 	meshList[GEO_HAND] = MeshBuilder::GenerateQuad("Hand", Color(1, 1, 1), 1);
 	meshList[GEO_HAND]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//hand.tga");
 
+	meshList[GEO_INSTRUCTIONS] = MeshBuilder::GenerateQuad("Border", Color(1, 1, 1), 1);
+	meshList[GEO_INSTRUCTIONS]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//instruction_border.tga");
+
+	meshList[GEO_INSTRUCTIONS1] = MeshBuilder::GenerateQuad("Title Top", Color(1, 1, 1), 1);
+	meshList[GEO_INSTRUCTIONS1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Titles//Fam_Life_Title3.tga");
+
+	meshList[GEO_INSTRUCTIONS2] = MeshBuilder::GenerateQuad("Controls", Color(1, 1, 1), 1);
+	meshList[GEO_INSTRUCTIONS2]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//instruction1.tga");
+
+	meshList[GEO_INSTRUCTIONS3] = MeshBuilder::GenerateQuad("text", Color(1, 1, 1), 1);
+	meshList[GEO_INSTRUCTIONS3]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//instruction2.tga");
+
 	meshList[GEO_BACKGROUND_1] = MeshBuilder::GenerateQuad("Background1", Color(1, 1, 1), 1);
 	meshList[GEO_BACKGROUND_1]->textureArray[0] = LoadTGA("Image//SP3_Texture//Background//house.tga");
 
@@ -123,6 +133,11 @@ void MainMenu::InitSpriteAnimations() {
 	spriteAnimationList[SPRITE_PLAYER_IDLE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_idle.tga");
 	spriteAnimationList[SPRITE_PLAYER_IDLE]->animation = new Animation();
 	spriteAnimationList[SPRITE_PLAYER_IDLE]->animation->Set(0, 1, 0, 1.f, true);
+
+	spriteAnimationList[SPRITE_PLAYER_WAVE] = MeshBuilder::GenerateSpriteAnimation("Player", 1, 2);
+	spriteAnimationList[SPRITE_PLAYER_WAVE]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//player_wave.tga");
+	spriteAnimationList[SPRITE_PLAYER_WAVE]->animation = new Animation();
+	spriteAnimationList[SPRITE_PLAYER_WAVE]->animation->Set(0, 1, 0, 0.5f, true);
 
 	spriteAnimationList[SPRITE_PORTAL] = MeshBuilder::GenerateSpriteAnimation("portal", 1, 4);
 	spriteAnimationList[SPRITE_PORTAL]->textureArray[0] = LoadTGA("Image//SP3_Texture//Sprite_Animation//portal.tga");
@@ -230,13 +245,7 @@ void MainMenu::Update(const double& deltaTime) {
 			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER] && time > 0.2f)
 			{
 				time = 0.f;
-				player.setVelocity(Vector3(0, 0, 0));
-				Application::clock->setTime(0, 0, 1);
-				SceneManager::GetInstance().isChgScene(false);
-				SceneManager::GetInstance().chgCurrEnumScene(HOME);
-				SceneManager::GetInstance().setPrevScene(WHEAT);
-                if (SceneManager::GetInstance().bAudio == true)
-                PlaySelect();
+				MainMenuToHome = true;
 			}
 		}
 		else if (hand.y == movement2.y)
@@ -267,7 +276,44 @@ void MainMenu::Update(const double& deltaTime) {
             {
                 endGame = true;
 			}
+		}
+	}
 
+	if (MainMenuToHome)
+	{
+		titleScale = Vector3(0.05f, 0.05f, 0.05f);
+		movement1 = Vector3(35, 10, 0);
+		movement2 = Vector3(38, 8, 0);
+		movement3 = Vector3(41, 6, 0);
+		scale1 = scale2 = scale3 = Vector3(3, 1, 3);
+		hand = Vector3(26, 10, 0);
+		if (moveCam > 0)
+		{
+			moveCam -= 3.2 * (float)deltaTime;
+			moveCamY += 1.78 * (float)deltaTime;
+			setNewOrtho -= 0.4f * (float)deltaTime;
+		}
+		else if (moveCam <= 0)
+		{
+			moveCam = 0;
+			moveCamY = 2;
+			setNewOrtho = 1;
+			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_ENTER])
+			{
+				moveCam = -8.5f;
+				moveCamY = -2.5f;
+				setNewOrtho = 2;
+				transitioning = true;
+				MainMenuToHome = false;
+				player.setVelocity(Vector3(0, 0, 0));
+				Application::clock->setTime(0, 0, 1);
+				SceneManager::GetInstance().isChgScene(false);
+				SceneManager::GetInstance().chgCurrEnumScene(HOME);
+				SceneManager::GetInstance().setPrevScene(WHEAT);
+				if (SceneManager::GetInstance().bAudio == true)
+					PlaySelect();
+
+			}
 		}
 	}
 	camera.Update(deltaTime);
@@ -279,17 +325,17 @@ void MainMenu::Render() {
 
 	modelStack.LoadIdentity();
 	viewStack.LoadIdentity();
-	viewStack.LookAt(camera.transform.position.x + moveCam, camera.transform.position.y - 2.5, camera.transform.position.z,
+	viewStack.LookAt(camera.transform.position.x + moveCam, camera.transform.position.y + moveCamY, camera.transform.position.z,
 		camera.transform.position.x + camera.transform.GetForward().x + moveCam,
-		camera.transform.position.y + camera.transform.GetForward().y - 2.5,
+		camera.transform.position.y + camera.transform.GetForward().y + moveCamY,
 		camera.transform.position.z + camera.transform.GetForward().z,
 		camera.transform.GetUp().x, camera.transform.GetUp().y, camera.transform.GetUp().z);
 
 	float aspectRatio = static_cast<float>(camera.aspectRatio.x) / static_cast<float>(camera.aspectRatio.y);
 	if (camera.IsOrtho()) {
 		Mtx44 orthoMatrix;
-		orthoMatrix.SetToOrtho(-aspectRatio * camera.GetOrthoSize() / 2, aspectRatio * camera.GetOrthoSize() / 2,
-			-camera.GetOrthoSize() / 2, camera.GetOrthoSize() / 2,
+		orthoMatrix.SetToOrtho(-aspectRatio * camera.GetOrthoSize() / setNewOrtho, aspectRatio * camera.GetOrthoSize() / setNewOrtho,
+			-camera.GetOrthoSize() / setNewOrtho, camera.GetOrthoSize() / setNewOrtho,
 			camera.GetNearClippingPlane(), camera.GetFarClippingPlane());
 
 		projectionStack.LoadMatrix(orthoMatrix);
@@ -362,8 +408,11 @@ void MainMenu::RenderTileMap() {
 				break;
 			case 110:
 				glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-				modelStack.Translate(0, -0.1f, 0.1f);
-				RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE]);
+				modelStack.Translate(0, -0.01f, 0.1f);
+				if (!MainMenuToHome)
+					RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_IDLE]);
+				else
+					RenderSpriteAnimation(spriteAnimationList[SPRITE_PLAYER_WAVE]);
 				glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 				break;
 			}
@@ -397,7 +446,7 @@ void MainMenu::RenderBackground()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(housePos.x, housePos.y + 8.3, housePos.z);
+	modelStack.Translate(housePos.x, housePos.y + 8.3, 0);
 	modelStack.Scale(titleScale.x, titleScale.y, titleScale.z);
 	RenderMesh(meshList[GEO_TITLE], false);
 	modelStack.PopMatrix();
@@ -419,9 +468,34 @@ void MainMenu::RenderBackground()
 	modelStack.Scale(scale3.x, scale3.y, scale3.z);
 	RenderMesh(meshList[GEO_ENDGAME], false);
 	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(FamLife.x, FamLife.y - 5.f, -1);
+	modelStack.Scale(23, 6.3f, 5);
+	RenderMesh(meshList[GEO_INSTRUCTIONS], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(FamLife.x, FamLife.y, 0);
+	modelStack.Scale(23, 3.5f, 5);
+	RenderMesh(meshList[GEO_INSTRUCTIONS1], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(housePos.x + 0.2f, housePos.y + 14.5f, 1);
+	modelStack.Scale(11, 7.5f, 5);
+	RenderMesh(meshList[GEO_INSTRUCTIONS2], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(FamLife.x - 5, FamLife.y - 5.2f, 0);
+	modelStack.Scale(10, 7.5f, 5);
+	RenderMesh(meshList[GEO_INSTRUCTIONS3], false);
+	modelStack.PopMatrix();
+
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 
-	if (!transitioning)
+	if (!transitioning && !MainMenuToHome)
 	{
 		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 		modelStack.PushMatrix();
