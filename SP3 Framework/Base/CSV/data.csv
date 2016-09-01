@@ -1,6 +1,6 @@
 statAboveAverage,80.f
-statDropRateSlow,0.1f
-statDropRateFast,0.3f
+statDropRateSlow,0.2f
+statDropRateFast,0.4f
 maxStat,100.f
 statAverage,60.f
 maxFish,6
