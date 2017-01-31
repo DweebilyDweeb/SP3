@@ -91,10 +91,6 @@ void StopDragon()
 }
 
 
-void PlayChicken()
-{
-    engine->play2D("Audio/Sound_Effects/chicken.mp3", false);
-}
 
 void DeleteEngine()
 {
