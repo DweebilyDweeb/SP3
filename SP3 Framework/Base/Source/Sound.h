@@ -23,6 +23,6 @@ void PlayDeath();
 void StopDeath();
 /////////////////
 void DeleteEngine(); // Removal of sound engine
-
+void PlayChicken();
 
 #endif

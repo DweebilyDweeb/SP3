@@ -257,6 +257,7 @@ void Scene3Chicken2::Update(const double& deltaTime) {
 			CO->movementUpdate(deltaTime);
 			if (InputManager::GetInstance().GetInputInfo().keyDown[INPUT_INTERACT] && Scene3D::getDistXY(player.transform.position, CO->getPosition(), tileMap.GetTileSize()))
 			{
+                PlayChicken();
 				chickenCount--;
 				ItemManager::GetInstance().addItem(new Meat(Math::RandIntMinMax(1, 2)));
 				CO->setPosition(Vector3(Math::RandIntMinMax(5, 25), Math::RandIntMinMax(3, 16), 1));
